@@ -1,0 +1,218 @@
+//
+//  ViewController.m
+//  WayMisc
+//
+//  Created by chinatsp on 16/5/9.
+//  Copyright © 2016年 HandsonWu. All rights reserved.
+//
+
+#import "ViewController.h"
+#import "FlowLayout.h"
+#import "BroadcastingModel.h"
+#import "RadioProgramsCell.h"
+#import "LinkServiceWay.h"
+#import "MJExtension.h"
+#import "CZPlayerToolBar.h"
+#import "CZMusicTool.h"
+@interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,CZPlayerToolBarDelegate,AVAudioPlayerDelegate,UICollectionViewDelegate>
+{
+    NSInteger _page;
+}
+@property (weak, nonatomic) IBOutlet UIButton *infoButton;
+@property (weak, nonatomic) IBOutlet FlowLayout *flowLayout;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property(weak,nonatomic)CZPlayerToolBar *playerToolBar;//播放工具条
+@property(assign, nonatomic)NSInteger musicIndex;//当前播放音乐索引
+
+@property(strong,nonatomic) NSArray *musics;//音乐数据
+
+@end
+
+@implementation ViewController
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self loadNetWorkData];
+
+    
+    //设置列数
+    self.flowLayout.colCount = 2;
+    self.flowLayout.delegate = self;
+    self.MainCollection.delegate = self;
+    self.MainCollection.dataSource = self;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    // 1.添加 "播放工具条"
+    CZPlayerToolBar *toolBar = [CZPlayerToolBar playerToolBar];
+    //设置toolBar的尺寸
+    toolBar.bounds = self.bottomView.bounds;
+    //设置代理
+    toolBar.delegate = self;
+    
+    [self.bottomView addSubview:toolBar];
+    self.playerToolBar = toolBar;
+
+}
+
+
+-(void)loadNetWorkData
+{
+    NSMutableDictionary *listDictionary = [[NSMutableDictionary alloc]init];
+    
+    [listDictionary setObject:@"2" forKey:@"apkType"];
+    [listDictionary setObject:@"B807B4A298FBABDF129E53EFB7813E01" forKey:@"APIToken"];
+    [listDictionary setObject:@"1" forKey:@"pageNo"];
+    [listDictionary setObject:@"20" forKey:@"pageSize"];
+
+    
+    NSData *listData = [LinkServiceWay getResultDataByPost:listDictionary stringLinkService:@"/music/getMusicList.do"];
+    NSLog(@"数据列表：%@",[[NSString alloc]initWithData:listData encoding:NSUTF8StringEncoding]);
+    if (listData != nil) {
+        NSError *error = nil;
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:listData options:NSJSONReadingMutableLeaves error:&error];
+        if (error == nil) {
+            if ([jsonDictionary[@"bodys"] isKindOfClass:[NSArray class]]) {
+                NSArray *dataArray = jsonDictionary[@"bodys"];
+                
+                if (!_musics) {
+                    _musics = [BroadcastingModel mj_objectArrayWithKeyValuesArray:dataArray];
+                }
+
+            }
+            else{
+                
+            }
+        }else{
+            
+        }
+    }
+}
+
+
+#pragma mark ----- lazy initialize
+
+#pragma mark ----- SlideNavigationControllerDelegate
+- (BOOL)slideNavigationControllerShouldDisplayRightMenu
+{
+    return YES;
+}
+
+- (IBAction)showInfo:(UIButton *)sender
+{
+    NSLog(@"我日");
+}
+
+#pragma mark
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.musics.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    RadioProgramsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    BroadcastingModel *model = self.musics[indexPath.row];
+    cell.backgroundColor = kColorWithRGB(34, 36, 35);
+    cell.broad = model;
+    return cell;
+}
+
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //更改索引
+    self.musicIndex = indexPath.row;
+    //播放音乐
+    [self playMusic];
+
+}
+
+
+- (CGFloat)waterflowLayout:(FlowLayout *)waterflowLayout heightForWidth:(CGFloat)width atIndexPath:(NSIndexPath *)indexPath
+{
+    BroadcastingModel *broad = self.musics[indexPath.item];
+    CGFloat height = [broad.muc_name heightWithFont:[UIFont systemFontOfSize:18] withinWidth:width];
+    
+    CGFloat totalHeight = height + 110;
+    return totalHeight;
+}
+
+
+#pragma mark 播放工具条的代理
+-(void)playerToolBar:(CZPlayerToolBar *)toolbar btnClickWithType:(BtnType)btnType{
+    //实现这个播放，把播放的操作放在一个工具类
+    switch (btnType) {
+        case BtnTypePlay:
+            NSLog(@"BtnTypePlay");
+            [[CZMusicTool sharedCZMusicTool] play];
+            break;
+        case BtnTypePause:
+            NSLog(@"BtnTypePause");
+            [[CZMusicTool sharedCZMusicTool] pause];
+            break;
+        case BtnTypePrevious:
+            NSLog(@"BtnTypePrevious");
+            [self previous];
+            break;
+        case BtnTypeNext:
+            NSLog(@"BtnTypeNext");
+            [self next];
+            break;
+            
+    }
+}
+
+#pragma mark 播放上一首
+-(void)previous{
+    if (self.musicIndex == 0) {//第一首
+        self.musicIndex = self.musics.count - 1;
+    }else{
+        self.musicIndex --;
+    }
+    
+    [self playMusic];
+}
+
+#pragma mark 播放下一首
+-(void)next{
+    
+    //1.更改播放的索引
+    if (self.musicIndex == self.musics.count - 1) {//最后条
+        self.musicIndex = 0;
+    }else{
+        self.musicIndex ++;
+    }
+    
+    
+    [self playMusic];
+}
+
+
+-(void)playMusic{
+    
+    //2.重新初始化一个 "播放器"
+    [[CZMusicTool sharedCZMusicTool] prepareToPlayWithMusic:self.musics[self.musicIndex]];
+    
+    //设置player的代理
+    [CZMusicTool sharedCZMusicTool].player.delegate = self;
+    
+    //3.更改 “播放器工具条” 的数据
+    self.playerToolBar.playingMusic = self.musics[self.musicIndex];
+    
+    
+    //4.播放
+    if (self.playerToolBar.isPlaying) {
+        [[CZMusicTool sharedCZMusicTool] play];
+    }
+    
+}
+#pragma mark 播放器的代表
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    //自动播放下一首
+    [self next];
+}
+
+@end

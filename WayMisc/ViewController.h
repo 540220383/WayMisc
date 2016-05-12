@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SlideNavigationController.h"
 
 @interface ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UICollectionView *MainCollection;
+@property (weak, nonatomic) IBOutlet UIImageView *playerStateIcon;
 
 
 @end

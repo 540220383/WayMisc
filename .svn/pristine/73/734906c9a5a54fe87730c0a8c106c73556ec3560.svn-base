@@ -1,0 +1,36 @@
+//
+//  WayMisc.pch
+//  WayMisc
+//
+//  Created by chinatsp on 16/5/9.
+//  Copyright © 2016年 HandsonWu. All rights reserved.
+//
+
+#ifndef WayMisc_pch
+#define WayMisc_pch
+
+#ifdef DEBUG
+#define NSLog(FORMAT, ...) fprintf(stderr,"%s:%d\t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#else
+#define NSLog(FORMAT, ...) nil
+#endif
+
+#define kScreenWidth   [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight   [UIScreen mainScreen].bounds.size.height
+//讯飞语音APPID
+#define IFLYAPPID @"57305cae"
+//高德地图导航的APPID
+#define GDAPPID @"df5e7a0ae45c21155e345f1cec711722"
+/**
+ *  加入有C文件的防止错误
+ */
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "UIImageView+WebCache.h"
+#import "NSString+Frame.h"
+#endif
+
+#endif /* WayMisc_pch */
+
+#define LinkServiceURL @"http://120.24.157.21:8080/carmi_server_api"
