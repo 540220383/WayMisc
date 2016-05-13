@@ -14,7 +14,7 @@
 #import "MJExtension.h"
 #import "WMPlayer.h"
 #import "PlayerView.h"
-#import "NoticeViewController.h"
+#import "FoldTableViewController.h"
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 {
     NSInteger _page;
@@ -183,7 +183,7 @@
 
 - (IBAction)showInfo:(UIButton *)sender
 {
-    NoticeViewController *notice = [[NoticeViewController alloc]init];
+    FoldTableViewController *notice = [[FoldTableViewController alloc]init];
     
     [self presentViewController:notice animated:YES completion:nil];
     

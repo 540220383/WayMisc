@@ -100,6 +100,14 @@
 		F017BE1A1CE328D800452875 /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F017BE191CE328D800452875 /* PlayerView.xib */; };
 		F079B9C11CE474DC00D33980 /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F079B9BF1CE474DC00D33980 /* NoticeViewController.m */; };
 		F079B9C21CE474DC00D33980 /* NoticeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F079B9C01CE474DC00D33980 /* NoticeViewController.xib */; };
+		F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */; };
+		F08D62051CE5647B00DD0B21 /* GroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62041CE5647B00DD0B21 /* GroupModel.m */; };
+		F08D62091CE5648900DD0B21 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62071CE5648900DD0B21 /* FriendCell.m */; };
+		F08D620A1CE5648900DD0B21 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F08D62081CE5648900DD0B21 /* FriendCell.xib */; };
+		F08D620E1CE56C3E00DD0B21 /* UIViewController+PageHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D620D1CE56C3E00DD0B21 /* UIViewController+PageHandle.m */; };
+		F08D62171CE5A6C700DD0B21 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62161CE5A6C700DD0B21 /* NaviViewController.m */; };
+		F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */; };
+		F08D621D1CE5BEE300DD0B21 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F08D621C1CE5BEE300DD0B21 /* MapKit.framework */; };
 		F097A0691CE1806B0044AB0F /* LinkServiceWay.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0681CE1806B0044AB0F /* LinkServiceWay.m */; };
 		F097A08C1CE1BC010044AB0F /* NSString+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0871CE1BC010044AB0F /* NSString+CZ.m */; };
 		F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0891CE1BC010044AB0F /* UIButton+CZ.m */; };
@@ -304,6 +312,21 @@
 		F079B9BE1CE474DC00D33980 /* NoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeViewController.h; sourceTree = "<group>"; };
 		F079B9BF1CE474DC00D33980 /* NoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeViewController.m; sourceTree = "<group>"; };
 		F079B9C01CE474DC00D33980 /* NoticeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticeViewController.xib; sourceTree = "<group>"; };
+		F08D61F81CE5642800DD0B21 /* FoldTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldTableViewController.h; sourceTree = "<group>"; };
+		F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldTableViewController.m; sourceTree = "<group>"; };
+		F08D62031CE5647B00DD0B21 /* GroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupModel.h; sourceTree = "<group>"; };
+		F08D62041CE5647B00DD0B21 /* GroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupModel.m; sourceTree = "<group>"; };
+		F08D62061CE5648900DD0B21 /* FriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCell.h; sourceTree = "<group>"; };
+		F08D62071CE5648900DD0B21 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
+		F08D62081CE5648900DD0B21 /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
+		F08D620C1CE56C3E00DD0B21 /* UIViewController+PageHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PageHandle.h"; sourceTree = "<group>"; };
+		F08D620D1CE56C3E00DD0B21 /* UIViewController+PageHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PageHandle.m"; sourceTree = "<group>"; };
+		F08D62151CE5A6C700DD0B21 /* NaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NaviViewController.h; sourceTree = "<group>"; };
+		F08D62161CE5A6C700DD0B21 /* NaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NaviViewController.m; sourceTree = "<group>"; };
+		F08D62181CE5A6E100DD0B21 /* MANaviAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MANaviAnnotationView.h; sourceTree = "<group>"; };
+		F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviAnnotationView.m; sourceTree = "<group>"; };
+		F08D621B1CE5A6F800DD0B21 /* APIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
+		F08D621C1CE5BEE300DD0B21 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F097A0671CE1806B0044AB0F /* LinkServiceWay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkServiceWay.h; sourceTree = "<group>"; };
 		F097A0681CE1806B0044AB0F /* LinkServiceWay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkServiceWay.m; sourceTree = "<group>"; };
 		F097A0861CE1BC010044AB0F /* NSString+CZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CZ.h"; sourceTree = "<group>"; };
@@ -319,6 +342,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F08D621D1CE5BEE300DD0B21 /* MapKit.framework in Frameworks */,
 				9EBC89241CE09AD200A71B49 /* libc++.tbd in Frameworks */,
 				9EBC89221CE09ABC00A71B49 /* libz.tbd in Frameworks */,
 				9EBC891D1CE098A600A71B49 /* libstdc++.6.0.9.tbd in Frameworks */,
@@ -391,6 +415,7 @@
 		9EBC880E1CE04CD400A71B49 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F08D621C1CE5BEE300DD0B21 /* MapKit.framework */,
 				9EBC89231CE09AD200A71B49 /* libc++.tbd */,
 				9EBC891C1CE098A600A71B49 /* libstdc++.6.0.9.tbd */,
 				9EBC891A1CE0989C00A71B49 /* libz.tbd */,
@@ -445,6 +470,9 @@
 		9EBC88481CE0551800A71B49 /* Right */ = {
 			isa = PBXGroup;
 			children = (
+				F08D62141CE5A6C700DD0B21 /* Controller */,
+				F08D62121CE5A6B100DD0B21 /* Model */,
+				F08D62131CE5A6B100DD0B21 /* View */,
 				9EBC88551CE064B400A71B49 /* RightMenuController.h */,
 				9EBC88561CE064B400A71B49 /* RightMenuController.m */,
 			);
@@ -454,6 +482,7 @@
 		9EBC88491CE0552300A71B49 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				F08D621B1CE5A6F800DD0B21 /* APIKey.h */,
 				F017BDF51CE3208800452875 /* Masonry */,
 				9EBC890D1CE096D900A71B49 /* Extern */,
 				9EBC88EA1CE0736E00A71B49 /* AFNetworking */,
@@ -480,6 +509,8 @@
 		9EBC884E1CE0590800A71B49 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				F08D620C1CE56C3E00DD0B21 /* UIViewController+PageHandle.h */,
+				F08D620D1CE56C3E00DD0B21 /* UIViewController+PageHandle.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -668,6 +699,9 @@
 		9EBC89011CE0822200A71B49 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F08D62061CE5648900DD0B21 /* FriendCell.h */,
+				F08D62071CE5648900DD0B21 /* FriendCell.m */,
+				F08D62081CE5648900DD0B21 /* FriendCell.xib */,
 				9EBC89071CE0895D00A71B49 /* RadioProgramsCell.h */,
 				9EBC89081CE0895D00A71B49 /* RadioProgramsCell.m */,
 				F017BE161CE3282400452875 /* PlayerView.h */,
@@ -680,6 +714,8 @@
 		9EBC89021CE0822800A71B49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F08D62031CE5647B00DD0B21 /* GroupModel.h */,
+				F08D62041CE5647B00DD0B21 /* GroupModel.m */,
 				9EBC89041CE088FB00A71B49 /* FlowLayout.h */,
 				9EBC89051CE088FB00A71B49 /* FlowLayout.m */,
 				9EBC88FE1CE080C500A71B49 /* BroadcastingModel.h */,
@@ -691,6 +727,8 @@
 		9EBC89031CE0822F00A71B49 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F08D61F81CE5642800DD0B21 /* FoldTableViewController.h */,
+				F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */,
 				9EBC88141CE04CD500A71B49 /* ViewController.h */,
 				9EBC88151CE04CD500A71B49 /* ViewController.m */,
 				F079B9BE1CE474DC00D33980 /* NoticeViewController.h */,
@@ -750,6 +788,31 @@
 				F017BE0C1CE3208800452875 /* View+MASShorthandAdditions.h */,
 			);
 			path = Masonry;
+			sourceTree = "<group>";
+		};
+		F08D62121CE5A6B100DD0B21 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F08D62181CE5A6E100DD0B21 /* MANaviAnnotationView.h */,
+				F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F08D62131CE5A6B100DD0B21 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F08D62141CE5A6C700DD0B21 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F08D62151CE5A6C700DD0B21 /* NaviViewController.h */,
+				F08D62161CE5A6C700DD0B21 /* NaviViewController.m */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		F097A0661CE1806B0044AB0F /* NetWork */ = {
@@ -891,6 +954,7 @@
 				9EBC89201CE09A3B00A71B49 /* AMap.bundle in Resources */,
 				9EBC881E1CE04CD500A71B49 /* LaunchScreen.storyboard in Resources */,
 				9EBC881B1CE04CD500A71B49 /* Assets.xcassets in Resources */,
+				F08D620A1CE5648900DD0B21 /* FriendCell.xib in Resources */,
 				9EBC88931CE0727700A71B49 /* MJRefresh.bundle in Resources */,
 				9EBC89211CE09A3B00A71B49 /* AMapNavi.bundle in Resources */,
 				9EBC88191CE04CD500A71B49 /* Main.storyboard in Resources */,
@@ -926,6 +990,7 @@
 				F017BE181CE3282400452875 /* PlayerView.m in Sources */,
 				9EBC88E11CE0732E00A71B49 /* SDWebImageManager.m in Sources */,
 				9EBC88901CE0727700A71B49 /* MJRefreshGifHeader.m in Sources */,
+				F08D62051CE5647B00DD0B21 /* GroupModel.m in Sources */,
 				9EBC88971CE0727700A71B49 /* UIView+MJExtension.m in Sources */,
 				9EBC88B11CE072F500A71B49 /* MJPropertyKey.m in Sources */,
 				F017BE121CE3208800452875 /* MASViewConstraint.m in Sources */,
@@ -943,6 +1008,7 @@
 				9EBC88E61CE0732E00A71B49 /* UIImage+WebP.m in Sources */,
 				9EBC88941CE0727700A71B49 /* MJRefreshConst.m in Sources */,
 				9EBC88871CE0727700A71B49 /* MJRefreshComponent.m in Sources */,
+				F08D620E1CE56C3E00DD0B21 /* UIViewController+PageHandle.m in Sources */,
 				9EBC88FD1CE0736E00A71B49 /* AFURLSessionManager.m in Sources */,
 				9EBC888A1CE0727700A71B49 /* MJRefreshAutoGifFooter.m in Sources */,
 				9EBC88B51CE072F500A71B49 /* NSObject+MJKeyValue.m in Sources */,
@@ -960,6 +1026,7 @@
 				9EBC88E81CE0732E00A71B49 /* UIImageView+WebCache.m in Sources */,
 				9EBC888B1CE0727700A71B49 /* MJRefreshAutoNormalFooter.m in Sources */,
 				9EBC88F91CE0736E00A71B49 /* AFNetworkReachabilityManager.m in Sources */,
+				F08D62171CE5A6C700DD0B21 /* NaviViewController.m in Sources */,
 				F097A08E1CE1BC010044AB0F /* UIImage+CZ.m in Sources */,
 				F017BE141CE3208800452875 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				F017BE151CE3208800452875 /* View+MASAdditions.m in Sources */,
@@ -970,11 +1037,14 @@
 				9EBC888D1CE0727700A71B49 /* MJRefreshBackGifFooter.m in Sources */,
 				9EBC88AE1CE072F500A71B49 /* MJExtensionConst.m in Sources */,
 				9EBC88E01CE0732E00A71B49 /* SDWebImageDownloaderOperation.m in Sources */,
+				F08D62091CE5648900DD0B21 /* FriendCell.m in Sources */,
+				F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */,
 				9EBC88B71CE072F500A71B49 /* NSString+MJExtension.m in Sources */,
 				9EBC89091CE0895D00A71B49 /* RadioProgramsCell.m in Sources */,
 				9EBC88B01CE072F500A71B49 /* MJProperty.m in Sources */,
 				9EBC88DD1CE0732E00A71B49 /* SDWebImageCompat.m in Sources */,
 				9EBC88F81CE0736E00A71B49 /* AFHTTPSessionManager.m in Sources */,
+				F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */,
 				9EBC890C1CE08B1700A71B49 /* NSString+Frame.m in Sources */,
 				9EBC88DB1CE0732E00A71B49 /* NSData+ImageContentType.m in Sources */,
 				9EBC88891CE0727700A71B49 /* MJRefreshHeader.m in Sources */,
@@ -1136,6 +1206,10 @@
 		9EBC88391CE04CD500A71B49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1146,8 +1220,8 @@
 				INFOPLIST_FILE = WayMisc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.autonavi.QuickStart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1155,6 +1229,10 @@
 		9EBC883A1CE04CD500A71B49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1165,8 +1243,8 @@
 				INFOPLIST_FILE = WayMisc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.autonavi.QuickStart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
