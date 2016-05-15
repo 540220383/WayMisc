@@ -6,13 +6,13 @@
 //  Copyright © 2016年 HandsonWu. All rights reserved.
 //
 
-#import "NoticeViewController.h"
+#import "FMViewController.h"
 
-@interface NoticeViewController ()
+@interface FMViewController ()
 
 @end
 
-@implementation NoticeViewController
+@implementation FMViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

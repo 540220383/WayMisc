@@ -8,6 +8,7 @@
 
 #import "RightMenuController.h"
 #import "NaviViewController.h"
+#import "AboutView.h"
 @interface RightMenuController ()<UITableViewDelegate>
 
 @end
@@ -31,7 +32,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row == 5) {
+    if(indexPath.row == 3) {
+        AboutView *about = [[NSBundle mainBundle]loadNibNamed:@"AboutView" owner:nil options:nil][0];
+        about.center = CGPointMake(kScreenWidth/2, (kScreenHeight-20)/2);
+        [self.view addSubview:about];
+        
+        
+    }else if(indexPath.row == 5) {
         NaviViewController *navi = [[NaviViewController alloc]init];
         
         

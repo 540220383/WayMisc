@@ -14,7 +14,9 @@
 #import "MJExtension.h"
 #import "WMPlayer.h"
 #import "PlayerView.h"
+#import "MJRefresh.h"
 #import "FoldTableViewController.h"
+#import "DeviceListViewController.h"
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 {
     NSInteger _page;
@@ -26,8 +28,10 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property(assign, nonatomic)NSInteger musicIndex;//当前播放音乐索引
 @property(strong,nonatomic) WMPlayer*wmPlayer;
-@property(strong,nonatomic) NSArray *musics;//音乐数据
+@property(strong,nonatomic) NSMutableArray *musics;//音乐数据
 @property(strong,nonatomic) PlayerView*playerView;
+
+@property(nonatomic ,strong) NSMutableDictionary *listDictionary;
 
 @end
 
@@ -37,6 +41,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //默认page
+    _page = 1;
+    
     self.playerView = [[NSBundle mainBundle]loadNibNamed:@"PlayerView" owner:nil options:nil][0];
     
     [self.playerView.Cover addTarget:self action:@selector(playOrPause) forControlEvents:UIControlEventTouchUpInside];
@@ -53,29 +60,36 @@
     [self.playerView addGestureRecognizer:self.playerView.rightSwipeGestureRecognizer];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(autoPlayNetx:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     
-    [self loadNetWorkData];
-
+    
+    self.listDictionary = [[NSMutableDictionary alloc]init];
+    [self.listDictionary setObject:[NSString stringWithFormat:@"%d",_page] forKey:@"pageNo"];
+    [self loadNetWorkData:@"old"];
+    
     
     //设置列数
     self.flowLayout.colCount = 2;
     self.flowLayout.delegate = self;
     self.MainCollection.delegate = self;
     self.MainCollection.dataSource = self;
+    
+    self.MainCollection.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    self.MainCollection.mj_footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadOldData)];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 
--(void)loadNetWorkData
+-(void)loadNetWorkData:(NSString*)type
 {
-    NSMutableDictionary *listDictionary = [[NSMutableDictionary alloc]init];
     
-    [listDictionary setObject:@"2" forKey:@"apkType"];
-    [listDictionary setObject:@"B807B4A298FBABDF129E53EFB7813E01" forKey:@"APIToken"];
-    [listDictionary setObject:@"1" forKey:@"pageNo"];
-    [listDictionary setObject:@"20" forKey:@"pageSize"];
-
     
-    NSData *listData = [LinkServiceWay getResultDataByPost:listDictionary stringLinkService:@"/music/getMusicList.do"];
+    [self.listDictionary setObject:@"2" forKey:@"apkType"];
+    [self.listDictionary setObject:@"B807B4A298FBABDF129E53EFB7813E01" forKey:@"APIToken"];
+    
+    [self.listDictionary setObject:@"20" forKey:@"pageSize"];
+    
+    
+    NSData *listData = [LinkServiceWay getResultDataByPost:self.listDictionary stringLinkService:@"/music/getMusicList.do"];
     NSLog(@"数据列表：%@",[[NSString alloc]initWithData:listData encoding:NSUTF8StringEncoding]);
     if (listData != nil) {
         NSError *error = nil;
@@ -84,13 +98,28 @@
             if ([jsonDictionary[@"bodys"] isKindOfClass:[NSArray class]]) {
                 NSArray *dataArray = jsonDictionary[@"bodys"];
                 
-                if (!_musics) {
-                    _musics = [BroadcastingModel mj_objectArrayWithKeyValuesArray:dataArray];
+                NSArray *tmp = [BroadcastingModel mj_objectArrayWithKeyValuesArray:dataArray];
+                
+                if ([type isEqualToString:@"New"]) {
+                    [self.musics removeAllObjects];
+                    
+                    [self.MainCollection.mj_header endRefreshing];
+                }else{
+                    
+                    [self.MainCollection.mj_footer endRefreshing];
                 }
-                self.musicIndex = 0;
-                [self updateCurrentMusicDetailModel];
-                [[_wmPlayer player]pause];
-                isPlay = YES;
+                [self.musics addObjectsFromArray:tmp];
+                [self.MainCollection reloadData];
+
+                
+                static dispatch_once_t predicate;
+                dispatch_once(&predicate, ^{
+                    self.musicIndex = 0;
+                    [self updateCurrentMusicDetailModel];
+                    [[_wmPlayer player]pause];
+                    isPlay = YES;
+                });
+                
                 
             }else{
                 
@@ -101,17 +130,44 @@
     }
 }
 
+-(void)loadNewData
+{
+    
+    [self.listDictionary setObject:@"1" forKey:@"pageNo"];
+    
+    [self loadNetWorkData:@"New"];
+    
+}
+
+-(void)loadOldData
+{
+    _page++;
+    
+    [self.listDictionary setObject:[NSString stringWithFormat:@"%d",_page] forKey:@"pageNo"];
+    
+    [self loadNetWorkData:@"old"];
+    
+}
+-(NSMutableArray *)musics
+{
+    if (_musics == nil) {
+        _musics = [[NSMutableArray alloc]init];
+    }
+    
+    return _musics;
+}
+
 //更新当前将要播放的音乐模型
 -(void)updateCurrentMusicDetailModel
 {
     
     [self.wmPlayer.player replaceCurrentItemWithPlayerItem:nil];
     BroadcastingModel*model = _musics[self.musicIndex];
-     dispatch_async(dispatch_get_main_queue(), ^{
-    self.playerView.broad = model;
-    [self.wmPlayer setVideoURLStr:model.muc_url];
-    
-     });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.playerView.broad = model;
+        [self.wmPlayer setVideoURLStr:model.muc_url];
+        
+    });
     NSUInteger section = 0;
     NSUInteger row = self.musicIndex;
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:section];
@@ -139,7 +195,7 @@
         self.musicIndex--;
         [self updateCurrentMusicDetailModel];
     }
-
+    
     
 }
 -(void)next
@@ -183,10 +239,10 @@
 
 - (IBAction)showInfo:(UIButton *)sender
 {
-    FoldTableViewController *notice = [[FoldTableViewController alloc]init];
+    DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
     
-    [self presentViewController:notice animated:YES completion:nil];
-    
+    [self.navigationController pushViewController:deviceList animated:YES];
+
     NSLog(@"我日");
 }
 
@@ -202,7 +258,7 @@
 {
     RadioProgramsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     BroadcastingModel *model = self.musics[indexPath.row];
-    cell.backgroundColor = kColorWithRGB(34, 36, 35);
+    cell.backgroundColor = kColorWithRGBA(34, 36, 35,1);
     cell.broad = model;
     return cell;
 }
@@ -223,7 +279,7 @@
             isPlay = YES;
             [_wmPlayer play];
             [self.playerView setCoverNormalImage:@"footplayer_pause"];
-
+            
         }else{
             [[_wmPlayer player] play];
             [self.playerView setCoverNormalImage:@"footplayer_play"];
@@ -238,7 +294,7 @@
         [self updateCurrentMusicDetailModel];
     }
     
-
+    
 }
 
 -(void)refreshUI
@@ -248,7 +304,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
     RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
-
+    
 }
 
 - (CGFloat)waterflowLayout:(FlowLayout *)waterflowLayout heightForWidth:(CGFloat)width atIndexPath:(NSIndexPath *)indexPath
@@ -257,7 +313,7 @@
     CGFloat height = [broad.muc_name heightWithFont:[UIFont systemFontOfSize:13] withinWidth:width-25];
     
     CGFloat totalHeight = height + (kScreenWidth-25)/2+30;
-
+    
     return totalHeight;
 }
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AboutView">
+            <rect key="frame" x="0.0" y="0.0" width="241" height="254"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="关于" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2q-OP-JuY">
+                    <rect key="frame" x="8" y="8" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mjV-A1-UmD">
+                    <rect key="frame" x="80" y="35" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="6x3-NX-OmB"/>
+                        <constraint firstAttribute="width" constant="80" id="p46-9D-WmZ"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="carmi蓝牙智能车载终端" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWp-Vl-gN0">
+                    <rect key="frame" x="56" y="123" width="127.5" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ver 1.0.1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUj-3s-ewi">
+                    <rect key="frame" x="80" y="143" width="80" height="25"/>
+                    <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="3HC-qt-ipS"/>
+                        <constraint firstAttribute="height" constant="25" id="6KL-dc-n3W"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="copy right@ 2014 深圳卡米科技有限公司" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tj-mT-mOb">
+                    <rect key="frame" x="35" y="176" width="170.5" height="11"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="all right reserved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uef-BM-aNv">
+                    <rect key="frame" x="83" y="192" width="75" height="11"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tNP-pZ-euy">
+                    <rect key="frame" x="0.0" y="208" width="241" height="1"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="NQf-Re-Edx"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCW-jL-IpE">
+                    <rect key="frame" x="-1" y="211" width="240" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="IAY-86-Dzu"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="确定">
+                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                    </state>
+                    <connections>
+                        <action selector="closeView:" destination="iN0-l3-epB" eventType="touchUpInside" id="QQM-IH-ONg"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="cCW-jL-IpE" secondAttribute="trailing" constant="2" id="0zM-sA-oOC"/>
+                <constraint firstAttribute="trailing" secondItem="tNP-pZ-euy" secondAttribute="trailing" id="1a3-Qd-VsG"/>
+                <constraint firstItem="0tj-mT-mOb" firstAttribute="centerX" secondItem="FUj-3s-ewi" secondAttribute="centerX" id="5Ec-Ty-YWB"/>
+                <constraint firstItem="PWp-Vl-gN0" firstAttribute="centerX" secondItem="mjV-A1-UmD" secondAttribute="centerX" id="80g-qK-9eP"/>
+                <constraint firstItem="0tj-mT-mOb" firstAttribute="top" secondItem="FUj-3s-ewi" secondAttribute="bottom" constant="8" id="FAj-dO-kr1"/>
+                <constraint firstItem="tNP-pZ-euy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="G8c-8y-h2J"/>
+                <constraint firstItem="FUj-3s-ewi" firstAttribute="centerX" secondItem="PWp-Vl-gN0" secondAttribute="centerX" id="PGq-go-NzQ"/>
+                <constraint firstItem="mjV-A1-UmD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="35" id="Ptl-mz-tK7"/>
+                <constraint firstItem="cCW-jL-IpE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="-1" id="SbA-tA-ACI"/>
+                <constraint firstItem="FUj-3s-ewi" firstAttribute="top" secondItem="PWp-Vl-gN0" secondAttribute="bottom" constant="5.5" id="g0i-aa-fRY"/>
+                <constraint firstItem="PWp-Vl-gN0" firstAttribute="top" secondItem="mjV-A1-UmD" secondAttribute="bottom" constant="8" id="guZ-4t-ARz"/>
+                <constraint firstItem="mjV-A1-UmD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="hBJ-ex-W43"/>
+                <constraint firstItem="uef-BM-aNv" firstAttribute="centerX" secondItem="0tj-mT-mOb" secondAttribute="centerX" id="lZy-Cy-z5E"/>
+                <constraint firstItem="uef-BM-aNv" firstAttribute="top" secondItem="0tj-mT-mOb" secondAttribute="bottom" constant="5" id="lcy-WC-V6e"/>
+                <constraint firstItem="tNP-pZ-euy" firstAttribute="top" secondItem="uef-BM-aNv" secondAttribute="bottom" constant="5" id="thI-tp-eTy"/>
+                <constraint firstItem="cCW-jL-IpE" firstAttribute="top" secondItem="tNP-pZ-euy" secondAttribute="bottom" constant="2" id="xHM-Rk-HiH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="231.5" y="62"/>
+        </view>
+    </objects>
+</document>

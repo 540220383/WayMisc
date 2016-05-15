@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NoticeViewController : UIViewController
+@interface FMViewController : UIViewController
 
 @end
