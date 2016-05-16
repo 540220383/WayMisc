@@ -8,7 +8,7 @@
 
 #import "DeviceListViewController.h"
 
-@interface DeviceListViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface DeviceListViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @end
 
@@ -18,12 +18,44 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+
+{
+    if (indexPath.row == 0) {
+        return UITableViewCellEditingStyleNone;
+    }
+    
+    return UITableViewCellEditingStyleDelete;
+    
+}
+
+
+
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewRowAction *deleteRoWAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"取消配对" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {//title可自已定义
+        NSLog(@"点击删除");
+    }];//此处是iOS8.0以后苹果最新推出的api，UITableViewRowAction，Style是划出的标签颜色等状态的定义，这里也可自行定义
+    return @[deleteRoWAction];
+}
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -58,39 +90,34 @@
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return @"取消配对";
-}
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle==UITableViewCellEditingStyleDelete) {
-        //        获取选中删除行索引值
-        NSInteger row = [indexPath row];
-        //        通过获取的索引值删除数组中的值
-        //        [self.listData removeObjectAtIndex:row];
-        //        删除单元格的某一行时，在用动画效果实现删除过程
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 56;
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UIGestureRecognizerDelegate
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if ([gestureRecognizer.view isKindOfClass:[self.view class]]) {
+        return YES;
+    }
+    return NO;
 }
-*/
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([gestureRecognizer.view isKindOfClass:[self.view class]]) {
+        return YES;
+    }
+    return NO;
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[self.view class]]) {
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

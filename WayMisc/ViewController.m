@@ -239,10 +239,10 @@
 
 - (IBAction)showInfo:(UIButton *)sender
 {
-    DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
+    FoldTableViewController *notice = [[FoldTableViewController alloc]init];
     
-    [self.navigationController pushViewController:deviceList animated:YES];
-
+    [self presentViewController:notice animated:YES completion:nil];
+    
     NSLog(@"我日");
 }
 

@@ -26,8 +26,9 @@
 // THE SOFTWARE.
 
 #import "SlideNavigationController.h"
-
-@interface SlideNavigationController()
+#import "FMViewController.h"
+#import "DeviceListViewController.h"
+@interface SlideNavigationController()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
@@ -94,8 +95,19 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shadowOpacity = 1;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
-	
+    
+    self.FMLinkView = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.FMLinkView.frame = CGRectMake(kScreenWidth-70, kScreenHeight-135, 60, 60);
+    [self.FMLinkView setTitle:@"108.8" forState:UIControlStateNormal];
+    self.FMLinkView.titleLabel.textColor = [UIColor whiteColor];
+    self.FMLinkView.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.FMLinkView setBackgroundImage:[UIImage imageNamed:@"leftmanuico_float"] forState:UIControlStateNormal];
+    [self.FMLinkView addTarget:self action:@selector(FMDetill) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.FMLinkView];
 	[self setEnableSwipeGesture:YES];
+    
+    
+    
 }
 
 #pragma mark - Public Methods -
@@ -449,6 +461,7 @@ static SlideNavigationController *singletonInstance;
 	if (!panRecognizer)
 	{
 		panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+        panRecognizer.delegate = self;
 	}
 	
 	return panRecognizer;
@@ -466,6 +479,29 @@ static SlideNavigationController *singletonInstance;
 	{
 		[self.view removeGestureRecognizer:self.panRecognizer];
 	}
+}
+
+-(void)FMDetill
+{
+    FMViewController *fmView = [[FMViewController alloc]init];
+    [self presentViewController:fmView animated:YES completion:nil];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    
+    for (UIView* next = [touch view]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[DeviceListViewController class]]) {
+            return NO;
+        }
+    }
+
+    return YES;
 }
 
 @end

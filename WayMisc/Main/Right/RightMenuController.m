@@ -9,6 +9,7 @@
 #import "RightMenuController.h"
 #import "NaviViewController.h"
 #import "AboutView.h"
+#import "DeviceListViewController.h"
 @interface RightMenuController ()<UITableViewDelegate>
 
 @end
@@ -31,7 +32,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.row == 0) {
+        DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
+        [[SlideNavigationController sharedInstance] pushViewController:deviceList animated:YES];
+    }
     if(indexPath.row == 3) {
         AboutView *about = [[NSBundle mainBundle]loadNibNamed:@"AboutView" owner:nil options:nil][0];
         about.center = CGPointMake(kScreenWidth/2, (kScreenHeight-20)/2);

@@ -33,12 +33,12 @@ char* const buttonKey = "buttonKey";
     dataSource = [[NSMutableArray alloc]init];
     NSDictionary *JSONDic =@{@"group":
   @[
-  @{@"groupName":@"小学同学",@"groupCount":@"3",@"groupArray":@[
+  @{@"groupName":@"今天",@"groupCount":@"3",@"groupArray":@[
                                         @{@"name":@"小明",@"avatarURL":@"",@"shuoshuo":@"作业又没写好,唉！",@"status":@"1"},
                                         @{@"name":@"小红",@"avatarURL":@"",@"shuoshuo":@"考试不要抄我的！",@"status":@"1"},
                                         @{@"name":@"小王",@"avatarURL":@"",@"shuoshuo":@"马勒戈壁有本事放学别走！",@"status":@"0"}
                                         ]},
-  @{@"groupName":@"初中同学",@"groupCount":@"5",@"groupArray":
+  @{@"groupName":@"昨天",@"groupCount":@"5",@"groupArray":
                                         @[
                                         @{@"name":@"王二小",@"avatarURL":@"",@"shuoshuo":@"我家来自农村，不要欺负我",@"status":@"1"},
                                         @{@"name":@"王麻子",@"avatarURL":@"",@"shuoshuo":@"历史咯老师真漂亮！",@"status":@"1"},
@@ -46,25 +46,25 @@ char* const buttonKey = "buttonKey";
                                         @{@"name":@"张丝丹",@"avatarURL":@"",@"shuoshuo":@"我小名叫四蛋子，哈哈",@"status":@"0"},
                                         @{@"name":@"赵铁柱",@"avatarURL":@"",@"shuoshuo":@"我喜欢小花",@"status":@"0"}
                                         ]},
-  @{@"groupName":@"高中同学",@"groupCount":@"3",@"groupArray":
+  @{@"groupName":@"2016年05月13日",@"groupCount":@"3",@"groupArray":
                                         @[
                                         @{@"name":@"刘阿猫",@"avatarURL":@"",@"shuoshuo":@"我操，高考又到了",@"status":@"1"},
                                         @{@"name":@"静静",@"avatarURL":@"",@"shuoshuo":@"大家好，我是静静。",@"status":@"1"},
                                         @{@"name":@"隔壁老王",@"avatarURL":@"",@"shuoshuo":@"小样你是新来的吧！",@"status":@"0"}
                                         ]},
-  @{@"groupName":@"大学同学",@"groupCount":@"4",@"groupArray":
+  @{@"groupName":@"2016年05月11日",@"groupCount":@"4",@"groupArray":
                                         @[
                                         @{@"name":@"屌丝男",@"avatarURL":@"",@"shuoshuo":@"泡妞去了，回聊。",@"status":@"1"},
                                         @{@"name":@"游戏狗",@"avatarURL":@"",@"shuoshuo":@"我擦，双杀！！",@"status":@"1"},
                                         @{@"name":@"学霸",@"avatarURL":@"",@"shuoshuo":@"期末考试稳拿第一",@"status":@"1"},
                                         @{@"name":@"书呆子",@"avatarURL":@"",@"shuoshuo":@"蛋白质是怎么炼成的。。。",@"status":@"0"}]},
-  @{@"groupName":@"同事",@"groupCount":@"3",@"groupArray":
+  @{@"groupName":@"2016年05月09日",@"groupCount":@"3",@"groupArray":
                                         @[
                                         @{@"name":@"JAVA工程师",@"avatarURL":@"",@"shuoshuo":@"JAVA是最好的编程语言",@"status":@"1"},
                                         @{@"name":@"Android工程师",@"avatarURL":@"",@"shuoshuo":@"Android最好用，便宜耐摔！",@"status":@"1"},
                                         @{@"name":@"iOS工程师",@"avatarURL":@"",@"shuoshuo":@"iPhone手机牛逼又流畅。",@"status":@"0"}
                                         ]},
-  @{@"groupName":@"家人",@"groupCount":@"3",@"groupArray":
+  @{@"groupName":@"2016年05月08日",@"groupCount":@"3",@"groupArray":
                                         @[
                                         @{@"name":@"妈妈",@"avatarURL":@"",@"shuoshuo":@"今天天气好晴朗☀️，处处好风光",@"status":@"1"},
                                         @{@"name":@"爸爸",@"avatarURL":@"",@"shuoshuo":@"农家乐！",@"status":@"1"},
@@ -85,7 +85,7 @@ char* const buttonKey = "buttonKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"QQ好友分组";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     [self initDataSource];
     [self initTable];
 }
@@ -102,7 +102,7 @@ char* const buttonKey = "buttonKey";
     UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
     close.frame = CGRectMake(0, CGRectGetMaxY(expandTable.frame), kScreenWidth, 43);
     [close setTitle:@"关闭" forState:UIControlStateNormal];
-    close.backgroundColor = [UIColor blackColor];
+    close.backgroundColor = kColorWithRGBA(8, 33, 34, 1);
     [close addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:close];
@@ -176,11 +176,13 @@ char* const buttonKey = "buttonKey";
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:sectionView.bounds];
     [button setTag:section];
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [button setTitle:groupModel.groupName forState:UIControlStateNormal];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 60)];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 35, 0, 60)];
     [button addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
     [sectionView addSubview:button];
+    
     UIImageView *line = [[UIImageView alloc]initWithFrame:CGRectMake(0, button.frame.size.height-1, button.frame.size.width, 1)];
     [line setImage:[UIImage imageNamed:@"line_real"]];
     [sectionView addSubview:line];

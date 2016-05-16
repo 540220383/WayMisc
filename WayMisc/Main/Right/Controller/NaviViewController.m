@@ -85,7 +85,7 @@
 {
     [super viewWillAppear:animated];
     
-    self.title = @"QuickStart";
+    self.title = @"语音导航";
     
     self.navigationController.navigationBar.barStyle    = UIBarStyleBlack;
     self.navigationController.navigationBar.translucent = NO;
@@ -109,6 +109,7 @@
     [_iFlySpeechRecognizer cancel]; //取消识别
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
+    
 }
 
 #pragma mark - Initalization
@@ -177,7 +178,7 @@
     
     [self.mapView setDelegate:self];
     [self.mapView setShowsUserLocation:YES];
-    
+    [self.mapView setZoomLevel:14];
     [self.view addSubview:self.mapView];
 }
 
@@ -290,6 +291,7 @@
     [self.naviManager calculateDriveRouteWithEndPoints:endPoints wayPoints:nil drivingStrategy:0];
 }
 
+
 #pragma mark - MapView Delegate
 
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
@@ -297,6 +299,7 @@
     if (updatingLocation)
     {
         _userLocation = userLocation;
+        self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
     }
 }
 
@@ -334,6 +337,7 @@
     
     return nil;
 }
+
 
 #pragma mark - Search Delegate
 
@@ -374,7 +378,7 @@
     _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
                                           longitude:annotation.coordinate.longitude];
     
-    [self startEmulatorNavi];
+//    [self startEmulatorNavi];
 
     
     
@@ -387,6 +391,7 @@
     if (_poiAnnotations.count == 1)
     {
         self.mapView.centerCoordinate = [(MAPointAnnotation *)_poiAnnotations[0] coordinate];
+        
     }
     else
     {
@@ -420,6 +425,7 @@
     if (self.naviViewController == nil)
     {
         [self initNaviViewController];
+        [_naviManager  setAllowsBackgroundLocationUpdates:YES];
     }
     
     [self.naviManager presentNaviViewController:self.naviViewController animated:YES];
@@ -774,8 +780,11 @@
     }
     NSLog(@"_result=%@",_result);
     NSLog(@"resultFromJson=%@",resultFromJson);
-    
-    [self searchDestination:resultFromJson];
+    NSString* Reg=@"^[\u4E00-\u9FA5]*$";
+    NSPredicate *textPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",Reg];
+    if([textPre evaluateWithObject:resultFromJson]){
+        [self searchDestination:resultFromJson];
+    }
     NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
 }
 
