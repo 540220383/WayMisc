@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NaviBottomView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIK-TV-ZDd">
+                    <rect key="frame" x="135" y="17" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="GXK-Sz-wxC"/>
+                        <constraint firstAttribute="height" constant="50" id="XXl-Ss-tk2"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="wel_ico1"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kX-tb-gA6">
+                    <rect key="frame" x="193" y="33" width="35.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-qZ-qdK">
+                    <rect key="frame" x="83" y="31" width="44" height="21.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="kIK-TV-ZDd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="IeL-4f-9Wy"/>
+                <constraint firstItem="kIK-TV-ZDd" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Pw2-da-k6L"/>
+                <constraint firstItem="a1w-qZ-qdK" firstAttribute="centerY" secondItem="kIK-TV-ZDd" secondAttribute="centerY" id="SDB-gJ-SIl"/>
+                <constraint firstItem="1kX-tb-gA6" firstAttribute="centerY" secondItem="kIK-TV-ZDd" secondAttribute="centerY" id="Yal-tw-rdv"/>
+                <constraint firstItem="1kX-tb-gA6" firstAttribute="leading" secondItem="kIK-TV-ZDd" secondAttribute="trailing" constant="8" id="bW3-vP-Yue"/>
+                <constraint firstItem="kIK-TV-ZDd" firstAttribute="leading" secondItem="a1w-qZ-qdK" secondAttribute="trailing" constant="8" id="xsz-8Q-UVg"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="223" y="160"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="wel_ico1" width="25" height="28"/>
+    </resources>
+</document>

@@ -11,6 +11,8 @@
 		5201D8D01CE75B7E00CBCD0F /* AboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5201D8CF1CE75B7E00CBCD0F /* AboutView.m */; };
 		5201D8D21CE75B9400CBCD0F /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5201D8D11CE75B9400CBCD0F /* AboutView.xib */; };
 		5201D8D51CE8BA6000CBCD0F /* DeviceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5201D8D41CE8BA6000CBCD0F /* DeviceListViewController.m */; };
+		5208B0771CEA208300DAD64A /* NaviBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5208B0761CEA208300DAD64A /* NaviBottomView.m */; };
+		5208B0791CEA209300DAD64A /* NaviBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208B0781CEA209300DAD64A /* NaviBottomView.xib */; };
 		5269CDF81CE6336E009383AC /* bnf in Resources */ = {isa = PBXBuildFile; fileRef = 5269CDF51CE6336E009383AC /* bnf */; };
 		5269CDF91CE6336E009383AC /* eva in Resources */ = {isa = PBXBuildFile; fileRef = 5269CDF61CE6336E009383AC /* eva */; };
 		5269CDFA1CE6336E009383AC /* tts in Resources */ = {isa = PBXBuildFile; fileRef = 5269CDF71CE6336E009383AC /* tts */; };
@@ -149,6 +151,9 @@
 		5201D8D11CE75B9400CBCD0F /* AboutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutView.xib; sourceTree = "<group>"; };
 		5201D8D31CE8BA6000CBCD0F /* DeviceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceListViewController.h; sourceTree = "<group>"; };
 		5201D8D41CE8BA6000CBCD0F /* DeviceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceListViewController.m; sourceTree = "<group>"; };
+		5208B0751CEA208300DAD64A /* NaviBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NaviBottomView.h; sourceTree = "<group>"; };
+		5208B0761CEA208300DAD64A /* NaviBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NaviBottomView.m; sourceTree = "<group>"; };
+		5208B0781CEA209300DAD64A /* NaviBottomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NaviBottomView.xib; sourceTree = "<group>"; };
 		5269CDCD1CE6305A009383AC /* Definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Definition.h; sourceTree = "<group>"; };
 		5269CDF51CE6336E009383AC /* bnf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bnf; sourceTree = "<group>"; };
 		5269CDF61CE6336E009383AC /* eva */ = {isa = PBXFileReference; lastKnownFileType = folder; path = eva; sourceTree = "<group>"; };
@@ -408,6 +413,9 @@
 				5201D8CE1CE75B7E00CBCD0F /* AboutView.h */,
 				5201D8CF1CE75B7E00CBCD0F /* AboutView.m */,
 				5201D8D11CE75B9400CBCD0F /* AboutView.xib */,
+				5208B0751CEA208300DAD64A /* NaviBottomView.h */,
+				5208B0761CEA208300DAD64A /* NaviBottomView.m */,
+				5208B0781CEA209300DAD64A /* NaviBottomView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1016,6 +1024,7 @@
 				5269CDF91CE6336E009383AC /* eva in Resources */,
 				9EBC881E1CE04CD500A71B49 /* LaunchScreen.storyboard in Resources */,
 				5269CDFA1CE6336E009383AC /* tts in Resources */,
+				5208B0791CEA209300DAD64A /* NaviBottomView.xib in Resources */,
 				9EBC881B1CE04CD500A71B49 /* Assets.xcassets in Resources */,
 				5269CDF81CE6336E009383AC /* bnf in Resources */,
 				F08D620A1CE5648900DD0B21 /* FriendCell.xib in Resources */,
@@ -1112,6 +1121,7 @@
 				F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */,
 				9EBC88B71CE072F500A71B49 /* NSString+MJExtension.m in Sources */,
 				9EBC89091CE0895D00A71B49 /* RadioProgramsCell.m in Sources */,
+				5208B0771CEA208300DAD64A /* NaviBottomView.m in Sources */,
 				9EBC88B01CE072F500A71B49 /* MJProperty.m in Sources */,
 				9EBC88DD1CE0732E00A71B49 /* SDWebImageCompat.m in Sources */,
 				9EBC88F81CE0736E00A71B49 /* AFHTTPSessionManager.m in Sources */,

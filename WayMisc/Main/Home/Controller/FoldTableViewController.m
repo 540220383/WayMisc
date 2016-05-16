@@ -93,8 +93,11 @@ char* const buttonKey = "buttonKey";
     expandTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenHeight-63) style:UITableViewStylePlain];
     expandTable.dataSource = self;
     expandTable.delegate =  self;
-    expandTable.tableFooterView = [UIView new];
+    UIView *footer = [[UIView alloc]init];
+    footer.backgroundColor = [UIColor blackColor];
+    expandTable.tableFooterView = footer;
     expandTable.backgroundColor = [UIColor blackColor];
+    expandTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [expandTable registerNib:[UINib nibWithNibName:@"FriendCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:expandTable];
     
@@ -102,7 +105,7 @@ char* const buttonKey = "buttonKey";
     UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
     close.frame = CGRectMake(0, CGRectGetMaxY(expandTable.frame), kScreenWidth, 43);
     [close setTitle:@"关闭" forState:UIControlStateNormal];
-    close.backgroundColor = kColorWithRGBA(8, 33, 34, 1);
+    close.backgroundColor = [UIColor blackColor];
     [close addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:close];
@@ -169,8 +172,8 @@ char* const buttonKey = "buttonKey";
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *sectionView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    sectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.8];
+    UIView *sectionView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 43)];
+    sectionView.backgroundColor = kColorWithRGBA(9, 9, 10, 1);
     GroupModel *groupModel = dataSource[section];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -206,7 +209,7 @@ char* const buttonKey = "buttonKey";
     }
   
     UIButton *delSection = [UIButton buttonWithType:UIButtonTypeCustom];
-    delSection.frame = CGRectMake(kScreenWidth-40, (44-40)/2, 40, 40);
+    delSection.frame = CGRectMake(kScreenWidth-43, (44-43)/2, 43, 43);
     [delSection setImage:[UIImage imageNamed:@"message_del"] forState:UIControlStateNormal];
     delSection.tag = section;
     [delSection addTarget:self action:@selector(delMessage:) forControlEvents:UIControlEventTouchUpInside];
@@ -214,6 +217,11 @@ char* const buttonKey = "buttonKey";
     [sectionView addSubview:delSection];
     
     return sectionView;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc]init];
 }
 
 
@@ -266,16 +274,17 @@ char* const buttonKey = "buttonKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 66;
+    return 50;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.00001;
+    return 4;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44;
+    return 43;
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

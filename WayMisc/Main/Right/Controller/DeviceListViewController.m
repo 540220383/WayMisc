@@ -75,7 +75,7 @@
         newDevice.textColor = [UIColor whiteColor];
         newDevice.textAlignment = NSTextAlignmentCenter;
         
-        [cell addSubview:newDevice];
+        [cell.contentView addSubview:newDevice];
         return cell;
     }
     cell.textLabel.text = @"dooot 智能蓝牙炫彩版";

@@ -18,6 +18,7 @@
 
 #import "APIKey.h"
 #import "MANaviAnnotationView.h"
+#import "WMPlayer.h"
 
 
 #import <QuartzCore/QuartzCore.h>
@@ -25,6 +26,8 @@
 #import "PopupView.h"
 #import "ISRDataHelper.h"
 #import "IATConfig.h"
+
+#import "NaviBottomView.h"
 
 #define NAME        @"userwords"
 #define USERWORDS   @"{\"userword\":[{\"name\":\"我的常用词\",\"words\":[\"佳晨实业\",\"蜀南庭苑\",\"高兰路\",\"复联二\"]},{\"name\":\"我的好友\",\"words\":[\"李馨琪\",\"鹿晓雷\",\"张集栋\",\"周家莉\",\"叶震珂\",\"熊泽萌\"]}]}"
@@ -86,14 +89,16 @@
     [super viewWillAppear:animated];
     
     self.title = @"语音导航";
+    self.view.backgroundColor = [UIColor blackColor];
+//    self.navigationController.navigationBar.barStyle    = UIBarStyleBlack;
+//    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.toolbar.barStyle          = UIBarStyleBlack;
+//    self.navigationController.toolbar.translucent       = NO;
+//    self.navigationController.toolbarHidden             = NO;
     
-    self.navigationController.navigationBar.barStyle    = UIBarStyleBlack;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.toolbar.barStyle          = UIBarStyleBlack;
-    self.navigationController.toolbar.translucent       = NO;
-    self.navigationController.toolbarHidden             = NO;
+//    [self initToolBar];
     
-    [self initToolBar];
+    [self initbottomBar];
     
     [self initMapView];
     
@@ -113,6 +118,14 @@
 }
 
 #pragma mark - Initalization
+
+-(void)initbottomBar
+{
+    NaviBottomView *bottomBar = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
+    bottomBar.frame = CGRectMake(0, kScreenHeight-84, kScreenWidth, 84);
+    
+    [self.view addSubview:bottomBar];
+}
 
 - (void)initToolBar
 {
@@ -173,7 +186,7 @@
 {
     if (_mapView == nil)
     {
-        _mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
+        _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-40, kScreenHeight-104)];
     }
     
     [self.mapView setDelegate:self];
@@ -378,7 +391,7 @@
     _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
                                           longitude:annotation.coordinate.longitude];
     
-//    [self startEmulatorNavi];
+    [self startEmulatorNavi];
 
     
     
