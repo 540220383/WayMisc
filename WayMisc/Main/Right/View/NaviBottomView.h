@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface NaviBottomView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *destination;
+@property (weak, nonatomic) IBOutlet UILabel *area;
+@property (weak, nonatomic) IBOutlet UIButton *destinationBtn;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "DeviceListViewController.h"
-
+#import "DeviceCell.h"
 @interface DeviceListViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @end
@@ -18,6 +18,8 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorStyle = UIAccessibilityTraitNone;
+    [self.tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"cell"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -64,10 +66,10 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];;
-    
-    cell.backgroundColor = [UIColor blackColor];
+    DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell.backgroundColor = kColorWithRGBA(47, 48, 49, 1);
     if (indexPath.row == 0) {
+        UITableViewCell *cell = [[UITableViewCell alloc]init];
         UILabel *newDevice = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 56)];
         newDevice.backgroundColor = kColorWithRGBA(34, 73, 138, 1);
         newDevice.text = @"连接新设备";
@@ -78,14 +80,8 @@
         [cell.contentView addSubview:newDevice];
         return cell;
     }
-    cell.textLabel.text = @"dooot 智能蓝牙炫彩版";
-    cell.textLabel.textColor = [UIColor whiteColor];
-
-    cell.detailTextLabel.text = @"设备号：2215EE145EE3FWF3";
-    cell.detailTextLabel.font=[UIFont systemFontOfSize:14];
-
-    cell.detailTextLabel.textColor = [UIColor whiteColor];
-
+    cell.deviceName.text = @"dooot 智能蓝牙炫彩版";
+    cell.deviceUUID.text = @"设备号：2215EE145EE3FWF3";
     
     return cell;
 }
@@ -93,6 +89,12 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 56;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+     [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中
+    
 }
 
 #pragma mark - UIGestureRecognizerDelegate

@@ -97,6 +97,8 @@
 		9EBC89211CE09A3B00A71B49 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9EBC891F1CE09A3B00A71B49 /* AMapNavi.bundle */; };
 		9EBC89221CE09ABC00A71B49 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC891A1CE0989C00A71B49 /* libz.tbd */; };
 		9EBC89241CE09AD200A71B49 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC89231CE09AD200A71B49 /* libc++.tbd */; };
+		F015F4EF1CEAB03E0065FFF9 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F015F4EE1CEAB03E0065FFF9 /* DeviceCell.m */; };
+		F015F4F11CEAB0610065FFF9 /* DeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F015F4F01CEAB0610065FFF9 /* DeviceCell.xib */; };
 		F017BDF31CE31BD600452875 /* WMPlayer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F017BDF01CE31BD600452875 /* WMPlayer.bundle */; };
 		F017BDF41CE31BD600452875 /* WMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F017BDF21CE31BD600452875 /* WMPlayer.m */; };
 		F017BE0D1CE3208800452875 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = F017BDF71CE3208800452875 /* MASCompositeConstraint.m */; };
@@ -312,6 +314,9 @@
 		9EBC891E1CE09A3B00A71B49 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		9EBC891F1CE09A3B00A71B49 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMapNavi.bundle; sourceTree = "<group>"; };
 		9EBC89231CE09AD200A71B49 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		F015F4ED1CEAB03E0065FFF9 /* DeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCell.h; sourceTree = "<group>"; };
+		F015F4EE1CEAB03E0065FFF9 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
+		F015F4F01CEAB0610065FFF9 /* DeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceCell.xib; sourceTree = "<group>"; };
 		F017BDF01CE31BD600452875 /* WMPlayer.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WMPlayer.bundle; sourceTree = "<group>"; };
 		F017BDF11CE31BD600452875 /* WMPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPlayer.h; sourceTree = "<group>"; };
 		F017BDF21CE31BD600452875 /* WMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPlayer.m; sourceTree = "<group>"; };
@@ -416,6 +421,9 @@
 				5208B0751CEA208300DAD64A /* NaviBottomView.h */,
 				5208B0761CEA208300DAD64A /* NaviBottomView.m */,
 				5208B0781CEA209300DAD64A /* NaviBottomView.xib */,
+				F015F4ED1CEAB03E0065FFF9 /* DeviceCell.h */,
+				F015F4EE1CEAB03E0065FFF9 /* DeviceCell.m */,
+				F015F4F01CEAB0610065FFF9 /* DeviceCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -981,7 +989,7 @@
 				TargetAttributes = {
 					9EBC880A1CE04CD400A71B49 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = E97RA3934Q;
+						DevelopmentTeam = 6GX753D8KC;
 					};
 					9EBC88231CE04CD500A71B49 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1033,6 +1041,7 @@
 				5201D8D21CE75B9400CBCD0F /* AboutView.xib in Resources */,
 				9EBC88191CE04CD500A71B49 /* Main.storyboard in Resources */,
 				F017BE1A1CE328D800452875 /* PlayerView.xib in Resources */,
+				F015F4F11CEAB0610065FFF9 /* DeviceCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1126,6 +1135,7 @@
 				9EBC88DD1CE0732E00A71B49 /* SDWebImageCompat.m in Sources */,
 				9EBC88F81CE0736E00A71B49 /* AFHTTPSessionManager.m in Sources */,
 				F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */,
+				F015F4EF1CEAB03E0065FFF9 /* DeviceCell.m in Sources */,
 				9EBC890C1CE08B1700A71B49 /* NSString+Frame.m in Sources */,
 				9EBC88DB1CE0732E00A71B49 /* NSData+ImageContentType.m in Sources */,
 				9EBC88891CE0727700A71B49 /* MJRefreshHeader.m in Sources */,
@@ -1294,6 +1304,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WayMisc/ThirdParty/Extern",
@@ -1304,7 +1315,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.autonavi.QuickStart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1320,6 +1331,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WayMisc/ThirdParty/Extern",
@@ -1330,7 +1342,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.autonavi.QuickStart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

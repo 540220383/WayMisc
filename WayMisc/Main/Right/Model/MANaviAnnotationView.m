@@ -59,7 +59,7 @@
     if (self)
     {
         NaviButton *naviButton = [[NaviButton alloc] initWithFrame:(CGRectMake(0, 0, naviButtonWidth, naviButtonHeight))];
-        
+        naviButton.backgroundColor = kColorWithRGBA(0, 128, 255, 1);
         self.leftCalloutAccessoryView = naviButton;
     }
     return self;

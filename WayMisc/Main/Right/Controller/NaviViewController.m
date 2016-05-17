@@ -44,6 +44,8 @@
 }
 
 @property (nonatomic, strong) AMapNaviViewController *naviViewController;
+@property (nonatomic, strong) NaviBottomView *bottomBar;
+@property (nonatomic ,strong) NSMutableArray *objArry;
 
 @end
 
@@ -80,8 +82,6 @@
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
 
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -119,12 +119,26 @@
 
 #pragma mark - Initalization
 
+-(NSMutableArray *)objArry
+{
+    if (_objArry == nil) {
+        _objArry = [NSMutableArray array];
+    }
+    
+    return _objArry;
+}
+
 -(void)initbottomBar
 {
-    NaviBottomView *bottomBar = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
-    bottomBar.frame = CGRectMake(0, kScreenHeight-84, kScreenWidth, 84);
-    
-    [self.view addSubview:bottomBar];
+    if (self.bottomBar == nil) {
+        _bottomBar = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
+        _bottomBar.frame = CGRectMake(0, kScreenHeight-84, kScreenWidth, 84);
+        
+        [_bottomBar.destinationBtn addTarget:self action:@selector(showResult) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:_bottomBar];
+        
+    }
 }
 
 - (void)initToolBar
@@ -159,6 +173,7 @@
     {
         self.search = [[AMapSearchAPI alloc] init];
         self.search.delegate = self;
+        
     }
 }
 
@@ -246,6 +261,12 @@
     }
 }
 
+-(void)showResult
+{
+    
+        [self showPOIAnnotations];
+}
+
 #pragma mark - Search
 
 -(void)searchDestination:(NSString*)Destinationstr{
@@ -263,7 +284,7 @@
     request.keywords            = Destinationstr;
     request.sortrule            = 1;
     request.radius = 50000;
-    request.requireExtension    = NO;
+    request.requireExtension    = YES;
     
     [self.search AMapPOIAroundSearch:request];
 
@@ -341,7 +362,6 @@
             annotationView = [[MANaviAnnotationView alloc] initWithAnnotation:annotation
                                                               reuseIdentifier:pointReuseIndetifier];
         }
-        
         annotationView.canShowCallout = YES;
         annotationView.draggable = NO;
         
@@ -369,19 +389,21 @@
     [self.mapView removeAnnotations:_poiAnnotations];
     [_poiAnnotations removeAllObjects];
     
-//    [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
-//        
-//        MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
-//        [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
-//        [annotation setTitle:obj.name];
-//        [annotation setSubtitle:obj.address];
-//        
-//        [_poiAnnotations addObject:annotation];
-//    }];
-//    
+    [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
+        
+        MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
+        [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
+        [annotation setTitle:obj.name];
+        [annotation setSubtitle:obj.address];
+        
+        [_poiAnnotations addObject:annotation];
+    }];
+
 //    [self showPOIAnnotations];
     
     AMapPOI*obj = response.pois[0];
+    
+    
     
     MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
     [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
@@ -390,6 +412,11 @@
     
     _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
                                           longitude:annotation.coordinate.longitude];
+    
+    self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    
+    self.bottomBar.destination.text = obj.name;
+
     
     [self startEmulatorNavi];
 
