@@ -81,6 +81,11 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
+    
+    
+    
+    
+    
 
 }
 
@@ -104,8 +109,9 @@
     
     [self initIFlySpeech];//初始化识别对象
     
-    [self startBtnHandler:nil];
-
+    [self setDestination];
+    
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -118,6 +124,21 @@
 }
 
 #pragma mark - Initalization
+
+-(void)setDestination
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            // code to be executed on the main queue after delay
+            [self startBtnHandler:nil];
+            
+        });
+    });
+    
+
+}
 
 -(NSMutableArray *)objArry
 {
@@ -416,11 +437,17 @@
     self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
     
     self.bottomBar.destination.text = obj.name;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@",obj.city,obj.district,obj.name]];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 8 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            // code to be executed on the main queue after delay
+            
+            [self startEmulatorNavi];
 
-    
-    [self startEmulatorNavi];
+        });
 
-    
+    });
     
 }
 
@@ -770,6 +797,7 @@
         } else if (error.errorCode == 0 ) {
             if (_result.length == 0) {
                 text = @"无识别结果";
+//                [self setDestination];
             }else {
                 text = @"识别成功";
             }
@@ -810,7 +838,7 @@
     for (NSString *key in dic) {
         [resultString appendFormat:@"%@",key];
     }
-    _result =[NSString stringWithFormat:@"%@%@", _textView.text,resultString];
+    _result =[NSString stringWithFormat:@"%@",resultString];
     NSString * resultFromJson =  [ISRDataHelper stringFromJson:resultString];
     _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text,resultFromJson];
     

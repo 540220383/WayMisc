@@ -31,10 +31,10 @@
     sender.selected = !sender.selected;
     if (sender.selected) {
         [sender setImage:[UIImage imageNamed:@"equipmentui_fm_on"] forState:UIControlStateNormal];
-        [self.AnimaImages startAnimating];
+//        [self.AnimaImages startAnimating];
     }else{
         [sender setImage:[UIImage imageNamed:@"equipmentui_fm_off"] forState:UIControlStateNormal];
-        [self.AnimaImages stopAnimating];
+//        [self.AnimaImages stopAnimating];
     }
 }
 - (IBAction)confirmUpdate:(UIButton *)sender {

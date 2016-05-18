@@ -17,7 +17,7 @@
                         <constraint firstAttribute="width" constant="50" id="GXK-Sz-wxC"/>
                         <constraint firstAttribute="height" constant="50" id="XXl-Ss-tk2"/>
                     </constraints>
-                    <state key="normal" backgroundImage="wel_ico1"/>
+                    <state key="normal" backgroundImage="Wel_ico1"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kX-tb-gA6">
                     <rect key="frame" x="203" y="33" width="35.5" height="17"/>
@@ -51,6 +51,6 @@
         </view>
     </objects>
     <resources>
-        <image name="wel_ico1" width="25" height="28"/>
+        <image name="Wel_ico1" width="28" height="28"/>
     </resources>
 </document>

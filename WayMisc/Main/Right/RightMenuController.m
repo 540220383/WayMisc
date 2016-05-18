@@ -11,6 +11,7 @@
 #import "AboutView.h"
 #import "DeviceListViewController.h"
 @interface RightMenuController ()<UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *linkState;
 
 @end
 

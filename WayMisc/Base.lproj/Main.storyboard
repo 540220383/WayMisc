@@ -214,11 +214,17 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69I-Dp-IUY">
+                                                    <rect key="frame" x="200" y="17.5" width="14" height="22"/>
+                                                    <state key="normal" image="leftmanuico_nolink"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Qpy-kA-tMC" firstAttribute="leading" secondItem="gco-ED-2rk" secondAttribute="leadingMargin" constant="70" id="76R-cb-M9b"/>
                                                 <constraint firstAttribute="trailing" secondItem="8Uh-gG-xoZ" secondAttribute="trailing" constant="15" id="9I9-Oi-Iff"/>
                                                 <constraint firstItem="Nan-NL-4pp" firstAttribute="leading" secondItem="Qpy-kA-tMC" secondAttribute="trailing" constant="10" id="MKI-Tn-I2h"/>
+                                                <constraint firstItem="69I-Dp-IUY" firstAttribute="leading" secondItem="Nan-NL-4pp" secondAttribute="trailing" constant="-14" id="OTg-9y-mSF"/>
+                                                <constraint firstItem="69I-Dp-IUY" firstAttribute="baseline" secondItem="Nan-NL-4pp" secondAttribute="baseline" id="Ydo-Z1-an9"/>
                                                 <constraint firstItem="8Uh-gG-xoZ" firstAttribute="centerY" secondItem="gco-ED-2rk" secondAttribute="centerY" constant="-4.5" id="bWc-O6-Y0A"/>
                                                 <constraint firstItem="Nan-NL-4pp" firstAttribute="centerY" secondItem="gco-ED-2rk" secondAttribute="centerY" constant="-4.5" id="jWr-3z-rGr"/>
                                                 <constraint firstItem="Qpy-kA-tMC" firstAttribute="centerY" secondItem="gco-ED-2rk" secondAttribute="centerY" constant="-4.5" id="pQF-ix-byY"/>
@@ -374,6 +380,9 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="linkState" destination="69I-Dp-IUY" id="PNL-NW-Ufc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kqD-cw-ELv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -425,7 +434,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="程序后台运行" image="wel_ico1">
+                                <state key="normal" title="程序后台运行" image="Wel_ico6">
                                     <color key="titleColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -436,7 +445,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="获取位置" image="wel_ico1">
+                                <state key="normal" title="获取位置" image="Wel_ico1">
                                     <color key="titleColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -447,7 +456,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="拨打电话 , 获取通话记录" image="wel_ico2">
+                                <state key="normal" title="拨打电话 , 获取通话记录" image="Wel_ico2">
                                     <color key="titleColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -458,7 +467,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="录音权限" image="wel_ico4">
+                                <state key="normal" title="录音权限" image="Wel_ico4">
                                     <color key="titleColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -468,7 +477,8 @@
                                     <constraint firstAttribute="height" constant="40" id="hL8-DZ-5LB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="读取联系人" image="wel_ico5">
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="读取联系人" image="Wel_ico5">
                                     <color key="titleColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -537,17 +547,19 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Wel_ico1" width="28" height="28"/>
+        <image name="Wel_ico2" width="28" height="28"/>
+        <image name="Wel_ico4" width="28" height="28"/>
+        <image name="Wel_ico5" width="28" height="28"/>
+        <image name="Wel_ico6" width="28" height="28"/>
         <image name="bag_authority" width="305" height="112"/>
-        <image name="leftmanuico_about" width="22" height="19"/>
-        <image name="leftmanuico_hardware" width="19" height="21"/>
-        <image name="leftmanuico_radio" width="16" height="22"/>
+        <image name="leftmanuico_about" width="22" height="22"/>
+        <image name="leftmanuico_hardware" width="22" height="22"/>
+        <image name="leftmanuico_nolink" width="14" height="14"/>
+        <image name="leftmanuico_radio" width="22" height="22"/>
         <image name="leftmanuico_update" width="21" height="20"/>
         <image name="notice_girl" width="54" height="44"/>
         <image name="playerlist_pause" width="34" height="39"/>
         <image name="radiolist_author" width="10" height="14"/>
-        <image name="wel_ico1" width="25" height="28"/>
-        <image name="wel_ico2" width="28" height="28"/>
-        <image name="wel_ico4" width="21" height="28"/>
-        <image name="wel_ico5" width="29" height="28"/>
     </resources>
 </document>
