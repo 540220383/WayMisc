@@ -64,8 +64,9 @@
     [_textView.layer setCornerRadius:7.0f];
     
     CGFloat posY = self.textView.frame.origin.y+self.textView.frame.size.height/6;
-    _popUpView = [[PopupView alloc] initWithFrame:CGRectMake(100, posY, 0, 0) withParentView:self.view];
-
+    _popUpView = [[PopupView alloc] initWithFrame:CGRectMake(100, posY+64, 0, 0) withParentView:self.view];
+    
+    [self.view addSubview:_popUpView];
     
     [self initProperties];
     
@@ -222,7 +223,7 @@
 {
     if (_mapView == nil)
     {
-        _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-40, kScreenHeight-104)];
+        _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-84)];
     }
     
     [self.mapView setDelegate:self];
@@ -810,6 +811,8 @@
         
     }else {
         [_popUpView showText:@"识别结束"];
+        [_iFlySpeechSynthesizer startSpeaking:@"无网络连接提示，请检查手机网络"];
+
         NSLog(@"errorCode:%d",[error errorCode]);
     }
     
