@@ -8,6 +8,8 @@
 
 #import "FirstViewController.h"
 #import "SlideNavigationController.h"
+#import <AddressBook/AddressBook.h>
+#import <AVFoundation/AVFoundation.h>
 @interface FirstViewController ()
 
 @end
@@ -16,6 +18,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 1.获取用户的授权状态
+    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    
+    // 2.如果授权状态是未决定的,则请求授权
+    if (status == kABAuthorizationStatusNotDetermined) {
+        // 2.1.获取通信录对象
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+        
+        // 2.2.请求授权
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                NSLog(@"通讯录授权成功");
+            } else {
+                NSLog(@"通讯录授权失败");
+            }
+        });
+    }
+    
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending)
+    {
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        if ([audioSession respondsToSelector:@selector(requestRecordPermission:)]) {
+            [audioSession performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
+                if (granted) {
+                    
+                } else {
+                    
+                }
+            }];
+        }
+    }
+
 
 }
 - (IBAction)NextPage:(id)sender {

@@ -126,6 +126,8 @@
 		F097A08C1CE1BC010044AB0F /* NSString+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0871CE1BC010044AB0F /* NSString+CZ.m */; };
 		F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0891CE1BC010044AB0F /* UIButton+CZ.m */; };
 		F097A08E1CE1BC010044AB0F /* UIImage+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A08B1CE1BC010044AB0F /* UIImage+CZ.m */; };
+		F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */; };
+		F0F4C27A1CEDC8AB00CC1FAB /* VoiceDialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,6 +374,10 @@
 		F097A0891CE1BC010044AB0F /* UIButton+CZ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CZ.m"; sourceTree = "<group>"; };
 		F097A08A1CE1BC010044AB0F /* UIImage+CZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CZ.h"; sourceTree = "<group>"; };
 		F097A08B1CE1BC010044AB0F /* UIImage+CZ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+CZ.m"; sourceTree = "<group>"; };
+		F0F4C2751CEDC53200CC1FAB /* SlideNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationBar.h; sourceTree = "<group>"; };
+		F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationBar.m; sourceTree = "<group>"; };
+		F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceDialViewController.h; sourceTree = "<group>"; };
+		F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceDialViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -554,6 +560,8 @@
 				F08D62121CE5A6B100DD0B21 /* Model */,
 				9EBC88551CE064B400A71B49 /* RightMenuController.h */,
 				9EBC88561CE064B400A71B49 /* RightMenuController.m */,
+				F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */,
+				F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */,
 			);
 			path = Right;
 			sourceTree = "<group>";
@@ -574,6 +582,8 @@
 				9EBC88531CE05EB100A71B49 /* SlideNavigationController.m */,
 				9EBC890A1CE08B1700A71B49 /* NSString+Frame.h */,
 				9EBC890B1CE08B1700A71B49 /* NSString+Frame.m */,
+				F0F4C2751CEDC53200CC1FAB /* SlideNavigationBar.h */,
+				F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */,
 			);
 			path = ThirdParty;
 			sourceTree = "<group>";
@@ -1093,6 +1103,7 @@
 				9EBC88E61CE0732E00A71B49 /* UIImage+WebP.m in Sources */,
 				9EBC88941CE0727700A71B49 /* MJRefreshConst.m in Sources */,
 				9EBC88871CE0727700A71B49 /* MJRefreshComponent.m in Sources */,
+				F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */,
 				F08D620E1CE56C3E00DD0B21 /* UIViewController+PageHandle.m in Sources */,
 				9EBC88FD1CE0736E00A71B49 /* AFURLSessionManager.m in Sources */,
 				9EBC888A1CE0727700A71B49 /* MJRefreshAutoGifFooter.m in Sources */,
@@ -1120,6 +1131,7 @@
 				F017BE141CE3208800452875 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				F017BE151CE3208800452875 /* View+MASAdditions.m in Sources */,
 				9EBC88DC1CE0732E00A71B49 /* SDImageCache.m in Sources */,
+				F0F4C27A1CEDC8AB00CC1FAB /* VoiceDialViewController.m in Sources */,
 				9EBC88961CE0727700A71B49 /* UIScrollView+MJRefresh.m in Sources */,
 				F017BE0F1CE3208800452875 /* MASConstraintMaker.m in Sources */,
 				9EBC88101CE04CD500A71B49 /* main.m in Sources */,

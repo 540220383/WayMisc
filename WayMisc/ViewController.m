@@ -260,6 +260,10 @@
     BroadcastingModel *model = self.musics[indexPath.row];
     cell.backgroundColor = kColorWithRGBA(34, 36, 35,1);
     cell.broad = model;
+    if (indexPath.row == 0) {
+        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+        
+    }
     return cell;
 }
 
