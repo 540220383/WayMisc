@@ -20,6 +20,8 @@
 		5269CE161CE6B774009383AC /* IATViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5269CE111CE6B774009383AC /* IATViewController.m */; };
 		5269CE171CE6B774009383AC /* ISRDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5269CE131CE6B774009383AC /* ISRDataHelper.m */; };
 		52C11AD41CE0C135006F5F33 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C11AD31CE0C135006F5F33 /* FirstViewController.m */; };
+		52E7A7B71CEDE5980066E736 /* UnderstandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */; };
+		52E7A7BA1CEDFB330066E736 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E7A7B91CEDFB330066E736 /* Person.m */; };
 		9EBC88101CE04CD500A71B49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC880F1CE04CD500A71B49 /* main.m */; };
 		9EBC88131CE04CD500A71B49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC88121CE04CD500A71B49 /* AppDelegate.m */; };
 		9EBC88161CE04CD500A71B49 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC88151CE04CD500A71B49 /* ViewController.m */; };
@@ -170,6 +172,10 @@
 		5269CE131CE6B774009383AC /* ISRDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRDataHelper.m; sourceTree = "<group>"; };
 		52C11AD21CE0C135006F5F33 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		52C11AD31CE0C135006F5F33 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		52E7A7B51CEDE5980066E736 /* UnderstandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderstandViewController.h; sourceTree = "<group>"; };
+		52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderstandViewController.m; sourceTree = "<group>"; };
+		52E7A7B81CEDFB330066E736 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		52E7A7B91CEDFB330066E736 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		9EBC880B1CE04CD400A71B49 /* WayMisc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WayMisc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EBC880F1CE04CD500A71B49 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9EBC88111CE04CD500A71B49 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -457,6 +463,16 @@
 			path = isr;
 			sourceTree = "<group>";
 		};
+		52E7A7B41CEDE5980066E736 /* nlp */ = {
+			isa = PBXGroup;
+			children = (
+				52E7A7B51CEDE5980066E736 /* UnderstandViewController.h */,
+				52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */,
+			);
+			name = nlp;
+			path = ../Lib/nlp;
+			sourceTree = "<group>";
+		};
 		9EBC88021CE04CD400A71B49 = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +585,7 @@
 		9EBC88491CE0552300A71B49 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				52E7A7B41CEDE5980066E736 /* nlp */,
 				5269CE0B1CE6B774009383AC /* isr */,
 				F08D621B1CE5A6F800DD0B21 /* APIKey.h */,
 				5269CDCD1CE6305A009383AC /* Definition.h */,
@@ -886,6 +903,8 @@
 			children = (
 				F08D62181CE5A6E100DD0B21 /* MANaviAnnotationView.h */,
 				F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */,
+				52E7A7B81CEDFB330066E736 /* Person.h */,
+				52E7A7B91CEDFB330066E736 /* Person.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1094,6 +1113,7 @@
 				F017BE0E1CE3208800452875 /* MASConstraint.m in Sources */,
 				5269CE161CE6B774009383AC /* IATViewController.m in Sources */,
 				9EBC88E51CE0732E00A71B49 /* UIImage+MultiFormat.m in Sources */,
+				52E7A7BA1CEDFB330066E736 /* Person.m in Sources */,
 				9EBC88B21CE072F500A71B49 /* MJPropertyType.m in Sources */,
 				9EBC88DF1CE0732E00A71B49 /* SDWebImageDownloader.m in Sources */,
 				F017BE111CE3208800452875 /* MASViewAttribute.m in Sources */,
@@ -1102,6 +1122,7 @@
 				F017BE0D1CE3208800452875 /* MASCompositeConstraint.m in Sources */,
 				9EBC88E61CE0732E00A71B49 /* UIImage+WebP.m in Sources */,
 				9EBC88941CE0727700A71B49 /* MJRefreshConst.m in Sources */,
+				52E7A7B71CEDE5980066E736 /* UnderstandViewController.m in Sources */,
 				9EBC88871CE0727700A71B49 /* MJRefreshComponent.m in Sources */,
 				F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */,
 				F08D620E1CE56C3E00DD0B21 /* UIViewController+PageHandle.m in Sources */,

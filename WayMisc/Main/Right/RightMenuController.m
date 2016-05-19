@@ -10,6 +10,7 @@
 #import "NaviViewController.h"
 #import "AboutView.h"
 #import "DeviceListViewController.h"
+#import "VoiceDialViewController.h"
 @interface RightMenuController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *linkState;
 
@@ -43,6 +44,12 @@
         [self.view addSubview:about];
         
         
+    }else if(indexPath.row == 4) {
+        VoiceDialViewController *voiceDial = [[VoiceDialViewController alloc]init];
+        
+        
+        [[SlideNavigationController sharedInstance] pushViewController:voiceDial animated:YES];
+        //        [self presentViewController:navi animated:YES completion:nil];
     }else if(indexPath.row == 5) {
         NaviViewController *navi = [[NaviViewController alloc]init];
         
