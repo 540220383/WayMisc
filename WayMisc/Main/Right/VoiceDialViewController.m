@@ -87,8 +87,7 @@
         NSLog(@"%@---%@", firstName, lastName);
         NSString *fullName = [NSString stringWithFormat:@"%@%@",lastName,firstName];
         fullName = [fullName stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        if ([str isEqualToString:fullName]
-            ) {
+        if ([str isEqualToString:fullName]) {
             [self.PersonArray removeAllObjects];
             per.fullName = fullName;
             
@@ -110,10 +109,10 @@
             
             // 5.4.释放该释放的对象
             CFRelease(phones);
+            [self.PersonArray addObject:per];
 
         }
         
-        [self.PersonArray addObject:per];
     }
     
     // 6.释放该释放的对象
@@ -151,12 +150,13 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
+        
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
         
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
 //            [self startBtnHandler:nil];
-            [self startBtnHandler:nil];
+            [self onlinRecBtnHandler:nil];
             
         });
     });
@@ -410,96 +410,112 @@
     _result =[NSString stringWithFormat:@"%@",resultString];
     NSString * resultFromJson =  [ISRDataHelper stringFromJson:resultString];
     _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text,resultFromJson];
-    
-    if (isLast){
+      
+    if (!isLast){
         NSLog(@"听写结果(json)：%@测试",  self.result);
-        
-    }
-    
-    if ([resultFromJson isEqualToString:@"呼叫"]) {
-       
-    }else if([_result isEqualToString:@"取消"]){
-        
-    }
-    
-
-    
-    if (resultFromJson.length >0) {
-        [self AddressBookResult:resultFromJson];
-        
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
-        
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            // code to be executed on the main queue after delay
-            //            [self startBtnHandler:nil];
-            
-        });
-        
-        
-        if(self.PersonArray.count>0){
-            
-            if (self.PersonArray.count != 1) {
-                //不唯一
-//                for (int i = 0; i<self.PersonArray.count; i++) {
-//                    Person*per = self.PersonArray[i];
-//                    
-//                    NSString *fullName = per.fullName;
-//                    NSString *num = per.numbers[0];
-//                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//                        [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"呼叫以下哪个联系人：第%i位%@%@",i,fullName,[num substringToIndex:3]]];
-//                    });
-//                }
-                
-            }else{
-//                //唯一
-//                Person*per = self.PersonArray[0];
-//                
-//                NSString *fullName = per.fullName;
-//                NSString *num = per.numbers[0];
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//                    [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"为您找到%@%@",fullName,[num substringToIndex:3]]];
-//                });
-            }
-            //唯一
-            Person*per = self.PersonArray[0];
-            
-            NSString *fullName = per.fullName;
-            NSString *num = per.numbers[0];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"为您找到%@%@",fullName,[num substringToIndex:3]]];
-                
-                tel = num;
-            });
-            [self stopBtnHandler:nil];
-
-            
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
+        if ([resultFromJson rangeOfString:@"呼叫"].location !=NSNotFound) {
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
             
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 // code to be executed on the main queue after delay
-                //            [self startBtnHandler:nil];
-//                [self startBtnHandler:nil];
                 
                 NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
             });
-            
-            
+
+        }else if([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
+            [self cancelBtnHandler:nil];
+            [self stopBtnHandler:nil];
+
         }else{
-            NSString *str;
-            if (searchIndex <3) {
-                str = @"没听清楚，再说一遍";
-            }else{
-                searchIndex ++;
-                str = @"呼叫失败，请稍后再试";
-            }
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [_iFlySpeechSynthesizer startSpeaking:str];
+            
+            [self cancelBtnHandler:nil];
+            [self stopBtnHandler:nil];
+            
+            
+            [self AddressBookResult:resultFromJson];
+            
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
+            
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                // code to be executed on the main queue after delay
+                //            [self startBtnHandler:nil];
+                
+                if(self.PersonArray.count>0){
+                    
+                    if (self.PersonArray.count != 1) {
+                        //不唯一
+                        for (int i = 0; i<self.PersonArray.count; i++) {
+                            Person*per = self.PersonArray[i];
+                            
+                            NSString *fullName = per.fullName;
+                            NSString *num = per.numbers[0];
+                            
+                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
+                            
+                            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//                                [NSThread sleepForTimeInterval:1];
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                    [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"呼叫以下哪个联系人：第%i位%@%@",i,fullName,[num substringToIndex:3]]];
+                                });
+                            });
+                        }
+                        
+                    }else{
+                        //唯一
+                        Person*per = self.PersonArray[0];
+                        
+                        if (per.numbers.count>1) {
+                            for (int i = 0; i<per.numbers.count; i++) {
+                                
+                                NSString *fullName = per.fullName;
+                                NSString *num = per.numbers[i];
+                                
+                                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
+                                
+                                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//                                    [NSThread sleepForTimeInterval:1];
+                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                        [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"呼叫以下哪个联系人：第%i位%@%@",i,fullName,[num substringToIndex:3]]];
+                                    });
+                                });
+                                
+                            }
+
+                        }else{
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"为您找到%@%@",per.fullName,[per.numbers[0] substringToIndex:3]]];
+                            });
+
+                        }
+                        
+                        
+                    }
+                    
+                    [self startBtnHandler:nil];
+                    
+                }else{
+                    NSString *str;
+                    if (searchIndex <3) {
+                        str = @"没听清楚，再说一遍";
+                    }else{
+                        searchIndex ++;
+                        str = @"呼叫失败，请稍后再试";
+                    }
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        [_iFlySpeechSynthesizer startSpeaking:str];
+                    });
+                    //没有找到
+                }
+
             });
-            //没有找到
+
         }
 
     }
+    
+        
+
     
     NSLog(@"_result=%@",_result);
     NSLog(@"resultFromJson=%@",resultFromJson);
@@ -603,7 +619,8 @@
     
     if (_iFlySpeechUnderstander != nil) {
         IATConfig *instance = [IATConfig sharedInstance];
-        
+         NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",@"56e5080e",@"20000"];
+        [IFlySpeechUtility createUtility:initString];
         //参数意义与IATViewController保持一致，详情可以参照其解释
         [_iFlySpeechUnderstander setParameter:instance.speechTimeout forKey:[IFlySpeechConstant SPEECH_TIMEOUT]];
         [_iFlySpeechUnderstander setParameter:instance.vadEos forKey:[IFlySpeechConstant VAD_EOS]];
@@ -650,6 +667,9 @@
     [_iFlySpeechUnderstander cancel];//终止语义
     [_iFlySpeechUnderstander setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     [super viewWillDisappear:animated];
+    
+    [_iFlySpeechUnderstander destroy];
+
     
     [_iFlySpeechSynthesizer stopSpeaking];
     

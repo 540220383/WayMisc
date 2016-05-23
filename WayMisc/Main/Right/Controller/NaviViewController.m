@@ -110,7 +110,7 @@
     
     [self initIFlySpeech];//初始化识别对象
     
-    [self setDestination];
+    [self Speaking:@"请问您想去哪里？"];
     
     
 }
@@ -122,6 +122,8 @@
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     
+    
+    
 }
 
 #pragma mark - Initalization
@@ -130,7 +132,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:str];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.4) * NSEC_PER_SEC);
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.35) * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
             [self startBtnHandler:nil];
@@ -145,7 +147,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
             [self startBtnHandler:nil];
@@ -365,12 +367,21 @@
 
 #pragma mark - MapView Delegate
 
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
+}
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
     if (updatingLocation)
     {
         _userLocation = userLocation;
-        self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+          self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
+        });
+        
     }
 }
 
@@ -456,7 +467,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*addressStr.length) * NSEC_PER_SEC);
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
             
@@ -864,9 +875,9 @@
     
     if (!isLast){
         
-        if([resultFromJson isEqualToString:@"导航"]){
+        if([resultFromJson rangeOfString:@"导航"].location !=NSNotFound){
             [self startEmulatorNavi];
-        }else if ([resultFromJson isEqualToString:@"取消"]){
+        }else if ([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
             
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
@@ -878,6 +889,7 @@
             if([textPre evaluateWithObject:resultFromJson]){
                 [self searchDestination:resultFromJson];
             }else{
+                
                 [self stopBtnHandler:nil];
                 [self cancelBtnHandler:nil];
                 [self Speaking:@"没听清楚，请再说一遍。"];

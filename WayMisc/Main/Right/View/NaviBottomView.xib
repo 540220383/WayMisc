@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -19,14 +19,14 @@
                     </constraints>
                     <state key="normal" backgroundImage="Wel_ico1"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kX-tb-gA6">
-                    <rect key="frame" x="203" y="33" width="35.5" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kX-tb-gA6">
+                    <rect key="frame" x="203" y="33" width="11.5" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-qZ-qdK">
-                    <rect key="frame" x="73" y="31" width="44" height="21.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="     " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-qZ-qdK">
+                    <rect key="frame" x="8" y="31" width="109" height="21.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -39,6 +39,7 @@
                 <constraint firstItem="a1w-qZ-qdK" firstAttribute="centerY" secondItem="kIK-TV-ZDd" secondAttribute="centerY" id="SDB-gJ-SIl"/>
                 <constraint firstItem="1kX-tb-gA6" firstAttribute="centerY" secondItem="kIK-TV-ZDd" secondAttribute="centerY" id="Yal-tw-rdv"/>
                 <constraint firstItem="1kX-tb-gA6" firstAttribute="leading" secondItem="kIK-TV-ZDd" secondAttribute="trailing" constant="18" id="bW3-vP-Yue"/>
+                <constraint firstItem="a1w-qZ-qdK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="kcW-3w-06G"/>
                 <constraint firstItem="kIK-TV-ZDd" firstAttribute="leading" secondItem="a1w-qZ-qdK" secondAttribute="trailing" constant="18" id="xsz-8Q-UVg"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
