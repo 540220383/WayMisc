@@ -90,7 +90,7 @@
                                                         <constraint firstItem="KXf-wr-6sz" firstAttribute="leading" secondItem="0yz-Ou-SfU" secondAttribute="trailing" constant="5" id="xuT-Je-f4f"/>
                                                     </constraints>
                                                 </view>
-                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playerlist_pause" translatesAutoresizingMaskIntoConstraints="NO" id="zaT-aS-bY2">
+                                                <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playerlist_pause" translatesAutoresizingMaskIntoConstraints="NO" id="zaT-aS-bY2">
                                                     <rect key="frame" x="0.0" y="0.5" width="126" height="126"/>
                                                 </imageView>
                                             </subviews>

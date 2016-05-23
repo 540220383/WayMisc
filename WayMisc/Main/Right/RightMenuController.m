@@ -37,8 +37,23 @@
     if (indexPath.row == 0) {
         DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
         [[SlideNavigationController sharedInstance] pushViewController:deviceList animated:YES];
-    }
-    if(indexPath.row == 3) {
+    }else if(indexPath.row == 1) {
+        
+        
+        [UIView animateWithDuration:.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             CGRect rect = [SlideNavigationController sharedInstance].view.frame;
+                             rect.origin.x = 0;
+                             [SlideNavigationController sharedInstance].view.frame = rect;
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+
+        
+    }else if(indexPath.row == 3) {
         AboutView *about = [[NSBundle mainBundle]loadNibNamed:@"AboutView" owner:nil options:nil][0];
         about.center = CGPointMake(kScreenWidth/2, (kScreenHeight-20)/2);
         [self.view addSubview:about];

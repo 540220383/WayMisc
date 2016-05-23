@@ -72,8 +72,9 @@
     self.MainCollection.delegate = self;
     self.MainCollection.dataSource = self;
     
-    self.MainCollection.mj_header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    self.MainCollection.mj_footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadOldData)];
+    self.MainCollection.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    self.MainCollection.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadOldData)];
+    
     
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
@@ -177,13 +178,19 @@
 
 - (void)playOrPause{
     isPlay = !isPlay;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
+    RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     if (isPlay) {
         [[_wmPlayer player]pause];
         [self.playerView setCoverNormalImage:@"footplayer_pause"];
+        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
+
         
     }else{
         [[_wmPlayer player]play];
         [self.playerView setCoverNormalImage:@"footplayer_play"];
+        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+
     }
     
 }
@@ -260,10 +267,15 @@
     BroadcastingModel *model = self.musics[indexPath.row];
     cell.backgroundColor = kColorWithRGBA(34, 36, 35,1);
     cell.broad = model;
-    if (indexPath.row == 0) {
-        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
-        
-    }
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (indexPath.row == 0) {
+            cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
+            cell.playerStateIcon.hidden = NO;
+        }
+    });
+   
     return cell;
 }
 
@@ -276,17 +288,25 @@
     
     self.playerView.broad = model;
     
+    
+    
     if (self.musicIndex == indexPath.row){
         [self playOrPause];
     }else{
+         RadioProgramsCell *cell = (RadioProgramsCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        cell.playerStateIcon.hidden = NO;
+
         if(!isPlay){
             isPlay = YES;
             [_wmPlayer play];
             [self.playerView setCoverNormalImage:@"footplayer_pause"];
+            cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
+
             
         }else{
             [[_wmPlayer player] play];
             [self.playerView setCoverNormalImage:@"footplayer_play"];
+            cell.playerStateIcon.image = [UIImage imageNamed:@"footplayer_play"];
             
         }
         
@@ -307,8 +327,7 @@
     model.isPlay = NO;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
     RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
-    cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
-    
+    cell.playerStateIcon.hidden = YES;
 }
 
 - (CGFloat)waterflowLayout:(FlowLayout *)waterflowLayout heightForWidth:(CGFloat)width atIndexPath:(NSIndexPath *)indexPath

@@ -126,18 +126,33 @@
 
 #pragma mark - Initalization
 
+-(void)Speaking:(NSString *)str{
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [_iFlySpeechSynthesizer startSpeaking:str];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.4) * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            // code to be executed on the main queue after delay
+            [self startBtnHandler:nil];
+
+        });
+    });
+
+}
+
 -(void)setDestination
 {
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
             [self startBtnHandler:nil];
-            
+
         });
     });
-    
+
 
 }
 
@@ -439,12 +454,14 @@
     
     self.bottomBar.destination.text = obj.name;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@",obj.city,obj.district,obj.name]];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 8 * NSEC_PER_SEC);
+        NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
+        [_iFlySpeechSynthesizer startSpeaking:addressStr];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*addressStr.length) * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
             
-            [self startEmulatorNavi];
+//            [self startEmulatorNavi];
+            [self startBtnHandler:nil];
 
         });
 
@@ -845,18 +862,42 @@
     NSString * resultFromJson =  [ISRDataHelper stringFromJson:resultString];
     _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text,resultFromJson];
     
-    if (isLast){
-        NSLog(@"听写结果(json)：%@测试",  self.result);
+    if (!isLast){
         
+        if([resultFromJson isEqualToString:@"导航"]){
+            [self startEmulatorNavi];
+        }else if ([resultFromJson isEqualToString:@"取消"]){
+            
+            [self stopBtnHandler:nil];
+            [self cancelBtnHandler:nil];
+            [self Speaking:@"已经为您取消"];
+            [self setDestination];
+        }else{
+            NSString* Reg=@"^[\u4e00-\u9fa5_a-zA-Z0-9]+$";
+            NSPredicate *textPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",Reg];
+            if([textPre evaluateWithObject:resultFromJson]){
+                [self searchDestination:resultFromJson];
+            }else{
+                [self stopBtnHandler:nil];
+                [self cancelBtnHandler:nil];
+                [self Speaking:@"没听清楚，请再说一遍。"];
+                
+                return ;
+                
+            }
+
+            
+            NSLog(@"_result=%@",_result);
+            NSLog(@"resultFromJson=%@",resultFromJson);
+            NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
+            
+        }
+
+
+        
+        NSLog(@"听写结果(json)：%@测试",  self.result);
+       
     }
-    NSLog(@"_result=%@",_result);
-    NSLog(@"resultFromJson=%@",resultFromJson);
-    NSString* Reg=@"^[\u4E00-\u9FA5]*$";
-    NSPredicate *textPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",Reg];
-    if([textPre evaluateWithObject:resultFromJson]){
-        [self searchDestination:resultFromJson];
-    }
-    NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
 }
 
 

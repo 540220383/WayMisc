@@ -281,13 +281,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WayMisc/Other/FirstViewController.m"
-            timestampString = "485345379.041239"
+            filePath = "WayMisc/Main/Right/Controller/NaviViewController.m"
+            timestampString = "485669445.259485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
+            landmarkName = "-showPOIAnnotations"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
