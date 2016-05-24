@@ -124,6 +124,7 @@
 		F08D62171CE5A6C700DD0B21 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62161CE5A6C700DD0B21 /* NaviViewController.m */; };
 		F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */; };
 		F08D621D1CE5BEE300DD0B21 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F08D621C1CE5BEE300DD0B21 /* MapKit.framework */; };
+		F093B2EA1CF42F920093A560 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F093B2E91CF42F920093A560 /* TestViewController.m */; };
 		F097A0691CE1806B0044AB0F /* LinkServiceWay.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0681CE1806B0044AB0F /* LinkServiceWay.m */; };
 		F097A08C1CE1BC010044AB0F /* NSString+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0871CE1BC010044AB0F /* NSString+CZ.m */; };
 		F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0891CE1BC010044AB0F /* UIButton+CZ.m */; };
@@ -372,6 +373,8 @@
 		F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviAnnotationView.m; sourceTree = "<group>"; };
 		F08D621B1CE5A6F800DD0B21 /* APIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
 		F08D621C1CE5BEE300DD0B21 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		F093B2E81CF42F920093A560 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		F093B2E91CF42F920093A560 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		F097A0671CE1806B0044AB0F /* LinkServiceWay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkServiceWay.h; sourceTree = "<group>"; };
 		F097A0681CE1806B0044AB0F /* LinkServiceWay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkServiceWay.m; sourceTree = "<group>"; };
 		F097A0861CE1BC010044AB0F /* NSString+CZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CZ.h"; sourceTree = "<group>"; };
@@ -578,6 +581,8 @@
 				9EBC88561CE064B400A71B49 /* RightMenuController.m */,
 				F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */,
 				F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */,
+				F093B2E81CF42F920093A560 /* TestViewController.h */,
+				F093B2E91CF42F920093A560 /* TestViewController.m */,
 			);
 			path = Right;
 			sourceTree = "<group>";
@@ -1144,6 +1149,7 @@
 				9EBC88E41CE0732E00A71B49 /* UIImage+GIF.m in Sources */,
 				9EBC88E81CE0732E00A71B49 /* UIImageView+WebCache.m in Sources */,
 				5269CE141CE6B774009383AC /* IATConfig.m in Sources */,
+				F093B2EA1CF42F920093A560 /* TestViewController.m in Sources */,
 				9EBC888B1CE0727700A71B49 /* MJRefreshAutoNormalFooter.m in Sources */,
 				5201D8D51CE8BA6000CBCD0F /* DeviceListViewController.m in Sources */,
 				9EBC88F91CE0736E00A71B49 /* AFNetworkReachabilityManager.m in Sources */,
