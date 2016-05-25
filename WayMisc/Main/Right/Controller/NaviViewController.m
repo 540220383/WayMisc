@@ -115,10 +115,17 @@ typedef enum{
     [self initMapView];
     
     [self initIFlySpeech];//初始化识别对象
+    
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
     self.State = SpeakPlaying;
     [self Speaking:@"请问您想去哪里？"];
     
-    
+    self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -391,11 +398,6 @@ typedef enum{
     if (updatingLocation)
     {
         _userLocation = userLocation;
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-          self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
-        });
         
     }
 }

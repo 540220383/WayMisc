@@ -25,28 +25,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WayMisc/Main/Right/Controller/NaviViewController.m"
-            timestampString = "485702575.02103"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "-mapView:didFailToLocateUserWithError:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WayMisc/Main/Right/VoiceDialViewController.m"
-            timestampString = "485711144.204113"
+            timestampString = "485883686.726556"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "468"
-            endingLineNumber = "468"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "-onResults:isLast:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WayMisc/Main/Right/VoiceDialViewController.m"
-            timestampString = "485711218.898727"
+            timestampString = "485883686.726556"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "-onResults:isLast:"
             landmarkType = "5">
          </BreakpointContent>

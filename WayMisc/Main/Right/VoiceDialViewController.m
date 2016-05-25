@@ -205,7 +205,7 @@ typedef enum{
         
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
         
-       pyName = [PinyinHelper toHanyuPinyinStringWithNSString:per.fullName withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
+        pyName = [PinyinHelper toHanyuPinyinStringWithNSString:per.fullName withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
         
         
         [_db executeUpdate:@"INSERT INTO t_contact (name, pyname,person) VALUES (?, ? ,?);",per.fullName, pyName,data];
@@ -235,28 +235,33 @@ typedef enum{
     
     
     [self initIFlySpeech];//初始化识别对象
-    [self initRecognizer];
+//    [self initRecognizer];
 
-    [self setContactPerson];
+    
+    [self AddressBook];
+
     
 }
 
 -(void)setContactPerson
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
-        
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
-        
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            // code to be executed on the main queue after delay
-//            [self startBtnHandler:nil];
-            [self onlinRecBtnHandler:nil];
+    
+    self.State = SpeakPlaying;
+    [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC);
+    
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.State == SpeakFinish) {
+            [self startBtnHandler:nil];
             
-        });
+        }
     });
-    
-    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self setContactPerson];
+
 }
 
 #pragma mark - iFlySpeechSynthesizer Delegate
@@ -522,13 +527,16 @@ typedef enum{
                 indexValue = 2;
             }
             
-            if(self.PersonArray.count > indexValue) return;
+            if(indexValue > self.PersonArray.count) return;
             
-            Person *per = self.findState ==1?self.PersonArray[0]:self.PersonArray[indexValue];
+            Person *per = self.findState ==1?[Person mj_objectWithKeyValues:self.PersonArray[0]]:[Person mj_objectWithKeyValues:self.PersonArray[indexValue]];
             
             tel = self.findState ==1?per.numbers[indexValue]:per.numbers[0];
-            
-            
+            [self stopBtnHandler:nil];
+            [self cancelBtnHandler:nil];
+            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+             return ;
         }
         
         
@@ -538,9 +546,12 @@ typedef enum{
             
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 // code to be executed on the main queue after delay
-                
+                [self stopBtnHandler:nil];
+                [self cancelBtnHandler:nil];
                 NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+                return ;
+                
             });
 
         }else if([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
@@ -553,18 +564,13 @@ typedef enum{
             [self stopBtnHandler:nil];
             
             
-            [self AddressBook];
-            
-            
-            
             NSMutableString *strResult = [[NSMutableString alloc]init];
 
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC);
             
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 // code to be executed on the main queue after delay
-                //            [self startBtnHandler:nil];
-                [self TraverseResult:@"东风"];
+                [self TraverseResult:resultFromJson];
 
                 if(self.PersonArray.count>0){
                     
@@ -600,6 +606,10 @@ typedef enum{
                             
                         }else{
                             [strResult appendString:[NSString stringWithFormat:@"为您找到%@%@",per.fullName,[per.numbers[0] substringToIndex:3]]];
+                            
+                            tel = per.numbers[0];
+                            
+                            [strResult appendString:@";呼叫还是取消    "];
                         }
                         
                     }
@@ -828,14 +838,17 @@ typedef enum{
     
     [_iFlySpeechUnderstander cancel];//终止语义
     [_iFlySpeechUnderstander setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
-    [super viewWillDisappear:animated];
     
     [_iFlySpeechUnderstander destroy];
 
     
     [_iFlySpeechSynthesizer stopSpeaking];
     [self stopBtnHandler:nil];
+    [self cancelBtnHandler:nil];
     _iFlySpeechSynthesizer.delegate = nil;
+    
+    
+    [super viewWillDisappear:animated];
 
 }
 - (void)didReceiveMemoryWarning {
