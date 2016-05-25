@@ -114,6 +114,18 @@
 		F017BE151CE3208800452875 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F017BE0B1CE3208800452875 /* View+MASAdditions.m */; };
 		F017BE181CE3282400452875 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F017BE171CE3282400452875 /* PlayerView.m */; };
 		F017BE1A1CE328D800452875 /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F017BE191CE328D800452875 /* PlayerView.xib */; };
+		F02A0E101CF54B1800A7DF2F /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E061CF54B1800A7DF2F /* FMDatabase.m */; };
+		F02A0E111CF54B1800A7DF2F /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E081CF54B1800A7DF2F /* FMDatabaseAdditions.m */; };
+		F02A0E121CF54B1800A7DF2F /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E0A1CF54B1800A7DF2F /* FMDatabasePool.m */; };
+		F02A0E131CF54B1800A7DF2F /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E0C1CF54B1800A7DF2F /* FMDatabaseQueue.m */; };
+		F02A0E141CF54B1800A7DF2F /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E0F1CF54B1800A7DF2F /* FMResultSet.m */; };
+		F02A0E161CF54BC400A7DF2F /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F02A0E151CF54BC400A7DF2F /* libsqlite3.0.tbd */; };
+		F02A0E261CF578DB00A7DF2F /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E1A1CF578DB00A7DF2F /* ChineseToPinyinResource.m */; };
+		F02A0E271CF578DB00A7DF2F /* HanyuPinyinOutputFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E1C1CF578DB00A7DF2F /* HanyuPinyinOutputFormat.m */; };
+		F02A0E281CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E1E1CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m */; };
+		F02A0E291CF578DB00A7DF2F /* PinyinFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E211CF578DB00A7DF2F /* PinyinFormatter.m */; };
+		F02A0E2A1CF578DB00A7DF2F /* PinyinHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E231CF578DB00A7DF2F /* PinyinHelper.m */; };
+		F02A0E2B1CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */; };
 		F079B9C11CE474DC00D33980 /* FMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F079B9BF1CE474DC00D33980 /* FMViewController.m */; };
 		F079B9C21CE474DC00D33980 /* FMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F079B9C01CE474DC00D33980 /* FMViewController.xib */; };
 		F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */; };
@@ -124,7 +136,6 @@
 		F08D62171CE5A6C700DD0B21 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62161CE5A6C700DD0B21 /* NaviViewController.m */; };
 		F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */; };
 		F08D621D1CE5BEE300DD0B21 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F08D621C1CE5BEE300DD0B21 /* MapKit.framework */; };
-		F093B2EA1CF42F920093A560 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F093B2E91CF42F920093A560 /* TestViewController.m */; };
 		F097A0691CE1806B0044AB0F /* LinkServiceWay.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0681CE1806B0044AB0F /* LinkServiceWay.m */; };
 		F097A08C1CE1BC010044AB0F /* NSString+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0871CE1BC010044AB0F /* NSString+CZ.m */; };
 		F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */ = {isa = PBXBuildFile; fileRef = F097A0891CE1BC010044AB0F /* UIButton+CZ.m */; };
@@ -355,6 +366,30 @@
 		F017BE161CE3282400452875 /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
 		F017BE171CE3282400452875 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		F017BE191CE328D800452875 /* PlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
+		F02A0E051CF54B1800A7DF2F /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		F02A0E061CF54B1800A7DF2F /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		F02A0E071CF54B1800A7DF2F /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		F02A0E081CF54B1800A7DF2F /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		F02A0E091CF54B1800A7DF2F /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		F02A0E0A1CF54B1800A7DF2F /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		F02A0E0B1CF54B1800A7DF2F /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		F02A0E0C1CF54B1800A7DF2F /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		F02A0E0D1CF54B1800A7DF2F /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		F02A0E0E1CF54B1800A7DF2F /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		F02A0E0F1CF54B1800A7DF2F /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		F02A0E151CF54BC400A7DF2F /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		F02A0E191CF578DB00A7DF2F /* ChineseToPinyinResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyinResource.h; sourceTree = "<group>"; };
+		F02A0E1A1CF578DB00A7DF2F /* ChineseToPinyinResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyinResource.m; sourceTree = "<group>"; };
+		F02A0E1B1CF578DB00A7DF2F /* HanyuPinyinOutputFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HanyuPinyinOutputFormat.h; sourceTree = "<group>"; };
+		F02A0E1C1CF578DB00A7DF2F /* HanyuPinyinOutputFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HanyuPinyinOutputFormat.m; sourceTree = "<group>"; };
+		F02A0E1D1CF578DB00A7DF2F /* NSString+PinYin4Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PinYin4Cocoa.h"; sourceTree = "<group>"; };
+		F02A0E1E1CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PinYin4Cocoa.m"; sourceTree = "<group>"; };
+		F02A0E1F1CF578DB00A7DF2F /* PinYin4Objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinYin4Objc.h; sourceTree = "<group>"; };
+		F02A0E201CF578DB00A7DF2F /* PinyinFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinFormatter.h; sourceTree = "<group>"; };
+		F02A0E211CF578DB00A7DF2F /* PinyinFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinFormatter.m; sourceTree = "<group>"; };
+		F02A0E221CF578DB00A7DF2F /* PinyinHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinHelper.h; sourceTree = "<group>"; };
+		F02A0E231CF578DB00A7DF2F /* PinyinHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinHelper.m; sourceTree = "<group>"; };
+		F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unicode_to_hanyu_pinyin.txt; sourceTree = "<group>"; };
 		F079B9BE1CE474DC00D33980 /* FMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMViewController.h; sourceTree = "<group>"; };
 		F079B9BF1CE474DC00D33980 /* FMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMViewController.m; sourceTree = "<group>"; };
 		F079B9C01CE474DC00D33980 /* FMViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMViewController.xib; sourceTree = "<group>"; };
@@ -373,8 +408,6 @@
 		F08D62191CE5A6E100DD0B21 /* MANaviAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviAnnotationView.m; sourceTree = "<group>"; };
 		F08D621B1CE5A6F800DD0B21 /* APIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
 		F08D621C1CE5BEE300DD0B21 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		F093B2E81CF42F920093A560 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		F093B2E91CF42F920093A560 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		F097A0671CE1806B0044AB0F /* LinkServiceWay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkServiceWay.h; sourceTree = "<group>"; };
 		F097A0681CE1806B0044AB0F /* LinkServiceWay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkServiceWay.m; sourceTree = "<group>"; };
 		F097A0861CE1BC010044AB0F /* NSString+CZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CZ.h"; sourceTree = "<group>"; };
@@ -394,6 +427,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F02A0E161CF54BC400A7DF2F /* libsqlite3.0.tbd in Frameworks */,
 				F08D621D1CE5BEE300DD0B21 /* MapKit.framework in Frameworks */,
 				9EBC89241CE09AD200A71B49 /* libc++.tbd in Frameworks */,
 				9EBC89221CE09ABC00A71B49 /* libz.tbd in Frameworks */,
@@ -479,6 +513,7 @@
 		9EBC88021CE04CD400A71B49 = {
 			isa = PBXGroup;
 			children = (
+				F02A0E151CF54BC400A7DF2F /* libsqlite3.0.tbd */,
 				9EBC880D1CE04CD400A71B49 /* WayMisc */,
 				9EBC88271CE04CD500A71B49 /* WayMiscTests */,
 				9EBC88321CE04CD500A71B49 /* WayMiscUITests */,
@@ -581,8 +616,6 @@
 				9EBC88561CE064B400A71B49 /* RightMenuController.m */,
 				F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */,
 				F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */,
-				F093B2E81CF42F920093A560 /* TestViewController.h */,
-				F093B2E91CF42F920093A560 /* TestViewController.m */,
 			);
 			path = Right;
 			sourceTree = "<group>";
@@ -903,6 +936,59 @@
 			path = Masonry;
 			sourceTree = "<group>";
 		};
+		F02A0E041CF54B1800A7DF2F /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				F02A0E051CF54B1800A7DF2F /* FMDatabase.h */,
+				F02A0E061CF54B1800A7DF2F /* FMDatabase.m */,
+				F02A0E071CF54B1800A7DF2F /* FMDatabaseAdditions.h */,
+				F02A0E081CF54B1800A7DF2F /* FMDatabaseAdditions.m */,
+				F02A0E091CF54B1800A7DF2F /* FMDatabasePool.h */,
+				F02A0E0A1CF54B1800A7DF2F /* FMDatabasePool.m */,
+				F02A0E0B1CF54B1800A7DF2F /* FMDatabaseQueue.h */,
+				F02A0E0C1CF54B1800A7DF2F /* FMDatabaseQueue.m */,
+				F02A0E0D1CF54B1800A7DF2F /* FMDB.h */,
+				F02A0E0E1CF54B1800A7DF2F /* FMResultSet.h */,
+				F02A0E0F1CF54B1800A7DF2F /* FMResultSet.m */,
+			);
+			path = fmdb;
+			sourceTree = "<group>";
+		};
+		F02A0E171CF578DB00A7DF2F /* PinYin4Objc */ = {
+			isa = PBXGroup;
+			children = (
+				F02A0E181CF578DB00A7DF2F /* Classes */,
+				F02A0E241CF578DB00A7DF2F /* Resources */,
+			);
+			path = PinYin4Objc;
+			sourceTree = "<group>";
+		};
+		F02A0E181CF578DB00A7DF2F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F02A0E191CF578DB00A7DF2F /* ChineseToPinyinResource.h */,
+				F02A0E1A1CF578DB00A7DF2F /* ChineseToPinyinResource.m */,
+				F02A0E1B1CF578DB00A7DF2F /* HanyuPinyinOutputFormat.h */,
+				F02A0E1C1CF578DB00A7DF2F /* HanyuPinyinOutputFormat.m */,
+				F02A0E1D1CF578DB00A7DF2F /* NSString+PinYin4Cocoa.h */,
+				F02A0E1E1CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m */,
+				F02A0E1F1CF578DB00A7DF2F /* PinYin4Objc.h */,
+				F02A0E201CF578DB00A7DF2F /* PinyinFormatter.h */,
+				F02A0E211CF578DB00A7DF2F /* PinyinFormatter.m */,
+				F02A0E221CF578DB00A7DF2F /* PinyinHelper.h */,
+				F02A0E231CF578DB00A7DF2F /* PinyinHelper.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F02A0E241CF578DB00A7DF2F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F08D62121CE5A6B100DD0B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -937,6 +1023,8 @@
 		F097A0841CE1BC010044AB0F /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				F02A0E171CF578DB00A7DF2F /* PinYin4Objc */,
+				F02A0E041CF54B1800A7DF2F /* fmdb */,
 				F017BDEF1CE31BD600452875 /* WMPlayer */,
 				F097A0851CE1BC010044AB0F /* Category */,
 			);
@@ -1075,6 +1163,7 @@
 				5201D8D21CE75B9400CBCD0F /* AboutView.xib in Resources */,
 				9EBC88191CE04CD500A71B49 /* Main.storyboard in Resources */,
 				F017BE1A1CE328D800452875 /* PlayerView.xib in Resources */,
+				F02A0E2B1CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt in Resources */,
 				F015F4F11CEAB0610065FFF9 /* DeviceCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1103,11 +1192,13 @@
 				9EBC88911CE0727700A71B49 /* MJRefreshNormalHeader.m in Sources */,
 				9EBC88B31CE072F500A71B49 /* NSObject+MJClass.m in Sources */,
 				9EBC88921CE0727700A71B49 /* MJRefreshStateHeader.m in Sources */,
+				F02A0E131CF54B1800A7DF2F /* FMDatabaseQueue.m in Sources */,
 				F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */,
 				F017BE181CE3282400452875 /* PlayerView.m in Sources */,
 				9EBC88E11CE0732E00A71B49 /* SDWebImageManager.m in Sources */,
 				9EBC88901CE0727700A71B49 /* MJRefreshGifHeader.m in Sources */,
 				F08D62051CE5647B00DD0B21 /* GroupModel.m in Sources */,
+				F02A0E121CF54B1800A7DF2F /* FMDatabasePool.m in Sources */,
 				9EBC88971CE0727700A71B49 /* UIView+MJExtension.m in Sources */,
 				9EBC88B11CE072F500A71B49 /* MJPropertyKey.m in Sources */,
 				F017BE121CE3208800452875 /* MASViewConstraint.m in Sources */,
@@ -1123,6 +1214,7 @@
 				9EBC88DF1CE0732E00A71B49 /* SDWebImageDownloader.m in Sources */,
 				F017BE111CE3208800452875 /* MASViewAttribute.m in Sources */,
 				9EBC88FB1CE0736E00A71B49 /* AFURLRequestSerialization.m in Sources */,
+				F02A0E111CF54B1800A7DF2F /* FMDatabaseAdditions.m in Sources */,
 				9EBC888E1CE0727700A71B49 /* MJRefreshBackNormalFooter.m in Sources */,
 				F017BE0D1CE3208800452875 /* MASCompositeConstraint.m in Sources */,
 				9EBC88E61CE0732E00A71B49 /* UIImage+WebP.m in Sources */,
@@ -1149,7 +1241,6 @@
 				9EBC88E41CE0732E00A71B49 /* UIImage+GIF.m in Sources */,
 				9EBC88E81CE0732E00A71B49 /* UIImageView+WebCache.m in Sources */,
 				5269CE141CE6B774009383AC /* IATConfig.m in Sources */,
-				F093B2EA1CF42F920093A560 /* TestViewController.m in Sources */,
 				9EBC888B1CE0727700A71B49 /* MJRefreshAutoNormalFooter.m in Sources */,
 				5201D8D51CE8BA6000CBCD0F /* DeviceListViewController.m in Sources */,
 				9EBC88F91CE0736E00A71B49 /* AFNetworkReachabilityManager.m in Sources */,
@@ -1159,7 +1250,10 @@
 				F017BE151CE3208800452875 /* View+MASAdditions.m in Sources */,
 				9EBC88DC1CE0732E00A71B49 /* SDImageCache.m in Sources */,
 				F0F4C27A1CEDC8AB00CC1FAB /* VoiceDialViewController.m in Sources */,
+				F02A0E101CF54B1800A7DF2F /* FMDatabase.m in Sources */,
 				9EBC88961CE0727700A71B49 /* UIScrollView+MJRefresh.m in Sources */,
+				F02A0E281CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m in Sources */,
+				F02A0E2A1CF578DB00A7DF2F /* PinyinHelper.m in Sources */,
 				F017BE0F1CE3208800452875 /* MASConstraintMaker.m in Sources */,
 				9EBC88101CE04CD500A71B49 /* main.m in Sources */,
 				9EBC888D1CE0727700A71B49 /* MJRefreshBackGifFooter.m in Sources */,
@@ -1169,6 +1263,7 @@
 				F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */,
 				9EBC88B71CE072F500A71B49 /* NSString+MJExtension.m in Sources */,
 				9EBC89091CE0895D00A71B49 /* RadioProgramsCell.m in Sources */,
+				F02A0E271CF578DB00A7DF2F /* HanyuPinyinOutputFormat.m in Sources */,
 				5208B0771CEA208300DAD64A /* NaviBottomView.m in Sources */,
 				9EBC88B01CE072F500A71B49 /* MJProperty.m in Sources */,
 				9EBC88DD1CE0732E00A71B49 /* SDWebImageCompat.m in Sources */,
@@ -1182,6 +1277,7 @@
 				9EBC88881CE0727700A71B49 /* MJRefreshFooter.m in Sources */,
 				9EBC88E31CE0732E00A71B49 /* UIButton+WebCache.m in Sources */,
 				9EBC888F1CE0727700A71B49 /* MJRefreshBackStateFooter.m in Sources */,
+				F02A0E261CF578DB00A7DF2F /* ChineseToPinyinResource.m in Sources */,
 				F017BE101CE3208800452875 /* MASLayoutConstraint.m in Sources */,
 				9EBC88FC1CE0736E00A71B49 /* AFURLResponseSerialization.m in Sources */,
 				F017BDF41CE31BD600452875 /* WMPlayer.m in Sources */,
@@ -1190,9 +1286,11 @@
 				9EBC88E91CE0732E00A71B49 /* UIView+WebCacheOperation.m in Sources */,
 				F097A0691CE1806B0044AB0F /* LinkServiceWay.m in Sources */,
 				9EBC88FA1CE0736E00A71B49 /* AFSecurityPolicy.m in Sources */,
+				F02A0E291CF578DB00A7DF2F /* PinyinFormatter.m in Sources */,
 				F017BE131CE3208800452875 /* NSArray+MASAdditions.m in Sources */,
 				9EBC88DA1CE0732E00A71B49 /* MKAnnotationView+WebCache.m in Sources */,
 				9EBC88AF1CE072F500A71B49 /* MJFoundation.m in Sources */,
+				F02A0E141CF54B1800A7DF2F /* FMResultSet.m in Sources */,
 				F079B9C11CE474DC00D33980 /* FMViewController.m in Sources */,
 				9EBC88541CE05EB100A71B49 /* SlideNavigationController.m in Sources */,
 			);

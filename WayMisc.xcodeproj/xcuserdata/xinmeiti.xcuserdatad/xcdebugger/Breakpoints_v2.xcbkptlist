@@ -282,12 +282,91 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WayMisc/Main/Right/Controller/NaviViewController.m"
-            timestampString = "485669445.259485"
+            timestampString = "485857561.904719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "474"
-            endingLineNumber = "474"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "-onPOISearchDone:response:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[NaviViewController onPOISearchDone:response:]_block_invoke_2"
+                  moduleName = "WayMisc"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/NaviViewController.m"
+                  timestampString = "485858513.606943"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "495"
+                  endingLineNumber = "495"
+                  offsetFromSymbolStart = "94">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.349"
+                  moduleName = "WayMisc"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/NaviViewController.m"
+                  timestampString = "485858513.607036"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "495"
+                  endingLineNumber = "495"
+                  offsetFromSymbolStart = "34">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.350"
+                  moduleName = "WayMisc"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/NaviViewController.m"
+                  timestampString = "485858513.607133"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "495"
+                  endingLineNumber = "495"
+                  offsetFromSymbolStart = "18">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WayMisc/Main/Right/VoiceDialViewController.m"
+            timestampString = "485858513.526262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
+            landmarkName = "-onResults:isLast:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WayMisc/Main/Right/VoiceDialViewController.m"
+            timestampString = "485858376.571226"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "516"
+            endingLineNumber = "516"
+            landmarkName = "-onResults:isLast:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

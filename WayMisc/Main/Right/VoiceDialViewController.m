@@ -12,20 +12,36 @@
 #import "ISRDataHelper.h"
 #import "IATConfig.h"
 #import "Person.h"
+#import "FMDB.h"
+#import "PinYin4Objc.h"
+#import "MJExtension.h"
+
+typedef enum{
+    FindOnlyResult = 1,
+    FindMoreResult = 2,
+    NoFindResult = 0,
+} findState;
+
 
 typedef enum{
     SpeakPlaying = 0,
     SpeakPAUSE = 1,
     SpeakFinish = 2,
 } currentState;
+
+
 @interface VoiceDialViewController ()
 {
    NSInteger searchIndex;
     NSString *tel;
+    NSString *pyName;
+    HanyuPinyinOutputFormat *outputFormat;
 }
+@property (nonatomic, strong) FMDatabase *db;
 
 @property (nonatomic ,strong) NSMutableArray*PersonArray;
 @property (nonatomic,assign) NSInteger State; //操作类型
+@property (nonatomic,assign) NSInteger findState; //操作类型
 
 @end
 
@@ -59,13 +75,70 @@ typedef enum{
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
 
-    
 //    [self upContactBtnHandler:nil];
+    
+    
     
 }
 
--(void)AddressBookResult:(NSString *)str
+
+
+-(void)TraverseResult:(NSString *)str
 {
+    
+    
+    // 根据请求参数查询数据
+    FMResultSet *resultSet = nil;
+    
+        pyName = [PinyinHelper toHanyuPinyinStringWithNSString:str withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];;
+        
+        resultSet = [_db executeQuery:@"select * from t_contact WHERE pyname = ?",pyName];
+        
+        // 遍历查询结果
+        while ([resultSet next]) {
+            NSData *statusDictData = [resultSet objectForColumnName:@"person"];
+            NSArray *statusDict = [NSKeyedUnarchiver unarchiveObjectWithData:statusDictData];
+            // 字典转模型
+            //        HMStatus *status = [HMStatus objectWithKeyValues:statusDict];
+            // 添加模型到数组中
+            [self.PersonArray addObject:statusDict];
+        }
+        
+        NSLog(@"%@",self.PersonArray);
+    
+}
+
+-(void)AddressBook
+{
+    
+    
+    
+    NSString *cachePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    // 拼接文件名
+    NSString *filePath = [cachePath stringByAppendingPathComponent:@"contact.sqlite"];
+    // 创建一个数据库的实例,仅仅在创建一个实例，并会打开数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:filePath];
+    _db = db;
+    // 打开数据库
+    BOOL flag = [db open];
+    if (flag) {
+        NSLog(@"打开成功");
+    }else{
+        NSLog(@"打开失败");
+    }
+    
+    // 创建数据库表
+    // 数据库操作：插入，更新，删除都属于update
+    // 参数：sqlite语句
+    BOOL flag1 = [db executeUpdate:@"create table if not exists t_contact (id integer primary key autoincrement,name text,pyname text,person blob);"];
+    if (flag1) {
+        NSLog(@"创建成功");
+    }else{
+        NSLog(@"创建失败");
+        
+    }
+    
+    
     // 1.获取用户的授权状态
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     
@@ -78,56 +151,72 @@ typedef enum{
     // 4.获取到所有联系人记录
     CFArrayRef peopleArray = ABAddressBookCopyArrayOfAllPeople(addressBook);
     
-    
-    
+    outputFormat=[[HanyuPinyinOutputFormat alloc] init];
+    [outputFormat setToneType:ToneTypeWithoutTone];
+    [outputFormat setVCharType:VCharTypeWithV];
+    [outputFormat setCaseType:CaseTypeLowercase];
+
+    [_db executeUpdate:@"DELETE FROM t_contact"];
+    [_db executeUpdate:@"update sqlite_sequence SET seq = 0 where name ='t_contact'"];
     // 5.遍历所有的联系人记录
     CFIndex peopleCount = CFArrayGetCount(peopleArray);
     for (CFIndex i = 0; i < peopleCount; i++) {
-        Person *per = [[Person alloc]init];
 
         // 5.1.获取到具体的联系人
         ABRecordRef person = CFArrayGetValueAtIndex(peopleArray, i);
         
-        
-        
         // 5.2.获取联系人的姓名
         NSString *firstName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
         NSString *lastName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-        NSLog(@"%@---%@", firstName, lastName);
+//        NSLog(@"%@---%@", firstName, lastName);
+        
+        
+        
         NSString *fullName = [NSString stringWithFormat:@"%@%@",lastName,firstName];
         fullName = [fullName stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        if ([str isEqualToString:fullName]) {
-            [self.PersonArray removeAllObjects];
-            per.fullName = fullName;
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        
+        
+        [self.PersonArray removeAllObjects];
+        
+        [dict setValue:fullName forKey:@"fullName"];
+        
+        NSMutableArray *numbers = [NSMutableArray array];
+        
+        // 5.3.获取联系人的电话
+        ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        CFIndex phoneCount = ABMultiValueGetCount(phones);
+        
+        for (CFIndex i = 0; i < phoneCount; i++) {
             
-            NSMutableArray *numbers = [NSMutableArray array];
+            NSString *phoneValue = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
             
-            // 5.3.获取联系人的电话
-            ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
-            CFIndex phoneCount = ABMultiValueGetCount(phones);
+            [numbers addObject:phoneValue];
+            //                NSLog(@"%@---%@",phoneLabel, phoneValue);
             
-            for (CFIndex i = 0; i < phoneCount; i++) {
-                NSString *phoneLabel = (__bridge_transfer NSString *)ABMultiValueCopyLabelAtIndex(phones, i);
-                
-                NSString *phoneValue = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
-                
-                [numbers addObject:phoneValue];
-                NSLog(@"%@---%@",phoneLabel, phoneValue);
-            }
-            per.numbers = numbers;
-            
-            // 5.4.释放该释放的对象
-            CFRelease(phones);
-            [self.PersonArray addObject:per];
-
         }
         
+        [dict setValue:numbers forKey:@"numbers"];
+        
+        
+        
+        Person* per = [Person mj_objectWithKeyValues:dict];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+        
+       pyName = [PinyinHelper toHanyuPinyinStringWithNSString:per.fullName withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
+        
+        
+        [_db executeUpdate:@"INSERT INTO t_contact (name, pyname,person) VALUES (?, ? ,?);",per.fullName, pyName,data];
+        // 5.4.释放该释放的对象
+        CFRelease(phones);
     }
     
     // 6.释放该释放的对象
     CFRelease(addressBook);
     CFRelease(peopleArray);
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,16 +231,13 @@ typedef enum{
     //    self.navigationController.toolbar.translucent       = NO;
     //    self.navigationController.toolbarHidden             = NO;
     
-    //    [self initToolBar];
+//            [self initToolBar];
     
     
     [self initIFlySpeech];//初始化识别对象
     [self initRecognizer];
 
     [self setContactPerson];
-    
-
-    
     
 }
 
@@ -411,6 +497,7 @@ typedef enum{
  results：听写结果
  isLast：表示最后一次
  ****/
+#warning 返回结果
 - (void) onResults:(NSArray *) results isLast:(BOOL)isLast
 {
 
@@ -424,6 +511,27 @@ typedef enum{
     _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text,resultFromJson];
       
     if (!isLast){
+        
+        NSInteger indexValue = 0;
+        if([resultFromJson rangeOfString:@"第"].location !=NSNotFound){
+            if ([resultFromJson rangeOfString:@"第一"].location !=NSNotFound) {
+                indexValue = 0;
+            }else if([resultFromJson rangeOfString:@"第二"].location !=NSNotFound) {
+                indexValue = 1;
+            }else if ([resultFromJson rangeOfString:@"第三"].location !=NSNotFound) {
+                indexValue = 2;
+            }
+            
+            if(self.PersonArray.count > indexValue) return;
+            
+            Person *per = self.findState ==1?self.PersonArray[0]:self.PersonArray[indexValue];
+            
+            tel = self.findState ==1?per.numbers[indexValue]:per.numbers[0];
+            
+            
+        }
+        
+        
         NSLog(@"听写结果(json)：%@测试",  self.result);
         if ([resultFromJson rangeOfString:@"呼叫"].location !=NSNotFound) {
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
@@ -445,7 +553,9 @@ typedef enum{
             [self stopBtnHandler:nil];
             
             
-            [self AddressBookResult:@"东风"];
+            [self AddressBook];
+            
+            
             
             NSMutableString *strResult = [[NSMutableString alloc]init];
 
@@ -454,27 +564,32 @@ typedef enum{
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 // code to be executed on the main queue after delay
                 //            [self startBtnHandler:nil];
-                
+                [self TraverseResult:@"东风"];
+
                 if(self.PersonArray.count>0){
                     
                     if (self.PersonArray.count != 1) {
+                        [strResult appendString:@"呼叫以下哪个联系人："];
+                        self.findState = FindMoreResult;
+
                         //不唯一
                         for (int i = 0; i<self.PersonArray.count; i++) {
-                            Person*per = self.PersonArray[i];
+                            Person*per = [Person mj_objectWithKeyValues:self.PersonArray[i]];
                             NSString *fullName = per.fullName;
                             NSString *num = per.numbers[0];
                             [strResult appendString:[NSString stringWithFormat:@"第%i位%@%@;",i+1,fullName,[num substringToIndex:3]]];
-                            self.State = SpeakPlaying;
+                            self.State = SpeakFinish;
                         }
                         
                     }else{
                         //唯一
-
-                        Person*per = self.PersonArray[0];
+                        Person*per = [Person mj_objectWithKeyValues:self.PersonArray[0]];
                         dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                         });
                         if (per.numbers.count>1) {
+                            self.findState = FindOnlyResult;
                             [strResult appendString:@"呼叫以下哪个联系人："];
+                            
                             for (int i = 0; i<per.numbers.count; i++) {
                                 NSString *fullName = per.fullName;
                                 NSString *num = per.numbers[i];
@@ -519,7 +634,7 @@ typedef enum{
                     });
                     
                     
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*str.length) * NSEC_PER_SEC);
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
                     
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         if (self.State == SpeakFinish) {
@@ -532,9 +647,34 @@ typedef enum{
 
         }
 
+    }else{
+        if (_result.length >0) {
+            return;
+        }
+        NSString *str;
+        if (searchIndex <3) {
+            searchIndex ++;
+
+            str = @"没听清楚，再说一遍";
+        }else{
+            str = @"呼叫失败，请稍后再试";
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [_iFlySpeechSynthesizer startSpeaking:str];
+        });
+        
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
+        
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            if (self.State == SpeakFinish) {
+                [self startBtnHandler:nil];
+            }
+        });
+
     }
     
-        
+    
 
     
     NSLog(@"_result=%@",_result);
@@ -694,7 +834,7 @@ typedef enum{
 
     
     [_iFlySpeechSynthesizer stopSpeaking];
-    
+    [self stopBtnHandler:nil];
     _iFlySpeechSynthesizer.delegate = nil;
 
 }

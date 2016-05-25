@@ -32,6 +32,11 @@
 #define NAME        @"userwords"
 #define USERWORDS   @"{\"userword\":[{\"name\":\"我的常用词\",\"words\":[\"佳晨实业\",\"蜀南庭苑\",\"高兰路\",\"复联二\"]},{\"name\":\"我的好友\",\"words\":[\"李馨琪\",\"鹿晓雷\",\"张集栋\",\"周家莉\",\"叶震珂\",\"熊泽萌\"]}]}"
 
+typedef enum{
+    SpeakPlaying = 0,
+    SpeakPAUSE = 1,
+    SpeakFinish = 2,
+} currentState;
 
 
 @interface NaviViewController() <AMapNaviViewControllerDelegate,IFlySpeechRecognizerDelegate>
@@ -46,6 +51,7 @@
 @property (nonatomic, strong) AMapNaviViewController *naviViewController;
 @property (nonatomic, strong) NaviBottomView *bottomBar;
 @property (nonatomic ,strong) NSMutableArray *objArry;
+@property (nonatomic,assign) NSInteger State; //操作类型
 
 @end
 
@@ -109,7 +115,7 @@
     [self initMapView];
     
     [self initIFlySpeech];//初始化识别对象
-    
+    self.State = SpeakPlaying;
     [self Speaking:@"请问您想去哪里？"];
     
     
@@ -122,6 +128,9 @@
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     
+    [_iFlySpeechSynthesizer setDelegate:nil];
+    [_iFlySpeechSynthesizer stopSpeaking];
+    [self stopBtnHandler:nil];
     
     
 }
@@ -135,7 +144,10 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.35) * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
-            [self startBtnHandler:nil];
+            if (self.State == SpeakFinish) {
+                
+                [self startBtnHandler:nil];
+            }
 
         });
     });
@@ -147,10 +159,13 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
-            [self startBtnHandler:nil];
+            if (self.State == SpeakFinish) {
+                [self startBtnHandler:nil];
+            }
+            
 
         });
     });
@@ -466,13 +481,16 @@
     self.bottomBar.destination.text = obj.name;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
+        self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             // code to be executed on the main queue after delay
-            
+            if (self.State == SpeakFinish) {
+              [self startBtnHandler:nil];
+            }
 //            [self startEmulatorNavi];
-            [self startBtnHandler:nil];
+            
 
         });
 
@@ -631,6 +649,10 @@
 
 - (void)onCompleted:(IFlySpeechError *)error
 {
+    if(self.State == SpeakPlaying){
+        self.State = SpeakFinish;
+        
+    }
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
 
 }
@@ -881,6 +903,7 @@
             
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
+            self.State = SpeakPlaying;
             [self Speaking:@"已经为您取消"];
             [self setDestination];
         }else{
