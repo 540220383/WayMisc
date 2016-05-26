@@ -28,7 +28,9 @@
 #import "SlideNavigationController.h"
 #import "FMViewController.h"
 #import "DeviceListViewController.h"
+
 @interface SlideNavigationController()<UIGestureRecognizerDelegate>
+
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
@@ -83,6 +85,7 @@ static SlideNavigationController *singletonInstance;
 	return self;
 }
 
+
 - (void)setup
 {
 	self.avoidSwitchingToSameClassViewController = YES;
@@ -105,6 +108,10 @@ static SlideNavigationController *singletonInstance;
     [self.FMLinkView addTarget:self action:@selector(FMDetill) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.FMLinkView];
 	[self setEnableSwipeGesture:YES];
+    
+    if (!_wmPlayer) {
+        _wmPlayer = [[WMPlayer alloc]initWithFrame:CGRectZero videoURLStr:nil];
+    }
     
     
     
@@ -165,6 +172,15 @@ static SlideNavigationController *singletonInstance;
 	}
 	
 	return nil;
+}
+
+-(UIViewController *)popViewControllerAnimated:(BOOL)animated
+{
+    if (_wmPlayer.state == WMPlayerStatePlaying) {
+        [[_wmPlayer player]play];
+    }
+    
+    return [super popViewControllerAnimated:animated];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated

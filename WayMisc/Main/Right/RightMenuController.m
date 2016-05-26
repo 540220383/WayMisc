@@ -11,8 +11,10 @@
 #import "AboutView.h"
 #import "DeviceListViewController.h"
 #import "VoiceDialViewController.h"
+
 @interface RightMenuController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *linkState;
+@property (weak, nonatomic) IBOutlet UILabel *deviceSerial;
 
 @end
 
@@ -60,29 +62,24 @@
         
         
     }else if(indexPath.row == 4) {
+        
+        
         VoiceDialViewController *voiceDial = [[VoiceDialViewController alloc]init];
         
         
         [[SlideNavigationController sharedInstance] pushViewController:voiceDial animated:YES];
         //        [self presentViewController:navi animated:YES completion:nil];
+        [[[SlideNavigationController sharedInstance].wmPlayer player]pause];
     }else if(indexPath.row == 5) {
         NaviViewController *navi = [[NaviViewController alloc]init];
         
         
         [[SlideNavigationController sharedInstance] pushViewController:navi animated:YES];
+        [[[SlideNavigationController sharedInstance].wmPlayer player]pause];
 //        [self presentViewController:navi animated:YES completion:nil];
     }
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

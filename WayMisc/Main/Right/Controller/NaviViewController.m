@@ -80,19 +80,12 @@ typedef enum{
     
     [self initNaviManager];
     
-    
-    
     self.uploader = [[IFlyDataUploader alloc] init];
     
     //demo录音文件保存路径
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
-    
-    
-    
-    
-    
 
 }
 
@@ -134,12 +127,17 @@ typedef enum{
     [_iFlySpeechRecognizer cancel]; //取消识别
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
-    
+    [self stopBtnHandler:nil];
+
+
     [_iFlySpeechSynthesizer setDelegate:nil];
     [_iFlySpeechSynthesizer stopSpeaking];
-    [self stopBtnHandler:nil];
+    [_iFlySpeechRecognizer destroy];
     
-    
+    [self.naviManager stopNavi];
+
+    [super viewWillDisappear:animated];
+
 }
 
 #pragma mark - Initalization
@@ -148,15 +146,15 @@ typedef enum{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:str];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.35) * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            // code to be executed on the main queue after delay
-            if (self.State == SpeakFinish) {
-                
-                [self startBtnHandler:nil];
-            }
-
-        });
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.35) * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            // code to be executed on the main queue after delay
+//            if (self.State == SpeakFinish) {
+//                
+//                [self startBtnHandler:nil];
+//            }
+//
+//        });
     });
 
 }
@@ -166,15 +164,15 @@ typedef enum{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            // code to be executed on the main queue after delay
-            if (self.State == SpeakFinish) {
-                [self startBtnHandler:nil];
-            }
-            
-
-        });
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            // code to be executed on the main queue after delay
+//            if (self.State == SpeakFinish) {
+//                [self startBtnHandler:nil];
+//            }
+//            
+//
+//        });
     });
 
 
@@ -485,16 +483,16 @@ typedef enum{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            // code to be executed on the main queue after delay
-            if (self.State == SpeakFinish) {
-              [self startBtnHandler:nil];
-            }
-//            [self startEmulatorNavi];
-            
-
-        });
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            // code to be executed on the main queue after delay
+//            if (self.State == SpeakFinish) {
+//              [self startBtnHandler:nil];
+//            }
+////            [self startEmulatorNavi];
+//            
+//
+//        });
 
     });
     
@@ -655,6 +653,7 @@ typedef enum{
         self.State = SpeakFinish;
         
     }
+    [self startBtnHandler:nil];
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
 
 }
@@ -885,6 +884,8 @@ typedef enum{
  results：听写结果
  isLast：表示最后一次
  ****/
+
+#warning 返回结果
 - (void) onResults:(NSArray *) results isLast:(BOOL)isLast
 {
     

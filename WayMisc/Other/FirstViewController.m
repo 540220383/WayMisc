@@ -11,6 +11,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AVFoundation/AVFoundation.h>
 @interface FirstViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *RemindLabel;
 
 @end
 
@@ -18,6 +19,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:self.RemindLabel.text];
+    [AttributedStr addAttribute:NSForegroundColorAttributeName value:kColorWithRGBA(64, 64, 64, 1) range:NSMakeRange(0, self.RemindLabel.text.length)];
+    
+    [AttributedStr addAttribute:NSForegroundColorAttributeName value:kColorWithRGBA(5, 81, 252, 1) range:[self.RemindLabel.text rangeOfString:@"系统信任程序"]];
+    
+    [AttributedStr addAttribute:NSForegroundColorAttributeName value:kColorWithRGBA(5, 81, 252, 1) range:[self.RemindLabel.text rangeOfString:@"允许后台（自动）运行"]];
+    
+    [AttributedStr addAttribute:NSForegroundColorAttributeName value:kColorWithRGBA(5, 81, 252, 1) range:[self.RemindLabel.text rangeOfString:@"必要的系统权限"]];
+
+    
+    self.RemindLabel.attributedText = AttributedStr;
+    
     
     // 1.获取用户的授权状态
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();

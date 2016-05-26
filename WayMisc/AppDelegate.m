@@ -90,7 +90,6 @@
     
     FirstViewController *first = (FirstViewController*)[mainStoryboard
                                                         instantiateViewControllerWithIdentifier: @"FirstViewController"];
-    first.right = rightMenu;
     self.window.rootViewController = first;
     
     

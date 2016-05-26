@@ -27,6 +27,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "WMPlayer.h"
 
 @protocol SlideNavigationControllerDelegate <NSObject>
 @optional
@@ -48,6 +49,7 @@ typedef  enum{
 @property (nonatomic, strong) UIBarButtonItem *leftbarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, strong) UIButton *FMLinkView;
+@property(strong,nonatomic) WMPlayer*wmPlayer;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;

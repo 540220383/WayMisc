@@ -206,17 +206,16 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备管理" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nan-NL-4pp">
-                                                    <rect key="frame" x="114" y="20" width="100" height="20"/>
+                                                    <rect key="frame" x="114" y="20" width="68" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="5U7-UK-TkO"/>
-                                                        <constraint firstAttribute="width" constant="100" id="S4P-IM-Xm3"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69I-Dp-IUY">
-                                                    <rect key="frame" x="200" y="17.5" width="14" height="22"/>
+                                                    <rect key="frame" x="187" y="17" width="14" height="22"/>
                                                     <state key="normal" image="leftmanuico_nolink"/>
                                                 </button>
                                             </subviews>
@@ -224,7 +223,7 @@
                                                 <constraint firstItem="Qpy-kA-tMC" firstAttribute="leading" secondItem="gco-ED-2rk" secondAttribute="leadingMargin" constant="70" id="76R-cb-M9b"/>
                                                 <constraint firstAttribute="trailing" secondItem="8Uh-gG-xoZ" secondAttribute="trailing" constant="15" id="9I9-Oi-Iff"/>
                                                 <constraint firstItem="Nan-NL-4pp" firstAttribute="leading" secondItem="Qpy-kA-tMC" secondAttribute="trailing" constant="10" id="MKI-Tn-I2h"/>
-                                                <constraint firstItem="69I-Dp-IUY" firstAttribute="leading" secondItem="Nan-NL-4pp" secondAttribute="trailing" constant="-14" id="OTg-9y-mSF"/>
+                                                <constraint firstItem="69I-Dp-IUY" firstAttribute="leading" secondItem="Nan-NL-4pp" secondAttribute="trailing" constant="5" id="OTg-9y-mSF"/>
                                                 <constraint firstItem="69I-Dp-IUY" firstAttribute="baseline" secondItem="Nan-NL-4pp" secondAttribute="baseline" id="Ydo-Z1-an9"/>
                                                 <constraint firstItem="8Uh-gG-xoZ" firstAttribute="centerY" secondItem="gco-ED-2rk" secondAttribute="centerY" constant="-4.5" id="bWc-O6-Y0A"/>
                                                 <constraint firstItem="Nan-NL-4pp" firstAttribute="centerY" secondItem="gco-ED-2rk" secondAttribute="centerY" constant="-4.5" id="jWr-3z-rGr"/>
@@ -382,6 +381,7 @@
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="deviceSerial" destination="8Uh-gG-xoZ" id="ank-JT-HsL"/>
                         <outlet property="linkState" destination="69I-Dp-IUY" id="PNL-NW-Ufc"/>
                     </connections>
                 </tableViewController>
@@ -429,7 +429,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSt-1M-5ky">
-                                <rect key="frame" x="39" y="152" width="240" height="40"/>
+                                <rect key="frame" x="39" y="180.5" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Nn5-j3-QMv"/>
                                 </constraints>
@@ -440,7 +440,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fhd-72-fwu">
-                                <rect key="frame" x="39" y="193" width="240" height="40"/>
+                                <rect key="frame" x="39" y="221.5" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="nx5-1E-5fU"/>
                                 </constraints>
@@ -451,7 +451,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyR-IS-Qcn">
-                                <rect key="frame" x="39" y="234" width="240" height="40"/>
+                                <rect key="frame" x="39" y="262.5" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Bjx-3M-B4k"/>
                                 </constraints>
@@ -462,7 +462,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RGK-o8-5ig">
-                                <rect key="frame" x="39" y="282" width="240" height="40"/>
+                                <rect key="frame" x="39" y="310.5" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="2Of-MU-xN4"/>
                                 </constraints>
@@ -473,7 +473,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2v2-9C-BZv">
-                                <rect key="frame" x="39" y="323" width="240" height="40"/>
+                                <rect key="frame" x="39" y="351.5" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="hL8-DZ-5LB"/>
                                 </constraints>
@@ -505,14 +505,15 @@
                                 <rect key="frame" x="-21" y="392" width="305" height="112"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="如果您是第一次使用我们的软件，请将我们的软件设为系统信任程序并允许后台（自动）运行，或允许我们取得必要的系统权限以支持我们实现相应的功能。否则您可能无法获得完整的产品体验。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALP-Y7-zK7">
-                                <rect key="frame" x="39" y="72" width="242" height="72"/>
+                                <rect key="frame" x="39" y="72" width="242" height="100.5"/>
                                 <color key="tintColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.25098039215686274" green="0.25098039215686274" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.019607843137254902" green="0.31764705882352939" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="7Ad-XA-Lbg" firstAttribute="centerX" secondItem="uU0-hJ-zIX" secondAttribute="centerX" id="3ec-vr-NUv"/>
                             <constraint firstItem="2v2-9C-BZv" firstAttribute="top" secondItem="RGK-o8-5ig" secondAttribute="bottom" constant="1" id="5Qc-WH-HfN"/>
@@ -541,6 +542,9 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="RemindLabel" destination="ALP-Y7-zK7" id="f8H-Yc-pUv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaE-hV-0Pn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RightMenuController.h"
 @interface FirstViewController : UIViewController
 
-@property (nonatomic ,strong) RightMenuController *right;
 
 @end

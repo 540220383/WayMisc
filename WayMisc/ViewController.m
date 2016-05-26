@@ -116,9 +116,10 @@
                 static dispatch_once_t predicate;
                 dispatch_once(&predicate, ^{
                     self.musicIndex = 0;
+                    _wmPlayer.state = WMPlayerStatePause;
                     [self updateCurrentMusicDetailModel];
                     [[_wmPlayer player]pause];
-                    isPlay = YES;
+                    
                 });
                 
                 
@@ -173,20 +174,36 @@
     NSUInteger row = self.musicIndex;
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:section];
     RadioProgramsCell * cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
-    cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+    
+    if (_wmPlayer.state == WMPlayerStatePlaying) {
+        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+        [self.playerView setCoverNormalImage:@"footplayer_play"];
+        [[_wmPlayer player] play];
+
+    }else{
+        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
+        [self.playerView setCoverNormalImage:@"footplayer_pause"];
+        [[_wmPlayer player]pause];
+
+    }
+    cell.playerStateIcon.hidden = NO;
 }
 
 - (void)playOrPause{
-    isPlay = !isPlay;
+    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
     RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
-    if (isPlay) {
+    
+    
+    if (_wmPlayer.state == WMPlayerStatePlaying) {
+        _wmPlayer.state = WMPlayerStatePause;
         [[_wmPlayer player]pause];
         [self.playerView setCoverNormalImage:@"footplayer_pause"];
         cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
 
         
     }else{
+        _wmPlayer.state = WMPlayerStatePlaying;
         [[_wmPlayer player]play];
         [self.playerView setCoverNormalImage:@"footplayer_play"];
         cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
@@ -211,12 +228,18 @@
         [self refreshUI];
         self.musicIndex++;
         [self updateCurrentMusicDetailModel];
+        if (_wmPlayer.state == WMPlayerStatePlaying) {
+            [[_wmPlayer player]play];
+        }else{
+            [[_wmPlayer player]pause];
+        }
     }
     
 }
 
 -(void)autoPlayNetx:(NSNotification *)notification {
     [self next];
+    
 }
 
 
@@ -239,7 +262,7 @@
 
 -(WMPlayer *)wmPlayer{
     if (!_wmPlayer) {
-        _wmPlayer = [[WMPlayer alloc]initWithFrame:CGRectZero videoURLStr:nil];
+        _wmPlayer = [SlideNavigationController sharedInstance].wmPlayer;
     }
     return _wmPlayer;
 }
@@ -267,7 +290,13 @@
     BroadcastingModel *model = self.musics[indexPath.row];
     cell.backgroundColor = kColorWithRGBA(34, 36, 35,1);
     cell.broad = model;
-    
+   
+    if (indexPath.row == self.musicIndex) {
+        cell.playerStateIcon.image = _wmPlayer.state == WMPlayerStatePlaying? [UIImage imageNamed:@"playerlist_play"]: [UIImage imageNamed:@"playerlist_pause"];
+               model.isPlay = YES;
+    }
+    cell.playerStateIcon.hidden = model.isPlay?NO:YES;
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (indexPath.row == 0) {
@@ -288,27 +317,12 @@
     
     self.playerView.broad = model;
     
-    
-    
     if (self.musicIndex == indexPath.row){
         [self playOrPause];
     }else{
          RadioProgramsCell *cell = (RadioProgramsCell *)[collectionView cellForItemAtIndexPath:indexPath];
         cell.playerStateIcon.hidden = NO;
-
-        if(!isPlay){
-            isPlay = YES;
-            [_wmPlayer play];
-            [self.playerView setCoverNormalImage:@"footplayer_pause"];
-            cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
-
-            
-        }else{
-            [[_wmPlayer player] play];
-            [self.playerView setCoverNormalImage:@"footplayer_play"];
-            cell.playerStateIcon.image = [UIImage imageNamed:@"footplayer_play"];
-            
-        }
+        
         
         [self refreshUI];
         
@@ -328,6 +342,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
     RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     cell.playerStateIcon.hidden = YES;
+    
 }
 
 - (CGFloat)waterflowLayout:(FlowLayout *)waterflowLayout heightForWidth:(CGFloat)width atIndexPath:(NSIndexPath *)indexPath

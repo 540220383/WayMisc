@@ -81,33 +81,99 @@ typedef enum{
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.title = @"语音通话";
+    self.view.backgroundColor = [UIColor blackColor];
+    //    self.navigationController.navigationBar.barStyle    = UIBarStyleBlack;
+    //    self.navigationController.navigationBar.translucent = NO;
+    //    self.navigationController.toolbar.barStyle          = UIBarStyleBlack;
+    //    self.navigationController.toolbar.translucent       = NO;
+    //    self.navigationController.toolbarHidden             = NO;
+    
+//            [self initToolBar];
+    [self initIFlySpeech];//初始化识别对象
+    [self initRecognizer];
+    
+    self.State = SpeakPlaying;
+    [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
+}
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self setContactPerson];
+    [self AddressBook];
+
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [_db close];
+    
+    [_iFlySpeechRecognizer cancel]; //取消识别
+    [_iFlySpeechRecognizer setDelegate:nil];
+    [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
+    [_iFlySpeechRecognizer destroy];
+    
+    [self stopBtnHandler:nil];
+    [self cancelBtnHandler:nil];
+    
+    [_iFlySpeechUnderstander cancel];//终止语义
+    [_iFlySpeechUnderstander setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
+    [_iFlySpeechUnderstander destroy];
+    
+    
+    [_iFlySpeechSynthesizer stopSpeaking];
+    
+    _iFlySpeechSynthesizer.delegate = nil;
+    
+    [super viewWillDisappear:animated];
+    
+}
+
+#pragma mark - 呼叫\查找\提示
+
+-(void)setContactPerson
+{
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC);
+    
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.State == SpeakFinish) {
+            
+            
+        }
+    });
+}
+
 
 
 -(void)TraverseResult:(NSString *)str
 {
     
-    
     // 根据请求参数查询数据
     FMResultSet *resultSet = nil;
     
-        pyName = [PinyinHelper toHanyuPinyinStringWithNSString:str withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];;
-        
-        resultSet = [_db executeQuery:@"select * from t_contact WHERE pyname = ?",pyName];
-        
-        // 遍历查询结果
-        while ([resultSet next]) {
-            NSData *statusDictData = [resultSet objectForColumnName:@"person"];
-            NSArray *statusDict = [NSKeyedUnarchiver unarchiveObjectWithData:statusDictData];
-            // 字典转模型
-            //        HMStatus *status = [HMStatus objectWithKeyValues:statusDict];
-            // 添加模型到数组中
-            [self.PersonArray addObject:statusDict];
-        }
-        
-        NSLog(@"%@",self.PersonArray);
+    pyName = [PinyinHelper toHanyuPinyinStringWithNSString:str withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];;
+    
+    resultSet = [_db executeQuery:@"select * from t_contact WHERE pyname = ?",pyName];
+    
+    // 遍历查询结果
+    while ([resultSet next]) {
+        NSData *statusDictData = [resultSet objectForColumnName:@"person"];
+        NSArray *statusDict = [NSKeyedUnarchiver unarchiveObjectWithData:statusDictData];
+        // 字典转模型
+        //        HMStatus *status = [HMStatus objectWithKeyValues:statusDict];
+        // 添加模型到数组中
+        [self.PersonArray addObject:statusDict];
+    }
+    
+    NSLog(@"%@",self.PersonArray);
     
 }
-
 -(void)AddressBook
 {
     
@@ -155,20 +221,20 @@ typedef enum{
     [outputFormat setToneType:ToneTypeWithoutTone];
     [outputFormat setVCharType:VCharTypeWithV];
     [outputFormat setCaseType:CaseTypeLowercase];
-
+    
     [_db executeUpdate:@"DELETE FROM t_contact"];
     [_db executeUpdate:@"update sqlite_sequence SET seq = 0 where name ='t_contact'"];
     // 5.遍历所有的联系人记录
     CFIndex peopleCount = CFArrayGetCount(peopleArray);
     for (CFIndex i = 0; i < peopleCount; i++) {
-
+        
         // 5.1.获取到具体的联系人
         ABRecordRef person = CFArrayGetValueAtIndex(peopleArray, i);
         
         // 5.2.获取联系人的姓名
         NSString *firstName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
         NSString *lastName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-//        NSLog(@"%@---%@", firstName, lastName);
+        //        NSLog(@"%@---%@", firstName, lastName);
         
         
         
@@ -207,8 +273,8 @@ typedef enum{
         
         pyName = [PinyinHelper toHanyuPinyinStringWithNSString:per.fullName withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
         
-        
         [_db executeUpdate:@"INSERT INTO t_contact (name, pyname,person) VALUES (?, ? ,?);",per.fullName, pyName,data];
+            
         // 5.4.释放该释放的对象
         CFRelease(phones);
     }
@@ -217,51 +283,7 @@ typedef enum{
     CFRelease(addressBook);
     CFRelease(peopleArray);
     
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    self.title = @"语音通话";
-    self.view.backgroundColor = [UIColor blackColor];
-    //    self.navigationController.navigationBar.barStyle    = UIBarStyleBlack;
-    //    self.navigationController.navigationBar.translucent = NO;
-    //    self.navigationController.toolbar.barStyle          = UIBarStyleBlack;
-    //    self.navigationController.toolbar.translucent       = NO;
-    //    self.navigationController.toolbarHidden             = NO;
-    
-//            [self initToolBar];
-    
-    
-    [self initIFlySpeech];//初始化识别对象
-//    [self initRecognizer];
-
-    
-    [self AddressBook];
-
-    
-}
-
--(void)setContactPerson
-{
-    
-    self.State = SpeakPlaying;
-    [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC);
-    
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        if (self.State == SpeakFinish) {
-            [self startBtnHandler:nil];
-            
-        }
-    });
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [self setContactPerson];
-
 }
 
 #pragma mark - iFlySpeechSynthesizer Delegate
@@ -272,6 +294,9 @@ typedef enum{
         self.State = SpeakFinish;
 
     }
+    
+
+    [self startBtnHandler:nil];
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
     
 }
@@ -335,74 +360,6 @@ typedef enum{
     
     [_popUpView removeFromSuperview];
     [_textView resignFirstResponder];
-}
-/**
- 上传联系人
- *****/
-- (void)upContactBtnHandler:(id)sender {
-    //确保识别是终止状态
-    [_iFlySpeechRecognizer stopListening];
-    
-    
-    
-    [self showPopup];
-    
-    // 获取联系人
-    IFlyContact *iFlyContact = [[IFlyContact alloc] init];
-    NSString *contact = [iFlyContact contact];
-    
-    _textView.text = contact;
-    
-    [_uploader setParameter:@"uup" forKey:[IFlySpeechConstant SUBJECT]];
-    [_uploader setParameter:@"contact" forKey:[IFlySpeechConstant DATA_TYPE]];
-    [_uploader uploadDataWithCompletionHandler:
-     ^(NSString * grammerID, IFlySpeechError *error)
-     {
-         [self onUploadFinished:error];
-     } name:@"contact" data: _textView.text];
-}
-/**
- 写入音频流线程
- ****/
-- (void)sendAudioThread
-{
-    NSLog(@"%s[IN]",__func__);
-    NSData *data = [NSData dataWithContentsOfFile:_pcmFilePath];    //从文件中读取音频
-    
-    int count = 10;
-    unsigned long audioLen = data.length/count;
-    
-    
-    for (int i =0 ; i< count-1; i++) {    //分割音频
-        char * part1Bytes = malloc(audioLen);
-        NSRange range = NSMakeRange(audioLen*i, audioLen);
-        [data getBytes:part1Bytes range:range];
-        NSData * part1 = [NSData dataWithBytes:part1Bytes length:audioLen];
-        
-        int ret = [self.iFlySpeechRecognizer writeAudio:part1];//写入音频，让SDK识别
-        free(part1Bytes);
-        
-        
-        if(!ret) {     //检测数据发送是否正常
-            NSLog(@"%s[ERROR]",__func__);
-            [self.iFlySpeechRecognizer stopListening];
-            
-            
-            return;
-        }
-    }
-    
-    //处理最后一部分
-    unsigned long writtenLen = audioLen * (count-1);
-    char * part3Bytes = malloc(data.length-writtenLen);
-    NSRange range = NSMakeRange(writtenLen, data.length-writtenLen);
-    [data getBytes:part3Bytes range:range];
-    NSData * part3 = [NSData dataWithBytes:part3Bytes length:data.length-writtenLen];
-    
-    [_iFlySpeechRecognizer writeAudio:part3];
-    free(part3Bytes);
-    [_iFlySpeechRecognizer stopListening];//音频数据写入完成，进入等待状态
-    NSLog(@"%s[OUT]",__func__);
 }
 
 
@@ -623,13 +580,13 @@ typedef enum{
                     }
 
                     
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*strResult.length) * NSEC_PER_SEC);
-                    
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                        if (self.State == SpeakFinish) {
-                            [self startBtnHandler:nil];
-                        }
-                    });
+//                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*strResult.length) * NSEC_PER_SEC);
+//                    
+//                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//                        if (self.State == SpeakFinish) {
+//                            [self startBtnHandler:nil];
+//                        }
+//                    });
                     
                 }else{
                     NSString *str;
@@ -644,13 +601,13 @@ typedef enum{
                     });
                     
                     
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
-                    
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                        if (self.State == SpeakFinish) {
-                            [self startBtnHandler:nil];
-                        }
-                    });
+//                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
+//                    
+//                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//                        if (self.State == SpeakFinish) {
+//                            [self startBtnHandler:nil];
+//                        }
+//                    });
                 }
 
             });
@@ -669,29 +626,26 @@ typedef enum{
         }else{
             str = @"呼叫失败，请稍后再试";
         }
+        self.State = SpeakPlaying;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [_iFlySpeechSynthesizer startSpeaking:str];
         });
         
         
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
-        
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            if (self.State == SpeakFinish) {
-                [self startBtnHandler:nil];
-            }
-        });
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.4*str.length) * NSEC_PER_SEC);
+//        
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            if (self.State == SpeakFinish) {
+//                [self startBtnHandler:nil];
+//            }
+//        });
 
     }
-    
     
 
     
     NSLog(@"_result=%@",_result);
     NSLog(@"resultFromJson=%@",resultFromJson);
-    
-    
-    
     NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
 }
 
@@ -720,10 +674,7 @@ typedef enum{
 
 
 - (void)initIFlySpeech
-{
-    NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@,timeout=%@",@"56e5080e",@"20000"];
-    [IFlySpeechUtility createUtility:initString];
-    
+{    
     if (self.iFlySpeechUnderstander == nil) {
         _iFlySpeechUnderstander = [IFlySpeechUnderstander sharedInstance];
         _iFlySpeechUnderstander.delegate = self;
@@ -830,27 +781,6 @@ typedef enum{
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [_iFlySpeechRecognizer cancel]; //取消识别
-    [_iFlySpeechRecognizer setDelegate:nil];
-    [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
-    
-    [_iFlySpeechUnderstander cancel];//终止语义
-    [_iFlySpeechUnderstander setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
-    
-    [_iFlySpeechUnderstander destroy];
-
-    
-    [_iFlySpeechSynthesizer stopSpeaking];
-    [self stopBtnHandler:nil];
-    [self cancelBtnHandler:nil];
-    _iFlySpeechSynthesizer.delegate = nil;
-    
-    
-    [super viewWillDisappear:animated];
-
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
