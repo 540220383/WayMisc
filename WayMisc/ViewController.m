@@ -118,6 +118,8 @@
                     self.musicIndex = 0;
                     _wmPlayer.state = WMPlayerStatePause;
                     [self updateCurrentMusicDetailModel];
+                    [self.playerView setCoverNormalImage:@"footplayer_pause"];
+
                     [[_wmPlayer player]pause];
                     
                 });
@@ -175,17 +177,22 @@
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:section];
     RadioProgramsCell * cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     
-    if (_wmPlayer.state == WMPlayerStatePlaying) {
-        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
-        [self.playerView setCoverNormalImage:@"footplayer_play"];
-        [[_wmPlayer player] play];
-
-    }else{
-        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
-        [self.playerView setCoverNormalImage:@"footplayer_pause"];
-        [[_wmPlayer player]pause];
-
-    }
+//    _wmPlayer.state = WMPlayerStatePlaying;
+    cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+    [self.playerView setCoverNormalImage:@"footplayer_play"];
+    [[_wmPlayer player] play];
+    
+//    if (_wmPlayer.state == WMPlayerStatePlaying) {
+//        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
+//        [self.playerView setCoverNormalImage:@"footplayer_play"];
+//        [[_wmPlayer player] play];
+//
+//    }else{
+//        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
+//        [self.playerView setCoverNormalImage:@"footplayer_pause"];
+//        [[_wmPlayer player]pause];
+//
+//    }
     cell.playerStateIcon.hidden = NO;
 }
 
@@ -218,8 +225,16 @@
         [self refreshUI];
         self.musicIndex--;
         [self updateCurrentMusicDetailModel];
+        
+        [UIView animateWithDuration:0.35 animations:^{
+            CGPoint labelPosition = CGPointMake(self.playerView.frame.origin.x + (kScreenWidth*0.5), self.playerView.frame.origin.y);
+            self.playerView.frame = CGRectMake( labelPosition.x , labelPosition.y , self.playerView.frame.size.width, self.playerView.frame.size.height);
+        } completion:^(BOOL finished) {
+            
+            self.playerView.frame = CGRectMake( 0 , 0 , self.playerView.frame.size.width, self.playerView.frame.size.height);
+        }];
+
     }
-    
     
 }
 -(void)next
@@ -228,11 +243,18 @@
         [self refreshUI];
         self.musicIndex++;
         [self updateCurrentMusicDetailModel];
-        if (_wmPlayer.state == WMPlayerStatePlaying) {
-            [[_wmPlayer player]play];
-        }else{
-            [[_wmPlayer player]pause];
-        }
+//        if (_wmPlayer.state == WMPlayerStatePlaying) {
+//            [[_wmPlayer player]play];
+//        }else{
+//            [[_wmPlayer player]pause];
+//        }
+        
+        [UIView animateWithDuration:0.35 animations:^{
+            CGPoint labelPosition = CGPointMake(self.playerView.frame.origin.x - (kScreenWidth*0.5), self.playerView.frame.origin.y);
+            self.playerView.frame = CGRectMake( labelPosition.x , labelPosition.y , self.playerView.frame.size.width, self.playerView.frame.size.height);
+        } completion:^(BOOL finished) {
+            self.playerView.frame = CGRectMake( 0 , 0 , self.playerView.frame.size.width, self.playerView.frame.size.height);
+        }];
     }
     
 }

@@ -32,7 +32,8 @@ typedef enum{
 
 @interface VoiceDialViewController ()
 {
-   NSInteger searchIndex;
+    NSInteger searchIndex;
+    NSInteger numIndex;
     NSString *tel;
     NSString *pyName;
     HanyuPinyinOutputFormat *outputFormat;
@@ -42,6 +43,7 @@ typedef enum{
 @property (nonatomic ,strong) NSMutableArray*PersonArray;
 @property (nonatomic,assign) NSInteger State; //操作类型
 @property (nonatomic,assign) NSInteger findState; //操作类型
+@property (nonatomic ,strong) NSMutableArray*NumberArray;
 
 @end
 
@@ -53,6 +55,13 @@ typedef enum{
         _PersonArray = [NSMutableArray array];
     }
     return _PersonArray;
+}
+-(NSMutableArray *)NumberArray
+{
+    if (_NumberArray == nil) {
+        _NumberArray = [NSMutableArray array];
+    }
+    return _NumberArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -98,6 +107,8 @@ typedef enum{
     [self initRecognizer];
     
     self.State = SpeakPlaying;
+    
+    
     [_iFlySpeechSynthesizer startSpeaking:@"请问您呼叫谁"];
 }
 
@@ -482,13 +493,32 @@ typedef enum{
                 indexValue = 1;
             }else if ([resultFromJson rangeOfString:@"第三"].location !=NSNotFound) {
                 indexValue = 2;
+            }else if([resultFromJson rangeOfString:@"第四"].location !=NSNotFound) {
+                indexValue = 3;
+            }else if ([resultFromJson rangeOfString:@"第五"].location !=NSNotFound) {
+                indexValue = 4;
+            }else if([resultFromJson rangeOfString:@"第六"].location !=NSNotFound) {
+                indexValue = 5;
+            }else if ([resultFromJson rangeOfString:@"第七"].location !=NSNotFound) {
+                indexValue = 6;
+            }else if([resultFromJson rangeOfString:@"第八"].location !=NSNotFound) {
+                indexValue = 7;
+            }else if ([resultFromJson rangeOfString:@"第九"].location !=NSNotFound) {
+                indexValue = 8;
+            }else if([resultFromJson rangeOfString:@"第十"].location !=NSNotFound) {
+                indexValue = 9;
             }
             
-            if(indexValue > self.PersonArray.count) return;
+            if(indexValue > _NumberArray.count) return;
             
-            Person *per = self.findState ==1?[Person mj_objectWithKeyValues:self.PersonArray[0]]:[Person mj_objectWithKeyValues:self.PersonArray[indexValue]];
+//            Person *per = self.findState ==1?[Person mj_objectWithKeyValues:self.PersonArray[0]]:[Person mj_objectWithKeyValues:self.PersonArray[indexValue]];
             
-            tel = self.findState ==1?per.numbers[indexValue]:per.numbers[0];
+//            tel = self.findState ==1?per.numbers[indexValue]:_NumberArray[indexValue];
+            
+            searchIndex = 0;
+            
+            tel = _NumberArray[indexValue];
+
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
             NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
@@ -499,6 +529,7 @@ typedef enum{
         
         NSLog(@"听写结果(json)：%@测试",  self.result);
         if ([resultFromJson rangeOfString:@"呼叫"].location !=NSNotFound) {
+            searchIndex = 0;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC);
             
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -527,22 +558,30 @@ typedef enum{
             
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 // code to be executed on the main queue after delay
-                [self TraverseResult:resultFromJson];
-
+                [self TraverseResult:resultFromJson];//查找联系人
                 if(self.PersonArray.count>0){
                     
+                    [_NumberArray removeAllObjects];//清空原有结果
+
                     if (self.PersonArray.count != 1) {
                         [strResult appendString:@"呼叫以下哪个联系人："];
                         self.findState = FindMoreResult;
-
+                        
+                        numIndex = 1;
                         //不唯一
                         for (int i = 0; i<self.PersonArray.count; i++) {
                             Person*per = [Person mj_objectWithKeyValues:self.PersonArray[i]];
                             NSString *fullName = per.fullName;
-                            NSString *num = per.numbers[0];
-                            [strResult appendString:[NSString stringWithFormat:@"第%i位%@%@;",i+1,fullName,[num substringToIndex:3]]];
+                            for (int j = 0; j<per.numbers.count; j++) {
+                                [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",numIndex,fullName,[[self handelWithNum:per.numbers[j]] substringToIndex:5]]];
+                                [_NumberArray addObject:per.numbers[j]];
+                                
+                                numIndex++;
+                            }
+                            
                             self.State = SpeakFinish;
                         }
+                        numIndex = 1;
                         
                     }else{
                         //唯一
@@ -555,30 +594,26 @@ typedef enum{
                             
                             for (int i = 0; i<per.numbers.count; i++) {
                                 NSString *fullName = per.fullName;
-                                NSString *num = per.numbers[i];
                                 
-                                [strResult appendString:[NSString stringWithFormat:@"第%i位%@%@;",i+1,fullName,[num substringToIndex:3]]];
-                                    
+                                [strResult appendString:[NSString stringWithFormat:@"第%i位%@%@;",i+1,fullName,[[self handelWithNum:per.numbers[i]] substringToIndex:5]]];
+                                [_NumberArray addObject:per.numbers[i]];
                             }
                             
                         }else{
-                            [strResult appendString:[NSString stringWithFormat:@"为您找到%@%@",per.fullName,[per.numbers[0] substringToIndex:3]]];
+                            
+                            [strResult appendString:[NSString stringWithFormat:@"为您找到%@%@",per.fullName,[[self handelWithNum:per.numbers[0]] substringToIndex:5]]];
                             
                             tel = per.numbers[0];
                             
-                            [strResult appendString:@";呼叫还是取消    "];
+                            [strResult appendString:@";呼叫还是取消"];
                         }
                         
                     }
-                    if (self.State == SpeakFinish) {
-                        self.State = SpeakPlaying;
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                            [_iFlySpeechSynthesizer startSpeaking:strResult];
-                            
-                        });
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        [_iFlySpeechSynthesizer startSpeaking:strResult];
                         
-                    }
-
+                    });
                     
 //                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*strResult.length) * NSEC_PER_SEC);
 //                    
@@ -784,6 +819,17 @@ typedef enum{
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSString *)handelWithNum:(NSMutableString *)num
+{
+    
+    for (int j =1; j<5; j++) {
+        [num insertString:@"," atIndex:j++];
+        
+    }
+    
+    return num;
 }
 
 

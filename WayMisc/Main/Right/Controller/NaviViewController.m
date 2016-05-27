@@ -117,7 +117,7 @@ typedef enum{
 {
     self.State = SpeakPlaying;
     [self Speaking:@"请问您想去哪里？"];
-    
+
     self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
 }
 
@@ -451,7 +451,7 @@ typedef enum{
     
     [self.mapView removeAnnotations:_poiAnnotations];
     [_poiAnnotations removeAllObjects];
-    
+    response.count = 10;
     [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
         
         MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
@@ -483,6 +483,7 @@ typedef enum{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
+        
 //        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
 //        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 //            // code to be executed on the main queue after delay
@@ -904,11 +905,15 @@ typedef enum{
             [self startEmulatorNavi];
         }else if ([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
             
+            
+            self.State = SpeakPlaying;
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
-            self.State = SpeakPlaying;
-            [self Speaking:@"已经为您取消"];
-            [self setDestination];
+            [self Speaking:@"已经为您取消,请问您想去哪里？"];
+//            [self setDestination];
+            
+            
+            
         }else{
             NSString* Reg=@"^[\u4e00-\u9fa5_a-zA-Z0-9]+$";
             NSPredicate *textPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",Reg];
