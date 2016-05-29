@@ -523,7 +523,7 @@ typedef enum{
             [self cancelBtnHandler:nil];
             NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-             return ;
+            return ;
         }
         
         
@@ -573,8 +573,9 @@ typedef enum{
                             Person*per = [Person mj_objectWithKeyValues:self.PersonArray[i]];
                             NSString *fullName = per.fullName;
                             for (int j = 0; j<per.numbers.count; j++) {
-                                [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",numIndex,fullName,[[self handelWithNum:per.numbers[j]] substringToIndex:5]]];
-                                [_NumberArray addObject:per.numbers[j]];
+                                NSMutableString *number = [[NSMutableString alloc]initWithString:per.numbers[i]];
+                                [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",numIndex,fullName,[[self handelWithNum:number] substringToIndex:5]]];
+                                [self.NumberArray addObject:per.numbers[j]];
                                 
                                 numIndex++;
                             }
@@ -593,11 +594,13 @@ typedef enum{
                             [strResult appendString:@"呼叫以下哪个联系人："];
                             
                             for (int i = 0; i<per.numbers.count; i++) {
+                                numIndex++;
                                 NSString *fullName = per.fullName;
-                                
-                                [strResult appendString:[NSString stringWithFormat:@"第%i位%@%@;",i+1,fullName,[[self handelWithNum:per.numbers[i]] substringToIndex:5]]];
-                                [_NumberArray addObject:per.numbers[i]];
+                                NSMutableString *number = [[NSMutableString alloc]initWithString:per.numbers[i]];
+                                [strResult appendString:[NSString stringWithFormat:@"第%li位%@%@;",numIndex,fullName,[[self handelWithNum:number] substringToIndex:5]]];
+                                [self.NumberArray addObject:per.numbers[i]];
                             }
+                            numIndex = 1;
                             
                         }else{
                             
