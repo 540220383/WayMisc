@@ -193,8 +193,9 @@ typedef enum{
         _bottomBar = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
         _bottomBar.frame = CGRectMake(0, kScreenHeight-84, kScreenWidth, 84);
         
-        [_bottomBar.destinationBtn addTarget:self action:@selector(showResult) forControlEvents:UIControlEventTouchUpInside];
+        [_bottomBar.destinationBtn addTarget:self action:@selector(startEmulatorNavi) forControlEvents:UIControlEventTouchUpInside];
         
+        [_bottomBar.showList addTarget:self action:@selector(showResult) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_bottomBar];
         
     }
@@ -344,7 +345,7 @@ typedef enum{
     request.sortrule            = 1;
     request.radius = 50000;
     request.requireExtension    = YES;
-    
+    request.offset = 10;
     [self.search AMapPOIAroundSearch:request];
 
 }
@@ -366,7 +367,6 @@ typedef enum{
     request.sortrule            = 1;
     request.radius = 50000;
     request.requireExtension    = NO;
-    
     [self.search AMapPOIAroundSearch:request];
 }
 
@@ -451,7 +451,6 @@ typedef enum{
     
     [self.mapView removeAnnotations:_poiAnnotations];
     [_poiAnnotations removeAllObjects];
-    response.count = 10;
     [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
         
         MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
@@ -465,8 +464,6 @@ typedef enum{
 //    [self showPOIAnnotations];
     
     AMapPOI*obj = response.pois[0];
-    
-    
     
     MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
     [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
@@ -530,6 +527,8 @@ typedef enum{
 
 - (void)naviManager:(AMapNaviManager *)naviManager didDismissNaviViewController:(UIViewController *)naviViewController
 {
+    [self stopBtnHandler:nil];
+    [self cancelBtnHandler:nil];
     NSLog(@"didDismissNaviViewController");
 }
 

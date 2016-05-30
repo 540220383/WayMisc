@@ -84,6 +84,7 @@ typedef enum{
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
 
+    
 //    [self upContactBtnHandler:nil];
     
     
@@ -170,7 +171,8 @@ typedef enum{
     
     pyName = [PinyinHelper toHanyuPinyinStringWithNSString:str withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];;
     
-    resultSet = [_db executeQuery:@"select * from t_contact WHERE pyname = ?",pyName];
+    NSString *query = [NSString stringWithFormat:@"select * from t_contact WHERE pyname like '%%%@%%'",pyName];
+    resultSet = [_db executeQuery:query];
     
     // 遍历查询结果
     while ([resultSet next]) {
@@ -193,6 +195,7 @@ typedef enum{
     NSString *cachePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
     // 拼接文件名
     NSString *filePath = [cachePath stringByAppendingPathComponent:@"contact.sqlite"];
+    NSLog(@"filepath%@",filePath);
     // 创建一个数据库的实例,仅仅在创建一个实例，并会打开数据库
     FMDatabase *db = [FMDatabase databaseWithPath:filePath];
     _db = db;
@@ -284,8 +287,12 @@ typedef enum{
         
         pyName = [PinyinHelper toHanyuPinyinStringWithNSString:per.fullName withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
         
-        [_db executeUpdate:@"INSERT INTO t_contact (name, pyname,person) VALUES (?, ? ,?);",per.fullName, pyName,data];
-            
+        
+        if (pyName.length>0) {
+            [_db executeUpdate:@"INSERT INTO t_contact (name, pyname,person) VALUES (?, ? ,?);",per.fullName, pyName,data];
+
+        }
+        
         // 5.4.释放该释放的对象
         CFRelease(phones);
     }
@@ -507,26 +514,25 @@ typedef enum{
                 indexValue = 8;
             }else if([resultFromJson rangeOfString:@"第十"].location !=NSNotFound) {
                 indexValue = 9;
+            }else{
+                if(indexValue > _NumberArray.count) return;
+                
+                //            Person *per = self.findState ==1?[Person mj_objectWithKeyValues:self.PersonArray[0]]:[Person mj_objectWithKeyValues:self.PersonArray[indexValue]];
+                
+                //            tel = self.findState ==1?per.numbers[indexValue]:_NumberArray[indexValue];
+                
+                searchIndex = 0;
+                
+                tel = _NumberArray[indexValue];
+                
+                [self stopBtnHandler:nil];
+                [self cancelBtnHandler:nil];
+                NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+                return ;
             }
-            
-            if(indexValue > _NumberArray.count) return;
-            
-//            Person *per = self.findState ==1?[Person mj_objectWithKeyValues:self.PersonArray[0]]:[Person mj_objectWithKeyValues:self.PersonArray[indexValue]];
-            
-//            tel = self.findState ==1?per.numbers[indexValue]:_NumberArray[indexValue];
-            
-            searchIndex = 0;
-            
-            tel = _NumberArray[indexValue];
 
-            [self stopBtnHandler:nil];
-            [self cancelBtnHandler:nil];
-            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-            return ;
-        }
-        
-        
+            }
         NSLog(@"听写结果(json)：%@测试",  self.result);
         if ([resultFromJson rangeOfString:@"呼叫"].location !=NSNotFound) {
             searchIndex = 0;
@@ -573,7 +579,7 @@ typedef enum{
                             Person*per = [Person mj_objectWithKeyValues:self.PersonArray[i]];
                             NSString *fullName = per.fullName;
                             for (int j = 0; j<per.numbers.count; j++) {
-                                NSMutableString *number = [[NSMutableString alloc]initWithString:per.numbers[i]];
+                                NSMutableString *number = [[NSMutableString alloc]initWithString:per.numbers[j]];
                                 [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",numIndex,fullName,[[self handelWithNum:number] substringToIndex:5]]];
                                 [self.NumberArray addObject:per.numbers[j]];
                                 
