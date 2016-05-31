@@ -39,7 +39,7 @@ typedef enum{
 } currentState;
 
 
-@interface NaviViewController() <AMapNaviViewControllerDelegate,IFlySpeechRecognizerDelegate>
+@interface NaviViewController() <AMapNaviViewControllerDelegate,IFlySpeechRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     AMapNaviPoint *_endPoint;
     
@@ -51,6 +51,8 @@ typedef enum{
 @property (nonatomic, strong) AMapNaviViewController *naviViewController;
 @property (nonatomic, strong) NaviBottomView *bottomBar;
 @property (nonatomic ,strong) NSMutableArray *objArry;
+@property (nonatomic ,strong) UITableView *tableView;
+
 @property (nonatomic,assign) NSInteger State; //操作类型
 
 @end
@@ -109,8 +111,13 @@ typedef enum{
     
     [self initIFlySpeech];//初始化识别对象
     
-    
-    
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight*0.5) style:UITableViewStylePlain];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -146,15 +153,6 @@ typedef enum{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:str];
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (str.length*0.35) * NSEC_PER_SEC);
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            // code to be executed on the main queue after delay
-//            if (self.State == SpeakFinish) {
-//                
-//                [self startBtnHandler:nil];
-//            }
-//
-//        });
     });
 
 }
@@ -164,18 +162,7 @@ typedef enum{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC);
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            // code to be executed on the main queue after delay
-//            if (self.State == SpeakFinish) {
-//                [self startBtnHandler:nil];
-//            }
-//            
-//
-//        });
     });
-
-
 }
 
 -(NSMutableArray *)objArry
@@ -233,7 +220,6 @@ typedef enum{
     {
         self.search = [[AMapSearchAPI alloc] init];
         self.search.delegate = self;
-        
     }
 }
 
@@ -323,8 +309,12 @@ typedef enum{
 
 -(void)showResult
 {
-    
-        [self showPOIAnnotations];
+//    [self showPOIAnnotations];
+    [self.tableView reloadData];
+    self.bottomBar.hidden = YES;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableView.center = CGPointMake(kScreenWidth*0.5, kScreenHeight*0.75);
+    }];
 }
 
 #pragma mark - Search
@@ -460,6 +450,8 @@ typedef enum{
         
         [_poiAnnotations addObject:annotation];
     }];
+    
+    _objArry = response.pois;
 
 //    [self showPOIAnnotations];
     
@@ -476,21 +468,12 @@ typedef enum{
     self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
     
     self.bottomBar.destination.text = obj.name;
+    [self.mapView addAnnotation:annotation];
+    self.mapView.centerCoordinate = annotation.coordinate;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
-        
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (0.3*addressStr.length) * NSEC_PER_SEC);
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            // code to be executed on the main queue after delay
-//            if (self.State == SpeakFinish) {
-//              [self startBtnHandler:nil];
-//            }
-////            [self startEmulatorNavi];
-//            
-//
-//        });
 
     });
     
@@ -899,25 +882,25 @@ typedef enum{
     _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text,resultFromJson];
     
     if (!isLast){
-        
+        [self stopBtnHandler:nil];
+        [self cancelBtnHandler:nil];
+
         if([resultFromJson rangeOfString:@"导航"].location !=NSNotFound){
             [self startEmulatorNavi];
         }else if ([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
-            
             
             self.State = SpeakPlaying;
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
             [self Speaking:@"已经为您取消,请问您想去哪里？"];
 //            [self setDestination];
-            
-            
-            
         }else{
             NSString* Reg=@"^[\u4e00-\u9fa5_a-zA-Z0-9]+$";
             NSPredicate *textPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",Reg];
             if([textPre evaluateWithObject:resultFromJson]){
+                
                 [self searchDestination:resultFromJson];
+                
             }else{
                 
                 [self stopBtnHandler:nil];
@@ -927,16 +910,11 @@ typedef enum{
                 return ;
                 
             }
-
-            
             NSLog(@"_result=%@",_result);
             NSLog(@"resultFromJson=%@",resultFromJson);
             NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
             
         }
-
-
-        
         NSLog(@"听写结果(json)：%@测试",  self.result);
        
     }
@@ -964,6 +942,64 @@ typedef enum{
     
 }
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+    NaviBottomView *cellView = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
+    cellView.frame = CGRectMake(0, 0, kScreenWidth, 84);
+    AMapPOI *obj = _objArry[indexPath.row];
+    
+    cellView.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    cellView.destinationBtn.tag = 100+indexPath.row;
+    cellView.destination.text = obj.name;
+    [cellView.destinationBtn addTarget:self action:@selector(didSelectListButton:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.contentView addSubview:cellView];
+    
+    return cell;
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _objArry.count;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 84;
+}
+
+-(void)didSelectListButton:(UIButton *)btn
+{
+    [self.naviManager stopNavi];
+    
+    AMapPOI*obj = _objArry[btn.tag-100];
+    self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    
+    self.bottomBar.destination.text = obj.name;
+    
+    MAPointAnnotation *annotation = _poiAnnotations[btn.tag-100];
+    [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
+    [annotation setTitle:obj.name];
+    [annotation setSubtitle:obj.address];
+    
+    [self.mapView addAnnotation:annotation];
+    self.mapView.centerCoordinate = annotation.coordinate;
+    
+    _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
+                                          longitude:annotation.coordinate.longitude];
+    
+    [self startEmulatorNavi];
+
+}
 
 @end
 
