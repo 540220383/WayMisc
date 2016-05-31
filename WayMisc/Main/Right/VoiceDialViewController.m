@@ -119,6 +119,7 @@ typedef enum{
     [self setContactPerson];
     [self AddressBook];
 
+    [super viewDidAppear:animated];
 
 }
 
@@ -173,7 +174,7 @@ typedef enum{
     
     NSString *s = [NSString fuzzyQueryMothedsWith:pyName];
     
-    NSString *query = [NSString stringWithFormat:@"select * from t_contact WHERE pyname like '%%%@%%'",pyName];
+//    NSString *query = [NSString stringWithFormat:@"select * from t_contact WHERE pyname like '%%%@%%'",pyName];
     
     
     resultSet = [_db executeQuery:s];

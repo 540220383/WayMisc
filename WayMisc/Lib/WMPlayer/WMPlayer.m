@@ -100,7 +100,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         self.lightSlider.maximumValue = 1;
         //        进度条的值等于当前系统亮度的值,范围都是0~1
         self.lightSlider.value = [UIScreen mainScreen].brightness;
-        [self.lightSlider addTarget:self action:@selector(updateLightValue:) forControlEvents:UIControlEventValueChanged];
+//        [self.lightSlider addTarget:self action:@selector(updateLightValue:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.lightSlider];
         
         

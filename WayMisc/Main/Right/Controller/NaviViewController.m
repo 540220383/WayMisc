@@ -126,6 +126,7 @@ typedef enum{
     [self Speaking:@"请问您想去哪里？"];
 
     self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
+    [super viewDidAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -470,6 +471,10 @@ typedef enum{
     self.bottomBar.destination.text = obj.name;
     [self.mapView addAnnotation:annotation];
     self.mapView.centerCoordinate = annotation.coordinate;
+    
+    [self cancelBtnHandler:nil];
+    [self stopBtnHandler:nil];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         self.State = SpeakPlaying;
@@ -901,15 +906,16 @@ typedef enum{
                 
                 [self searchDestination:resultFromJson];
                 
-            }else{
-                
-                [self stopBtnHandler:nil];
-                [self cancelBtnHandler:nil];
-                [self Speaking:@"没听清楚，请再说一遍。"];
-                
-                return ;
+                return;
                 
             }
+            
+            
+            [self stopBtnHandler:nil];
+            [self cancelBtnHandler:nil];
+            [self Speaking:@"没听清楚，请再说一遍。"];
+            
+            return ;
             NSLog(@"_result=%@",_result);
             NSLog(@"resultFromJson=%@",resultFromJson);
             NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
@@ -917,6 +923,14 @@ typedef enum{
         }
         NSLog(@"听写结果(json)：%@测试",  self.result);
        
+    }else{
+        
+        [self stopBtnHandler:nil];
+        [self cancelBtnHandler:nil];
+        [self Speaking:@"没听清楚，请再说一遍。"];
+        
+        return ;
+        
     }
 }
 
