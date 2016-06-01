@@ -46,6 +46,8 @@ typedef enum{
     MAUserLocation *_userLocation;
     
     NSMutableArray *_poiAnnotations;
+    
+    NSString *addressStr;
 }
 
 @property (nonatomic, strong) AMapNaviViewController *naviViewController;
@@ -123,8 +125,9 @@ typedef enum{
 -(void)viewDidAppear:(BOOL)animated
 {
     self.State = SpeakPlaying;
+    
     [self Speaking:@"请问您想去哪里？"];
-
+    
     self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
     [super viewDidAppear:animated];
 }
@@ -151,7 +154,7 @@ typedef enum{
 #pragma mark - Initalization
 
 -(void)Speaking:(NSString *)str{
-    
+    addressStr = str;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [_iFlySpeechSynthesizer startSpeaking:str];
     });
@@ -442,6 +445,10 @@ typedef enum{
     
     [self.mapView removeAnnotations:_poiAnnotations];
     [_poiAnnotations removeAllObjects];
+    
+    [self cancelBtnHandler:nil];
+    [self stopBtnHandler:nil];
+    
     [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
         
         MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
@@ -472,11 +479,9 @@ typedef enum{
     [self.mapView addAnnotation:annotation];
     self.mapView.centerCoordinate = annotation.coordinate;
     
-    [self cancelBtnHandler:nil];
-    [self stopBtnHandler:nil];
+    addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
         self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
 
@@ -844,6 +849,11 @@ typedef enum{
         }else {
             text = [NSString stringWithFormat:@"发生错误：%d %@", error.errorCode,error.errorDesc];
             NSLog(@"%@",text);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                self.State = SpeakPlaying;
+                [_iFlySpeechSynthesizer startSpeaking:addressStr];
+                
+            });
         }
         
         [_popUpView showText: text];
@@ -905,12 +915,9 @@ typedef enum{
             if([textPre evaluateWithObject:resultFromJson]){
                 
                 [self searchDestination:resultFromJson];
-                
                 return;
                 
             }
-            
-            
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
             [self Speaking:@"没听清楚，请再说一遍。"];
