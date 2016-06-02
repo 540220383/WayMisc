@@ -132,7 +132,7 @@ typedef enum{
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    self.State = SpeakPlaying;
+    self.State = SpeakFinish;
     
     [self Speaking:@"请问您想去哪里？"];
     
@@ -492,7 +492,6 @@ typedef enum{
     addressStr = [NSString stringWithFormat:@"您即将到达的目的地为：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        self.State = SpeakPlaying;
         [_iFlySpeechSynthesizer startSpeaking:addressStr];
 
     });
@@ -870,7 +869,7 @@ typedef enum{
             text = [NSString stringWithFormat:@"发生错误：%d %@", error.errorCode,error.errorDesc];
             NSLog(@"%@",text);
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                self.State = SpeakPlaying;
+
                 [_iFlySpeechSynthesizer startSpeaking:addressStr];
                 
             });
@@ -921,11 +920,10 @@ typedef enum{
         [self cancelBtnHandler:nil];
 
         if([resultFromJson rangeOfString:@"导航"].location !=NSNotFound){
-            self.State = SpeakFinish;
+            self.State = SpeakPlaying;
             [self startEmulatorNavi];
         }else if ([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
             
-            self.State = SpeakPlaying;
             [self stopBtnHandler:nil];
             [self cancelBtnHandler:nil];
             [self Speaking:@"已经为您取消,请问您想去哪里？"];
@@ -943,10 +941,11 @@ typedef enum{
             [self cancelBtnHandler:nil];
             [self Speaking:@"没听清楚，请再说一遍。"];
             
-            return ;
             NSLog(@"_result=%@",_result);
             NSLog(@"resultFromJson=%@",resultFromJson);
             NSLog(@"isLast=%d,_textView.text=%@",isLast,_textView.text);
+            return ;
+
             
         }
         NSLog(@"听写结果(json)：%@测试",  self.result);
