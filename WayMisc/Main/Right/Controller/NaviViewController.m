@@ -54,6 +54,8 @@ typedef enum{
 @property (nonatomic, strong) NaviBottomView *bottomBar;
 @property (nonatomic ,strong) NSMutableArray *objArry;
 @property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) NSURL *startUrl;
+@property (nonatomic ,strong) NSURL *overUrl;
 
 @property (nonatomic,assign) NSInteger State; //操作类型
 
@@ -91,6 +93,12 @@ typedef enum{
     NSString *cachePath = [paths objectAtIndex:0];
     _pcmFilePath = [[NSString alloc] initWithFormat:@"%@",[cachePath stringByAppendingPathComponent:@"asr.pcm"]];
 
+    
+    self.startUrl=[[NSBundle mainBundle]URLForResource:@"start_record.wav" withExtension:nil];
+    
+    self.overUrl=[[NSBundle mainBundle]URLForResource:@"record_over.wav" withExtension:nil];
+
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -140,10 +148,12 @@ typedef enum{
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     [self stopBtnHandler:nil];
 
+    _iFlySpeechSynthesizer = nil;
 
     [_iFlySpeechSynthesizer setDelegate:nil];
     [_iFlySpeechSynthesizer stopSpeaking];
     [_iFlySpeechRecognizer destroy];
+    _iFlySpeechRecognizer = nil;
     
     [self.naviManager stopNavi];
 
@@ -292,7 +302,7 @@ typedef enum{
         //设置前端点
         [_iFlySpeechRecognizer setParameter:instance.vadBos forKey:[IFlySpeechConstant VAD_BOS]];
         //网络等待时间
-        [_iFlySpeechRecognizer setParameter:@"20000" forKey:[IFlySpeechConstant NET_TIMEOUT]];
+        [_iFlySpeechRecognizer setParameter:@"10000" forKey:[IFlySpeechConstant NET_TIMEOUT]];
         
         //设置采样率，推荐使用16K
         [_iFlySpeechRecognizer setParameter:instance.sampleRate forKey:[IFlySpeechConstant SAMPLE_RATE]];
@@ -643,10 +653,16 @@ typedef enum{
 - (void)onCompleted:(IFlySpeechError *)error
 {
     if(self.State == SpeakPlaying){
-        self.State = SpeakFinish;
+//        self.State = SpeakFinish;
         
+        return;
     }
+    
+    SystemSoundID soundStartID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundStartID);
+    AudioServicesPlaySystemSound(soundStartID);
     [self startBtnHandler:nil];
+    
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
 
 }
@@ -836,6 +852,10 @@ typedef enum{
     if ([IATConfig sharedInstance].haveView == NO ) {
         NSString *text ;
         
+        SystemSoundID soundOverID=0;
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundOverID);
+        
+        AudioServicesPlaySystemSound(soundOverID);
         if (self.isCanceled) {
             text = @"识别取消";
             
@@ -901,6 +921,7 @@ typedef enum{
         [self cancelBtnHandler:nil];
 
         if([resultFromJson rangeOfString:@"导航"].location !=NSNotFound){
+            self.State = SpeakFinish;
             [self startEmulatorNavi];
         }else if ([resultFromJson rangeOfString:@"取消"].location !=NSNotFound){
             

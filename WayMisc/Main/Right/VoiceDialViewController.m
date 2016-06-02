@@ -28,6 +28,7 @@ typedef enum{
     SpeakPAUSE = 1,
     SpeakFinish = 2,
     SpeakDial = 3,
+    SpeakFailure = 4,
 } currentState;
 
 
@@ -46,6 +47,8 @@ typedef enum{
 @property (nonatomic,assign) NSInteger State; //操作类型
 @property (nonatomic,assign) NSInteger findState; //操作类型
 @property (nonatomic ,strong) NSMutableArray*NumberArray;
+@property (nonatomic ,strong) NSURL *startUrl;
+@property (nonatomic ,strong) NSURL *overUrl;
 
 @end
 
@@ -89,7 +92,19 @@ typedef enum{
     
 //    [self upContactBtnHandler:nil];
     
+    //1.获得音效文件的全路径
+        self.startUrl=[[NSBundle mainBundle]URLForResource:@"start_record.wav" withExtension:nil];
     
+        self.overUrl=[[NSBundle mainBundle]URLForResource:@"record_over.wav" withExtension:nil];
+
+        //2.加载音效文件，创建音效ID（SoundID,一个ID对应一个音效文件）
+
+        //把需要销毁的音效文件的ID传递给它既可销毁
+        //AudioServicesDisposeSystemSoundID(soundID);
+
+        //3.播放音效文件
+        //下面的两个函数都可以用来播放音效文件，第一个函数伴随有震动效果
+//        AudioServicesPlayAlertSound(soundID);
     
 }
 
@@ -127,25 +142,27 @@ typedef enum{
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self stopBtnHandler:nil];
+    [self cancelBtnHandler:nil];
     [_db close];
     
     [_iFlySpeechRecognizer cancel]; //取消识别
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     [_iFlySpeechRecognizer destroy];
+    _iFlySpeechRecognizer = nil;
     
-    [self stopBtnHandler:nil];
-    [self cancelBtnHandler:nil];
+    
     
     [_iFlySpeechUnderstander cancel];//终止语义
     [_iFlySpeechUnderstander setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
     [_iFlySpeechUnderstander destroy];
-    
+    _iFlySpeechUnderstander = nil;
     
     [_iFlySpeechSynthesizer stopSpeaking];
     
     _iFlySpeechSynthesizer.delegate = nil;
-    
+    _iFlySpeechSynthesizer = nil;
     [super viewWillDisappear:animated];
     
 }
@@ -328,9 +345,16 @@ typedef enum{
         
         return;
 
+    }else if (self.State == SpeakFailure){
+        self.State = SpeakFinish;
+        return;
     }
     
-
+    
+    SystemSoundID soundStartID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundStartID);
+    AudioServicesPlaySystemSound(soundStartID);
+    
     [self startBtnHandler:nil];
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
     
@@ -452,6 +476,10 @@ typedef enum{
     
     if ([IATConfig sharedInstance].haveView == NO ) {
         NSString *text ;
+        SystemSoundID soundOverID=0;
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundOverID);
+
+        AudioServicesPlaySystemSound(soundOverID);
         
         if (self.isCanceled) {
             text = @"识别取消";
@@ -556,9 +584,8 @@ typedef enum{
             
             [_iFlySpeechSynthesizer startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",currentName]];
             
-            
-            
             return;
+            
 //            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
 //            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 //            return ;
@@ -618,6 +645,7 @@ typedef enum{
                         numIndex = 1;
                         
                     }else{
+                        numIndex = 1;
                         //唯一
                         Person*per = [Person mj_objectWithKeyValues:self.PersonArray[0]];
                         currentName = per.fullName;
@@ -662,6 +690,7 @@ typedef enum{
                     }else{
                         searchIndex ++;
                         str = @"呼叫失败，请稍后再试";
+                        self.State = SpeakFailure;
                     }
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                         [_iFlySpeechSynthesizer startSpeaking:str];
@@ -759,7 +788,7 @@ typedef enum{
         //设置前端点
         [_iFlySpeechRecognizer setParameter:instance.vadBos forKey:[IFlySpeechConstant VAD_BOS]];
         //网络等待时间
-        [_iFlySpeechRecognizer setParameter:@"20000" forKey:[IFlySpeechConstant NET_TIMEOUT]];
+        [_iFlySpeechRecognizer setParameter:@"10000" forKey:[IFlySpeechConstant NET_TIMEOUT]];
         
         //设置采样率，推荐使用16K
         [_iFlySpeechRecognizer setParameter:instance.sampleRate forKey:[IFlySpeechConstant SAMPLE_RATE]];

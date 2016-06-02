@@ -128,6 +128,8 @@
 		F02A0E2B1CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */; };
 		F079B9C11CE474DC00D33980 /* FMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F079B9BF1CE474DC00D33980 /* FMViewController.m */; };
 		F079B9C21CE474DC00D33980 /* FMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F079B9C01CE474DC00D33980 /* FMViewController.xib */; };
+		F07B66EA1D000DD700A2A27C /* record_over.wav in Resources */ = {isa = PBXBuildFile; fileRef = F07B66E81D000DD700A2A27C /* record_over.wav */; };
+		F07B66EB1D000DD700A2A27C /* start_record.wav in Resources */ = {isa = PBXBuildFile; fileRef = F07B66E91D000DD700A2A27C /* start_record.wav */; };
 		F08D61FF1CE5642800DD0B21 /* FoldTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */; };
 		F08D62051CE5647B00DD0B21 /* GroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62041CE5647B00DD0B21 /* GroupModel.m */; };
 		F08D62091CE5648900DD0B21 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D62071CE5648900DD0B21 /* FriendCell.m */; };
@@ -393,6 +395,8 @@
 		F079B9BE1CE474DC00D33980 /* FMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMViewController.h; sourceTree = "<group>"; };
 		F079B9BF1CE474DC00D33980 /* FMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMViewController.m; sourceTree = "<group>"; };
 		F079B9C01CE474DC00D33980 /* FMViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMViewController.xib; sourceTree = "<group>"; };
+		F07B66E81D000DD700A2A27C /* record_over.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = record_over.wav; sourceTree = "<group>"; };
+		F07B66E91D000DD700A2A27C /* start_record.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = start_record.wav; sourceTree = "<group>"; };
 		F08D61F81CE5642800DD0B21 /* FoldTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldTableViewController.h; sourceTree = "<group>"; };
 		F08D61F91CE5642800DD0B21 /* FoldTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldTableViewController.m; sourceTree = "<group>"; };
 		F08D62031CE5647B00DD0B21 /* GroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupModel.h; sourceTree = "<group>"; };
@@ -480,6 +484,8 @@
 		5269CDE91CE63314009383AC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				F07B66E81D000DD700A2A27C /* record_over.wav */,
+				F07B66E91D000DD700A2A27C /* start_record.wav */,
 				5269CDF51CE6336E009383AC /* bnf */,
 				5269CDF61CE6336E009383AC /* eva */,
 				5269CDF71CE6336E009383AC /* tts */,
@@ -1151,6 +1157,8 @@
 				F079B9C21CE474DC00D33980 /* FMViewController.xib in Resources */,
 				F017BDF31CE31BD600452875 /* WMPlayer.bundle in Resources */,
 				9EBC89201CE09A3B00A71B49 /* AMap.bundle in Resources */,
+				F07B66EB1D000DD700A2A27C /* start_record.wav in Resources */,
+				F07B66EA1D000DD700A2A27C /* record_over.wav in Resources */,
 				5269CDF91CE6336E009383AC /* eva in Resources */,
 				9EBC881E1CE04CD500A71B49 /* LaunchScreen.storyboard in Resources */,
 				5269CDFA1CE6336E009383AC /* tts in Resources */,
