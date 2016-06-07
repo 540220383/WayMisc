@@ -34,13 +34,14 @@
 //        [self.AnimaImages startAnimating];
     }else{
         [sender setImage:[UIImage imageNamed:@"equipmentui_fm_off"] forState:UIControlStateNormal];
-//        [self.AnimaImages stopAnimating];
+        [self.AnimaImages stopAnimating];
     }
 }
 - (IBAction)confirmUpdate:(UIButton *)sender {
     
 //    [self.FMBtn setTitle:@"" forState:UIControlStateNormal];
     self.MHzViewMarginBottom.constant = 309;
+    [self.AnimaImages stopAnimating];
 
 }
 - (IBAction)cancelUpdate:(UIButton *)sender {
@@ -59,11 +60,22 @@
     [self.AnimaImages setAnimationRepeatCount:0];
     //设置动画播放时间
     [self.AnimaImages setAnimationDuration:3*0.075];
-    //开始动画
-//    [self.AnimaImages startAnimating];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AutoSearchFM)];
+    
+    [self.AnimaImages addGestureRecognizer:tap];
+    
+
     
     self.MHzPickerView.delegate = self;
     self.MHzPickerView.dataSource = self;
+    
+}
+
+- (void)AutoSearchFM
+{
+    //开始动画
+    [self.AnimaImages startAnimating];
     
 }
 
@@ -111,7 +123,7 @@
     if (component == 2) {
         return @"MHz";
     }
-    return @"123";
+    return @"";
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
