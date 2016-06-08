@@ -29,11 +29,16 @@
 #import "FMViewController.h"
 #import "DeviceListViewController.h"
 
+
 @interface SlideNavigationController()<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
+
+
+
+
 @end
 
 @implementation SlideNavigationController
@@ -112,8 +117,6 @@ static SlideNavigationController *singletonInstance;
     if (!_wmPlayer) {
         _wmPlayer = [[WMPlayer alloc]initWithFrame:CGRectZero videoURLStr:nil];
     }
-    
-    
     
 }
 

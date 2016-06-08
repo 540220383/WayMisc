@@ -90,6 +90,8 @@
     
     FirstViewController *first = (FirstViewController*)[mainStoryboard
                                                         instantiateViewControllerWithIdentifier: @"FirstViewController"];
+    
+    
     self.window.rootViewController = first;
     
     

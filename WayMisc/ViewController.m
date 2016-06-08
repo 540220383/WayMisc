@@ -17,7 +17,12 @@
 #import "MJRefresh.h"
 #import "FoldTableViewController.h"
 #import "DeviceListViewController.h"
-@interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
+#import "BabyBluetooth.h"
+#import "ConnetcViewController.h"
+#import "NaviViewController.h"
+#import "VoiceDialViewController.h"
+
+@interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate,ConnetcDelegate>
 {
     NSInteger _page;
     BOOL isPlay;
@@ -37,6 +42,13 @@
 
 @implementation ViewController
 
+-(void)setBabyDelegate
+{
+
+    if ([SlideNavigationController sharedInstance].currPeripheral) {
+        [self setNotiWith:[SlideNavigationController sharedInstance].baby];
+    }
+}
 
 - (void)viewDidLoad
 {
@@ -74,9 +86,10 @@
     
     self.MainCollection.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.MainCollection.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadOldData)];
-    
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self performSelector:@selector(setBabyDelegate) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
+    
 }
 
 
@@ -402,7 +415,100 @@
         return YES;
     }
     return NO;
+
 }
+-(void)setNotiWith:(BabyBluetooth *)ble
+{
+    
+    __weak typeof(self)weakSelf = self;
+    
+    //设置读取characteristics的委托
+    
+    [ble setBlockOnReadValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
+        //        NSLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+        //        [weakSelf insertReadValues:characteristics];
+    }];
+    //设置发现characteristics的descriptors的委托
+    [ble setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
+        //        NSLog(@"CharacteristicViewController===characteristic name:%@",characteristic.service.UUID);
+        for (CBDescriptor *d in characteristic.descriptors) {
+            //            NSLog(@"CharacteristicViewController CBDescriptor name is :%@",d.UUID);
+            //            [weakSelf insertDescriptor:d];
+        }
+    }];
+    //设置读取Descriptor的委托
+    [ble setBlockOnReadValueForDescriptorsAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBDescriptor *descriptor, NSError *error) {
+        //        for (int i =0 ; i<descriptors.count; i++) {
+        //            if (descriptors[i]==descriptor) {
+        //                UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:2]];
+        //                //                NSString *valueStr = [[NSString alloc]initWithData:descriptor.value encoding:NSUTF8StringEncoding];
+        //                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",descriptor.value];
+        //            }
+        //        }
+        NSLog(@"CharacteristicViewController Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+    }];
+    
+    //设置写数据成功的block
+    [ble setBlockOnDidWriteValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
+        NSLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, [[NSString alloc]initWithData:characteristic.value encoding:NSASCIIStringEncoding]);
+    }];
+    
+    //设置通知状态改变的block
+    [ble setBlockOnDidUpdateNotificationStateForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
+        NSLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
+    }];
+    
+    [[SlideNavigationController sharedInstance].currPeripheral setNotifyValue:YES forCharacteristic:[SlideNavigationController sharedInstance].characteristic];
+    
+    
+    
+    [ble notify:[SlideNavigationController sharedInstance].currPeripheral characteristic:[SlideNavigationController sharedInstance].characteristic
+           block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
+               NSLog(@"notify block");
+               
+               NSString *value =[[NSString alloc]initWithData:characteristics.value encoding:NSASCIIStringEncoding];
+               
+               NSLog(@"new value %@",value);
+               if ([value isEqualToString:@"next"]) {
+                   [self next];
+               }else if ([value isEqualToString:@"previ"]){
+                   [self Previous];
+               }else if ([value isEqualToString:@"play"]){
+                   [self playOrPause];
+               }else if ([value isEqualToString:@"dh"]){
+                   NaviViewController *navi = [[NaviViewController alloc]init];
+                   
+                   
+                   [[SlideNavigationController sharedInstance] pushViewController:navi animated:YES];
+                   [[[SlideNavigationController sharedInstance].wmPlayer player]pause];
+               }else if ([value isEqualToString:@"bh"]){
+                   VoiceDialViewController *voiceDial = [[VoiceDialViewController alloc]init];
+                   
+                   
+                   [[SlideNavigationController sharedInstance] pushViewController:voiceDial animated:YES];
+                   //        [self presentViewController:navi animated:YES completion:nil];
+                   [[[SlideNavigationController sharedInstance].wmPlayer player]pause];
+               }
+               
+           }];
+    
+    ble.channel(channelOnCharacteristicView).characteristicDetails([SlideNavigationController sharedInstance].currPeripheral,[SlideNavigationController sharedInstance].characteristic);
+    
+    [weakSelf writeValue];
+    
+}
+
+-(void)writeValue{
+    //    int i = 10;
+    //    Byte b = 0X03;
+    //    NSData *data = [NSData dataWithBytes:&b length:sizeof(b)];
+    NSData *data = [@"nihao123321" dataUsingEncoding:NSASCIIStringEncoding];
+    //    NSData*d = [[NSString stringWithFo   rmat:@"nihao"] dataUsingEncoding:NSASCIIStringEncoding];
+    [[SlideNavigationController sharedInstance].currPeripheral writeValue:data forCharacteristic:[SlideNavigationController sharedInstance].characteristic type:CBCharacteristicWriteWithResponse];
+    
+//    NSLog(@"%@",[baby readValueForCharacteristic]);
+}
+
 
 
 

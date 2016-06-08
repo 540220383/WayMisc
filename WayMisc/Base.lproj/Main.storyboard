@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="msv-Ly-kJw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="msv-Ly-kJw">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -37,13 +37,18 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vG0-oD-2tp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="126" height="126"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="126" height="124"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="vG0-oD-2tp" secondAttribute="height" multiplier="1:1" id="Wp5-dH-JzD"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Wp5-dH-JzD"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2H-Pt-Lv1">
-                                                    <rect key="frame" x="10" y="132" width="106" height="14.5"/>
+                                                    <rect key="frame" x="10" y="130" width="106" height="14.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="32" id="nZO-Zl-FWg"/>
                                                     </constraints>
@@ -57,17 +62,17 @@
                                                     </variation>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybb-5X-BNS">
-                                                    <rect key="frame" x="0.0" y="145" width="126" height="32.5"/>
+                                                    <rect key="frame" x="0.0" y="143" width="126" height="34.5"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="radiolist_author" translatesAutoresizingMaskIntoConstraints="NO" id="0yz-Ou-SfU">
-                                                            <rect key="frame" x="10" y="9" width="10" height="14"/>
+                                                            <rect key="frame" x="10" y="10" width="10" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="10" id="0AO-tr-PbC"/>
                                                                 <constraint firstAttribute="height" constant="14" id="c4W-vb-a2b"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXf-wr-6sz">
-                                                            <rect key="frame" x="25" y="9" width="96" height="14.5"/>
+                                                            <rect key="frame" x="25" y="10" width="96" height="14.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="LGp-62-ur9"/>
                                                             </constraints>
@@ -91,7 +96,7 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playerlist_pause" translatesAutoresizingMaskIntoConstraints="NO" id="zaT-aS-bY2">
-                                                    <rect key="frame" x="0.0" y="0.5" width="126" height="126"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="126" height="124"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

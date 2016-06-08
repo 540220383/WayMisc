@@ -28,7 +28,8 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "WMPlayer.h"
-
+#import <CoreBluetooth/CoreBluetooth.h>
+#import "BabyBluetooth.h"
 @protocol SlideNavigationControllerDelegate <NSObject>
 @optional
 - (BOOL)slideNavigationControllerShouldDisplayRightMenu;
@@ -50,7 +51,10 @@ typedef  enum{
 @property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, strong) UIButton *FMLinkView;
 @property(strong,nonatomic) WMPlayer*wmPlayer;
+@property (nonatomic,strong) BabyBluetooth *baby;
 
+@property(strong,nonatomic)CBPeripheral *currPeripheral;
+@property (nonatomic,strong)CBCharacteristic *characteristic;
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
 

@@ -110,7 +110,7 @@ typedef enum{
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+//    [super viewWillAppear:animated];
     
     self.title = @"语音通话";
     self.view.backgroundColor = [UIColor blackColor];
@@ -133,7 +133,6 @@ typedef enum{
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self setContactPerson];
     [self AddressBook];
 
     [super viewDidAppear:animated];
@@ -213,8 +212,6 @@ typedef enum{
 }
 -(void)AddressBook
 {
-    
-    
     
     NSString *cachePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
     // 拼接文件名
@@ -339,10 +336,7 @@ typedef enum{
             NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel://%@",tel];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
             return ;
-            
         });
-
-        
         return;
 
     }else if (self.State == SpeakFailure){

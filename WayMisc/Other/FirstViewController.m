@@ -10,6 +10,7 @@
 #import "SlideNavigationController.h"
 #import <AddressBook/AddressBook.h>
 #import <AVFoundation/AVFoundation.h>
+#import "ConnetcViewController.h"
 @interface FirstViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *RemindLabel;
 
@@ -69,10 +70,12 @@
 
 }
 - (IBAction)NextPage:(id)sender {
-    SlideNavigationController *vc = [SlideNavigationController sharedInstance];
+    
+    ConnetcViewController *connetc = [[ConnetcViewController alloc]init];
+
     // 切换控制器
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = vc;
+    window.rootViewController = connetc;
 
 
 }

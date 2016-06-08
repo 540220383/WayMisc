@@ -17,6 +17,10 @@
 
 #define kScreenWidth   [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight   [UIScreen mainScreen].bounds.size.height
+
+#define channelOnPeropheralView @"peripheralView"
+#define channelOnCharacteristicView @"CharacteristicView"
+
 //讯飞语音APPID
 #define IFLYAPPID @"57305cae"
 //高德地图导航的APPID

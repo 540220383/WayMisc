@@ -20,7 +20,7 @@
 {
     _broad = broad;
     //设置图片
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:broad.img_url] placeholderImage:[UIImage imageNamed:@"tear"]];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:broad.img_url] placeholderImage:[UIImage imageNamed:@"Nornal"]];
     //设置节目描述
     NSString *subStr = broad.muc_name.length > 36?[broad.muc_name substringToIndex:36]:broad.muc_name;
     self.programDescLabel.text = subStr;
