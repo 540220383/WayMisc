@@ -18,6 +18,8 @@
 #define kScreenWidth   [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight   [UIScreen mainScreen].bounds.size.height
 
+#define kPlayImageW 29
+
 #define channelOnPeropheralView @"peripheralView"
 #define channelOnCharacteristicView @"CharacteristicView"
 

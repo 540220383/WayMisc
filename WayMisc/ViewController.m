@@ -21,12 +21,14 @@
 #import "ConnetcViewController.h"
 #import "NaviViewController.h"
 #import "VoiceDialViewController.h"
+#import "PlayerAnimation.h"
 
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate,ConnetcDelegate>
 {
     NSInteger _page;
     BOOL isPlay;
     NSIndexPath *tmpIndexPath;
+    UIImageView *moveImg;
 }
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
 @property (weak, nonatomic) IBOutlet FlowLayout *flowLayout;
@@ -190,23 +192,17 @@
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:section];
     RadioProgramsCell * cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     
-//    _wmPlayer.state = WMPlayerStatePlaying;
     cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
     [self.playerView setCoverNormalImage:@"footplayer_play"];
     [[_wmPlayer player] play];
     
-//    if (_wmPlayer.state == WMPlayerStatePlaying) {
-//        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
-//        [self.playerView setCoverNormalImage:@"footplayer_play"];
-//        [[_wmPlayer player] play];
-//
-//    }else{
-//        cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_pause"];
-//        [self.playerView setCoverNormalImage:@"footplayer_pause"];
-//        [[_wmPlayer player]pause];
-//
-//    }
     cell.playerStateIcon.hidden = NO;
+}
+
+-(void)removePlayerLayer
+{
+    [moveImg.layer removeAllAnimations];
+    [moveImg removeFromSuperview];
 }
 
 - (void)playOrPause{
@@ -227,7 +223,7 @@
         [[_wmPlayer player]play];
         [self.playerView setCoverNormalImage:@"footplayer_play"];
         cell.playerStateIcon.image = [UIImage imageNamed:@"playerlist_play"];
-
+        
     }
     
 }
@@ -256,11 +252,7 @@
         [self refreshUI];
         self.musicIndex++;
         [self updateCurrentMusicDetailModel];
-//        if (_wmPlayer.state == WMPlayerStatePlaying) {
-//            [[_wmPlayer player]play];
-//        }else{
-//            [[_wmPlayer player]pause];
-//        }
+
         
         [UIView animateWithDuration:0.35 animations:^{
             CGPoint labelPosition = CGPointMake(self.playerView.frame.origin.x - (kScreenWidth*0.5), self.playerView.frame.origin.y);
@@ -355,9 +347,10 @@
     if (self.musicIndex == indexPath.row){
         [self playOrPause];
     }else{
+        _wmPlayer.state = WMPlayerStatePlaying;
          RadioProgramsCell *cell = (RadioProgramsCell *)[collectionView cellForItemAtIndexPath:indexPath];
         cell.playerStateIcon.hidden = NO;
-        
+    
         
         [self refreshUI];
         
@@ -365,6 +358,20 @@
         self.musicIndex = indexPath.row;
         
         [self updateCurrentMusicDetailModel];
+        
+        moveImg = [[UIImageView alloc]initWithImage:cell.coverImageView.image];
+        moveImg.frame = CGRectMake(0, 0, kPlayImageW*2, kPlayImageW*2);
+        moveImg.layer.cornerRadius = kPlayImageW;
+        
+        CGPoint startPoint = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y);
+        //开演
+        [moveImg.layer addAnimation:[PlayerAnimation initMoveLayer:startPoint] forKey:@"moveAnimation"];
+      
+
+        [self.view addSubview:moveImg];
+        
+        [self performSelector:@selector(removePlayerLayer) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
+
     }
     
     
@@ -377,6 +384,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.musicIndex inSection:0];
     RadioProgramsCell *cell = (RadioProgramsCell *)[self.MainCollection cellForItemAtIndexPath:indexPath];
     cell.playerStateIcon.hidden = YES;
+    
     
 }
 

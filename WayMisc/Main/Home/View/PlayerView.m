@@ -39,8 +39,7 @@
 -(void)setBroad:(BroadcastingModel *)broad
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSData*data = [NSData dataWithContentsOfURL:[NSURL URLWithString:broad.img_url]];
-        self.radioCover.image = [UIImage imageWithData:data];
+        [self.radioCover sd_setImageWithURL:[NSURL URLWithString:broad.img_url] placeholderImage:[UIImage imageNamed:@"Nornal"]];
     });
     self.mucName.text = broad.muc_name;
     self.mucDesc.text = broad.user_name;

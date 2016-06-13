@@ -8,10 +8,7 @@
 
 #import "RadioProgramsCell.h"
 @interface RadioProgramsCell ()
-@property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
-@property (weak, nonatomic) IBOutlet UILabel *programDescLabel;
-@property (weak, nonatomic) IBOutlet UILabel *menuNameLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *DescHeightConstraint;
+
 
 
 @end

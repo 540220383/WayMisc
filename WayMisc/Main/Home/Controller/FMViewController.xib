@@ -12,6 +12,7 @@
                 <outlet property="MHzPickerView" destination="AgN-6Q-Zq4" id="XbB-Jn-Le0"/>
                 <outlet property="MHzViewMarginBottom" destination="oqx-zn-wiM" id="hud-Yg-cUi"/>
                 <outlet property="PickLabel" destination="dHh-1B-wjR" id="Dr2-Cg-r2m"/>
+                <outlet property="switchBtn" destination="laj-rd-LPq" id="eYr-Md-eQg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -44,7 +45,7 @@
                                 <action selector="FMoffOron:" destination="-1" eventType="touchUpInside" id="eCa-1w-N1K"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="equipmentui_fm_turn_wheel0" translatesAutoresizingMaskIntoConstraints="NO" id="uKF-Ib-6JG">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="equipmentui_fm_turn_wheel0" translatesAutoresizingMaskIntoConstraints="NO" id="uKF-Ib-6JG">
                             <rect key="frame" x="142" y="492" width="130" height="69"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtu-rH-BTh">
@@ -65,6 +66,7 @@
                         <constraint firstItem="laj-rd-LPq" firstAttribute="centerX" secondItem="gXd-vv-00l" secondAttribute="centerX" id="3xQ-yA-qCU"/>
                         <constraint firstAttribute="bottom" secondItem="laj-rd-LPq" secondAttribute="bottom" constant="16" id="HD5-Zp-zba"/>
                         <constraint firstItem="uKF-Ib-6JG" firstAttribute="width" secondItem="laj-rd-LPq" secondAttribute="width" id="INe-PV-zSy"/>
+                        <constraint firstItem="uKF-Ib-6JG" firstAttribute="centerX" secondItem="gXd-vv-00l" secondAttribute="centerX" id="KOB-I5-T7v"/>
                         <constraint firstItem="uKF-Ib-6JG" firstAttribute="centerX" secondItem="laj-rd-LPq" secondAttribute="centerX" id="hxN-MQ-gBA"/>
                         <constraint firstItem="gtu-rH-BTh" firstAttribute="leading" secondItem="gXd-vv-00l" secondAttribute="leading" constant="14" id="pIX-mg-zaa"/>
                         <constraint firstItem="laj-rd-LPq" firstAttribute="top" secondItem="uKF-Ib-6JG" secondAttribute="bottom" constant="2" id="src-Z3-nKL"/>

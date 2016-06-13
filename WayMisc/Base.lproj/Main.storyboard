@@ -62,17 +62,17 @@
                                                     </variation>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybb-5X-BNS">
-                                                    <rect key="frame" x="0.0" y="143" width="126" height="34.5"/>
+                                                    <rect key="frame" x="0.0" y="146.5" width="126" height="31"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="radiolist_author" translatesAutoresizingMaskIntoConstraints="NO" id="0yz-Ou-SfU">
-                                                            <rect key="frame" x="10" y="10" width="10" height="14"/>
+                                                            <rect key="frame" x="10" y="8.5" width="10" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="10" id="0AO-tr-PbC"/>
                                                                 <constraint firstAttribute="height" constant="14" id="c4W-vb-a2b"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXf-wr-6sz">
-                                                            <rect key="frame" x="25" y="10" width="96" height="14.5"/>
+                                                            <rect key="frame" x="25" y="8.5" width="96" height="14.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="LGp-62-ur9"/>
                                                             </constraints>
@@ -92,6 +92,7 @@
                                                         <constraint firstItem="0yz-Ou-SfU" firstAttribute="leading" secondItem="ybb-5X-BNS" secondAttribute="leading" constant="10" id="OUr-8A-dGc"/>
                                                         <constraint firstItem="KXf-wr-6sz" firstAttribute="centerY" secondItem="ybb-5X-BNS" secondAttribute="centerY" id="Y0l-Hu-tQp"/>
                                                         <constraint firstItem="0yz-Ou-SfU" firstAttribute="centerY" secondItem="ybb-5X-BNS" secondAttribute="centerY" constant="-0.25" id="vfQ-Lz-KVF"/>
+                                                        <constraint firstAttribute="height" constant="31" id="wah-Hl-dBv"/>
                                                         <constraint firstItem="KXf-wr-6sz" firstAttribute="leading" secondItem="0yz-Ou-SfU" secondAttribute="trailing" constant="5" id="xuT-Je-f4f"/>
                                                     </constraints>
                                                 </view>
@@ -111,13 +112,19 @@
                                             <constraint firstItem="zaT-aS-bY2" firstAttribute="width" secondItem="vG0-oD-2tp" secondAttribute="width" id="PfT-jw-GJt"/>
                                             <constraint firstAttribute="trailing" secondItem="vG0-oD-2tp" secondAttribute="trailing" id="WFO-sa-5Kk"/>
                                             <constraint firstAttribute="bottom" secondItem="ybb-5X-BNS" secondAttribute="bottom" constant="1.5" id="YNC-f7-KZW"/>
-                                            <constraint firstItem="ybb-5X-BNS" firstAttribute="top" secondItem="O2H-Pt-Lv1" secondAttribute="bottom" constant="-1.5" id="Z7F-ye-aA2"/>
+                                            <constraint firstItem="ybb-5X-BNS" firstAttribute="top" secondItem="O2H-Pt-Lv1" secondAttribute="bottom" constant="2" id="Z7F-ye-aA2"/>
                                             <constraint firstItem="vG0-oD-2tp" firstAttribute="leading" secondItem="vgC-j3-EY0" secondAttribute="leading" id="bzz-Zq-rol"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="ybb-5X-BNS" secondAttribute="bottom" constant="-6.5" id="hfy-31-zWE"/>
                                             <constraint firstItem="O2H-Pt-Lv1" firstAttribute="top" secondItem="vG0-oD-2tp" secondAttribute="bottom" constant="6" id="jPk-Wy-pgp"/>
                                             <constraint firstAttribute="trailing" secondItem="O2H-Pt-Lv1" secondAttribute="trailing" constant="10" id="opX-6O-2Q3"/>
                                             <constraint firstItem="zaT-aS-bY2" firstAttribute="centerY" secondItem="vG0-oD-2tp" secondAttribute="centerY" id="rib-p5-zqB"/>
                                             <constraint firstItem="zaT-aS-bY2" firstAttribute="height" secondItem="vG0-oD-2tp" secondAttribute="height" id="zJm-dS-CHg"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="YNC-f7-KZW"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outlet property="DescHeightConstraint" destination="nZO-Zl-FWg" id="Htl-iM-8kJ"/>
                                             <outlet property="coverImageView" destination="vG0-oD-2tp" id="EWo-q9-ld7"/>

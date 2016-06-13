@@ -42,19 +42,19 @@
                         <action selector="collection:" destination="iN0-l3-epB" eventType="touchUpInside" id="bag-Z2-NR8"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLn-qV-ZhA">
-                    <rect key="frame" x="115" y="8" width="139" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bLn-qV-ZhA">
+                    <rect key="frame" x="115" y="18" width="139" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKu-ev-BGi">
-                    <rect key="frame" x="115" y="26" width="139" height="18"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <rect key="frame" x="115" y="34" width="139" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip0-Dh-LXA">
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip0-Dh-LXA">
                     <rect key="frame" x="15" y="15" width="28" height="28"/>
                     <state key="normal" backgroundImage="footplayer_ico_radio"/>
                 </button>
@@ -62,7 +62,7 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Wav-Tb-Ga7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BmO-IW-aBp"/>
-                <constraint firstItem="qKu-ev-BGi" firstAttribute="top" secondItem="bLn-qV-ZhA" secondAttribute="bottom" id="DtE-RW-Ja5"/>
+                <constraint firstItem="qKu-ev-BGi" firstAttribute="top" secondItem="bLn-qV-ZhA" secondAttribute="bottom" constant="-2" id="DtE-RW-Ja5"/>
                 <constraint firstItem="uxL-uR-4GE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PMT-FT-XSk"/>
                 <constraint firstItem="qKu-ev-BGi" firstAttribute="trailing" secondItem="bLn-qV-ZhA" secondAttribute="trailing" id="UPU-tP-69S"/>
                 <constraint firstItem="BUj-Gz-Hup" firstAttribute="leading" secondItem="uxL-uR-4GE" secondAttribute="trailing" id="Wm7-25-P82"/>
@@ -71,12 +71,18 @@
                 <constraint firstItem="BUj-Gz-Hup" firstAttribute="top" secondItem="uxL-uR-4GE" secondAttribute="bottom" constant="-56" id="gN5-7h-7ZH"/>
                 <constraint firstItem="qKu-ev-BGi" firstAttribute="leading" secondItem="bLn-qV-ZhA" secondAttribute="leading" id="gnO-EE-0Rv"/>
                 <constraint firstAttribute="trailing" secondItem="Wav-Tb-Ga7" secondAttribute="trailing" id="hgq-hB-Pew"/>
-                <constraint firstItem="bLn-qV-ZhA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="i0B-E0-PL9"/>
+                <constraint firstItem="bLn-qV-ZhA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="i0B-E0-PL9"/>
+                <constraint firstAttribute="bottom" secondItem="qKu-ev-BGi" secondAttribute="bottom" constant="7" id="kML-pu-Rcc"/>
                 <constraint firstItem="Ip0-Dh-LXA" firstAttribute="centerX" secondItem="uxL-uR-4GE" secondAttribute="centerX" id="puV-hI-Fip"/>
                 <constraint firstItem="bLn-qV-ZhA" firstAttribute="leading" secondItem="BUj-Gz-Hup" secondAttribute="trailing" constant="3" id="qvf-yB-4h0"/>
                 <constraint firstItem="Ip0-Dh-LXA" firstAttribute="centerY" secondItem="uxL-uR-4GE" secondAttribute="centerY" id="r8g-ND-KmR"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="i0B-E0-PL9"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="Cover" destination="BUj-Gz-Hup" id="3Z3-NE-zs3"/>
                 <outlet property="mucDesc" destination="qKu-ev-BGi" id="4fb-dE-Aab"/>

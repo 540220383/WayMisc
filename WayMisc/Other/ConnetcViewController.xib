@@ -53,7 +53,7 @@
                         <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="con">
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                             <integer key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
@@ -68,6 +68,7 @@
                 <constraint firstItem="XeD-S2-6Fw" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="I9J-d5-D78"/>
                 <constraint firstItem="7vZ-bx-dxx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="47" id="LjS-xC-lzR"/>
                 <constraint firstItem="nvX-qV-lSf" firstAttribute="top" secondItem="7vZ-bx-dxx" secondAttribute="bottom" constant="40" id="OP1-O6-LCg"/>
+                <constraint firstItem="XeD-S2-6Fw" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="THZ-1u-D1o"/>
                 <constraint firstItem="RDW-Ij-ys3" firstAttribute="top" secondItem="sIi-AC-LRD" secondAttribute="bottom" constant="36" id="V3c-5h-Ghb"/>
                 <constraint firstItem="XeD-S2-6Fw" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="aih-YY-1Np"/>
                 <constraint firstItem="RDW-Ij-ys3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="ayn-qs-2x5"/>
@@ -78,6 +79,11 @@
                 <constraint firstAttribute="trailing" secondItem="nvX-qV-lSf" secondAttribute="trailing" constant="40" id="wqv-UX-Lbb"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="aih-YY-1Np"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="425" y="204"/>
         </view>
     </objects>

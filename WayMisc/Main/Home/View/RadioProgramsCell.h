@@ -11,5 +11,8 @@
 @interface RadioProgramsCell : UICollectionViewCell
 @property (nonatomic , strong) BroadcastingModel *broad;
 @property (weak, nonatomic) IBOutlet UIImageView *playerStateIcon;
-
+@property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet UILabel *programDescLabel;
+@property (weak, nonatomic) IBOutlet UILabel *menuNameLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *DescHeightConstraint;
 @end

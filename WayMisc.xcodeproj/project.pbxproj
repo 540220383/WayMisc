@@ -157,6 +157,7 @@
 		F0CD92E41D07BB6F00BCADFF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0CD92E31D07BB6F00BCADFF /* CoreBluetooth.framework */; };
 		F0CD92E81D07BD2E00BCADFF /* ConnetcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0CD92E61D07BD2E00BCADFF /* ConnetcViewController.m */; };
 		F0CD92E91D07BD2E00BCADFF /* ConnetcViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0CD92E71D07BD2E00BCADFF /* ConnetcViewController.xib */; };
+		F0EA02191D0E935F0056BF02 /* PlayerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EA02181D0E935F0056BF02 /* PlayerAnimation.m */; };
 		F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */; };
 		F0F4C27A1CEDC8AB00CC1FAB /* VoiceDialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */; };
 /* End PBXBuildFile section */
@@ -462,6 +463,8 @@
 		F0CD92E51D07BD2E00BCADFF /* ConnetcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnetcViewController.h; sourceTree = "<group>"; };
 		F0CD92E61D07BD2E00BCADFF /* ConnetcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnetcViewController.m; sourceTree = "<group>"; };
 		F0CD92E71D07BD2E00BCADFF /* ConnetcViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnetcViewController.xib; sourceTree = "<group>"; };
+		F0EA02171D0E935F0056BF02 /* PlayerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerAnimation.h; sourceTree = "<group>"; };
+		F0EA02181D0E935F0056BF02 /* PlayerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerAnimation.m; sourceTree = "<group>"; };
 		F0F4C2751CEDC53200CC1FAB /* SlideNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationBar.h; sourceTree = "<group>"; };
 		F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationBar.m; sourceTree = "<group>"; };
 		F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceDialViewController.h; sourceTree = "<group>"; };
@@ -1065,6 +1068,8 @@
 				F097A0891CE1BC010044AB0F /* UIButton+CZ.m */,
 				F097A08A1CE1BC010044AB0F /* UIImage+CZ.h */,
 				F097A08B1CE1BC010044AB0F /* UIImage+CZ.m */,
+				F0EA02171D0E935F0056BF02 /* PlayerAnimation.h */,
+				F0EA02181D0E935F0056BF02 /* PlayerAnimation.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1344,6 +1349,7 @@
 				F0CD92BB1D07BA8C00BCADFF /* BabyPeripheralManager.m in Sources */,
 				9EBC88F91CE0736E00A71B49 /* AFNetworkReachabilityManager.m in Sources */,
 				F08D62171CE5A6C700DD0B21 /* NaviViewController.m in Sources */,
+				F0EA02191D0E935F0056BF02 /* PlayerAnimation.m in Sources */,
 				F0CD92BF1D07BA8C00BCADFF /* SVIndefiniteAnimatedView.m in Sources */,
 				F097A08E1CE1BC010044AB0F /* UIImage+CZ.m in Sources */,
 				F0CD92BA1D07BA8C00BCADFF /* BabyOptions.m in Sources */,

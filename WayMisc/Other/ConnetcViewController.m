@@ -46,7 +46,9 @@
 }
 - (IBAction)Skip:(id)sender {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // 切换控制器
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    window.rootViewController = [SlideNavigationController sharedInstance];
 }
 
 

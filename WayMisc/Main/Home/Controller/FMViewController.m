@@ -9,6 +9,7 @@
 #import "FMViewController.h"
 
 @interface FMViewController ()<UIPickerViewDelegate,UIPickerViewDataSource>
+@property (weak, nonatomic) IBOutlet UIButton *switchBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *MHzViewMarginBottom;
 @property (weak, nonatomic) IBOutlet UIImageView *AnimaImages;
 @property (weak, nonatomic) IBOutlet UIButton *FMBtn;
@@ -74,6 +75,11 @@
 
 - (void)AutoSearchFM
 {
+    
+    self.switchBtn.selected = YES;
+    [self.switchBtn setImage:[UIImage imageNamed:@"equipmentui_fm_on"] forState:UIControlStateNormal];
+
+    
     //开始动画
     [self.AnimaImages startAnimating];
     
