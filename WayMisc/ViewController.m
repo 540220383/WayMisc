@@ -55,6 +55,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [SlideNavigationController sharedInstance].FMLinkView.hidden = ![[DeviceInfo Instance]getFMState];
+    
     //默认page
     _page = 1;
     
@@ -300,7 +303,6 @@
     
     [self presentViewController:notice animated:YES completion:nil];
     
-    NSLog(@"我日");
 }
 
 

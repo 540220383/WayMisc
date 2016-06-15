@@ -21,6 +21,7 @@
 #import "iflyMSC/IFlySpeechConstant.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySetting.h"
+#import "ConnetcViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -92,7 +93,14 @@
                                                         instantiateViewControllerWithIdentifier: @"FirstViewController"];
     
     
-    self.window.rootViewController = first;
+    if ([DeviceInfo Instance].getVersion == nil) {
+        self.window.rootViewController = first;
+
+    }else{
+        ConnetcViewController *connetc = [[ConnetcViewController alloc]init];
+        self.window.rootViewController = connetc;
+
+    }
     
     
     return YES;

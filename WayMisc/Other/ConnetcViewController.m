@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 }
 
 
@@ -30,9 +31,8 @@
 
     [self babyDelegate:[SlideNavigationController sharedInstance].baby];
     
-    [SVProgressHUD showInfoWithStatus:@"开始连接设备"];
+//    [SVProgressHUD showInfoWithStatus:@"开始连接设备"];
 
-    
     if(![[SlideNavigationController sharedInstance].currPeripheral.name isEqualToString:@"CAR-KIT"]){
         //停止之前的连接
         [[SlideNavigationController sharedInstance].baby cancelAllPeripheralsConnection];
@@ -41,6 +41,7 @@
         //设置委托后直接可以使用，无需等待CBCentralManagerStatePoweredOn状态。
         [SlideNavigationController sharedInstance].baby.scanForPeripherals().begin();
         //baby.scanForPeripherals().begin().stop(10);
+        
     }
     
 }
@@ -67,7 +68,8 @@
     
     [ble setBlockOnCentralManagerDidUpdateState:^(CBCentralManager *central) {
         if (central.state == CBCentralManagerStatePoweredOn) {
-            [SVProgressHUD showInfoWithStatus:@"设备打开成功，开始扫描设备"];
+//            [SVProgressHUD showInfoWithStatus:@"设备打开成功，开始扫描设备"];
+            [SVProgressHUD showWithStatus:@"正在连接设备"];
         }
     }];
     
@@ -84,6 +86,8 @@
             [ble cancelScan];
             
             [self diso:ble];
+            
+            [SVProgressHUD dismiss];
             
         }
         //        [weakSelf insertTableView:peripheral advertisementData:advertisementData];
@@ -124,7 +128,7 @@
         // 切换控制器
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
         window.rootViewController = [SlideNavigationController sharedInstance];
-
+        
     }];
     
     //设置设备连接失败的委托

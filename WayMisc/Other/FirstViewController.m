@@ -66,7 +66,15 @@
             }];
         }
     }
+    
+    // 如何知道第一次使用这个版本？比较上次的使用情况
+    NSString *versionKey = @"CFBundleVersion";
+    //NSString *versionKey = (__bridge NSString *)kCFBundleVersionKey;
+    
+    
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
 
+    [[DeviceInfo Instance] saveVersion:currentVersion];
 
 }
 - (IBAction)NextPage:(id)sender {

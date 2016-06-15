@@ -117,6 +117,7 @@
 		F02A0E291CF578DB00A7DF2F /* PinyinFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E211CF578DB00A7DF2F /* PinyinFormatter.m */; };
 		F02A0E2A1CF578DB00A7DF2F /* PinyinHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F02A0E231CF578DB00A7DF2F /* PinyinHelper.m */; };
 		F02A0E2B1CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */; };
+		F06A49BB1D112A8A00B889DB /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F06A49BA1D112A8A00B889DB /* DeviceInfo.m */; };
 		F079B9C11CE474DC00D33980 /* FMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F079B9BF1CE474DC00D33980 /* FMViewController.m */; };
 		F079B9C21CE474DC00D33980 /* FMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F079B9C01CE474DC00D33980 /* FMViewController.xib */; };
 		F07B66EA1D000DD700A2A27C /* record_over.wav in Resources */ = {isa = PBXBuildFile; fileRef = F07B66E81D000DD700A2A27C /* record_over.wav */; };
@@ -385,6 +386,8 @@
 		F02A0E221CF578DB00A7DF2F /* PinyinHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinHelper.h; sourceTree = "<group>"; };
 		F02A0E231CF578DB00A7DF2F /* PinyinHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinHelper.m; sourceTree = "<group>"; };
 		F02A0E251CF578DB00A7DF2F /* unicode_to_hanyu_pinyin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unicode_to_hanyu_pinyin.txt; sourceTree = "<group>"; };
+		F06A49B91D112A8A00B889DB /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		F06A49BA1D112A8A00B889DB /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		F079B9BE1CE474DC00D33980 /* FMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMViewController.h; sourceTree = "<group>"; };
 		F079B9BF1CE474DC00D33980 /* FMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMViewController.m; sourceTree = "<group>"; };
 		F079B9C01CE474DC00D33980 /* FMViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMViewController.xib; sourceTree = "<group>"; };
@@ -587,6 +590,7 @@
 		9EBC880D1CE04CD400A71B49 /* WayMisc */ = {
 			isa = PBXGroup;
 			children = (
+				F06A49B81D112A0F00B889DB /* singleton */,
 				5269CDE91CE63314009383AC /* data */,
 				F097A0841CE1BC010044AB0F /* Lib */,
 				F097A0661CE1806B0044AB0F /* NetWork */,
@@ -1017,6 +1021,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		F06A49B81D112A0F00B889DB /* singleton */ = {
+			isa = PBXGroup;
+			children = (
+				F06A49B91D112A8A00B889DB /* DeviceInfo.h */,
+				F06A49BA1D112A8A00B889DB /* DeviceInfo.m */,
+			);
+			name = singleton;
+			sourceTree = "<group>";
+		};
 		F08D62121CE5A6B100DD0B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1360,6 +1373,7 @@
 				9EBC88961CE0727700A71B49 /* UIScrollView+MJRefresh.m in Sources */,
 				F0CD92E11D07BB5200BCADFF /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				F02A0E281CF578DB00A7DF2F /* NSString+PinYin4Cocoa.m in Sources */,
+				F06A49BB1D112A8A00B889DB /* DeviceInfo.m in Sources */,
 				F02A0E2A1CF578DB00A7DF2F /* PinyinHelper.m in Sources */,
 				9EBC88101CE04CD500A71B49 /* main.m in Sources */,
 				9EBC888D1CE0727700A71B49 /* MJRefreshBackGifFooter.m in Sources */,

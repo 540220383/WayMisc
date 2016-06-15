@@ -37,6 +37,7 @@
 #import "NSString+Frame.h"
 #import "UIViewController+PageHandle.h"
 #import "SlideNavigationController.h"
+#import "DeviceInfo.h"
 #endif
 
 #endif /* WayMisc_pch */

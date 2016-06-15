@@ -26,6 +26,13 @@
     
     self.tableView.delegate = self;
     
+
+    
+}
+
+-(void)viewWillLayoutSubviews
+{
+    _linkState.selected =[DeviceInfo Instance].getLinkState;
 }
 
 - (void)didReceiveMemoryWarning {

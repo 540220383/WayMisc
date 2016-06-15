@@ -226,9 +226,10 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69I-Dp-IUY">
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69I-Dp-IUY">
                                                     <rect key="frame" x="187" y="17" width="14" height="22"/>
                                                     <state key="normal" image="leftmanuico_nolink"/>
+                                                    <state key="selected" image="leftmanuico_linked"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -572,6 +573,7 @@
         <image name="bag_authority" width="305" height="112"/>
         <image name="leftmanuico_about" width="22" height="22"/>
         <image name="leftmanuico_hardware" width="22" height="22"/>
+        <image name="leftmanuico_linked" width="14" height="14"/>
         <image name="leftmanuico_nolink" width="14" height="14"/>
         <image name="leftmanuico_radio" width="22" height="22"/>
         <image name="leftmanuico_update" width="21" height="20"/>
