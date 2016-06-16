@@ -22,7 +22,7 @@
 #import "NaviViewController.h"
 #import "VoiceDialViewController.h"
 #import "PlayerAnimation.h"
-
+#import "SVProgressHUD.h"
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate,ConnetcDelegate>
 {
     NSInteger _page;
@@ -364,7 +364,7 @@
         moveImg = [[UIImageView alloc]initWithImage:cell.coverImageView.image];
         moveImg.frame = CGRectMake(0, 0, kPlayImageW*2, kPlayImageW*2);
         moveImg.layer.cornerRadius = kPlayImageW;
-        
+        moveImg.clipsToBounds = YES;
         CGPoint startPoint = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y);
         //开演
         [moveImg.layer addAnimation:[PlayerAnimation initMoveLayer:startPoint] forKey:@"moveAnimation"];
@@ -431,6 +431,23 @@
 {
     
     __weak typeof(self)weakSelf = self;
+    
+    
+    BabyRhythm *rhythm = [[BabyRhythm alloc]init];
+    
+    
+    //设置设备连接成功的委托,同一个baby对象，使用不同的channel切换委托回调
+    [ble setBlockOnConnectedAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral) {
+        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--连接成功",peripheral.name]];
+    }];
+    
+    //设置设备连接失败的委托
+    [ble setBlockOnFailToConnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
+        NSLog(@"设备：%@--连接失败",peripheral.name);
+        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--连接失败",peripheral.name]];
+        
+    }];
+    
     
     //设置读取characteristics的委托
     

@@ -81,11 +81,10 @@
             
             //添加断开自动重连
             [ble AutoReconnect:[SlideNavigationController sharedInstance].currPeripheral];
-            
             //停止扫描
             [ble cancelScan];
             
-            [self diso:ble];
+            [weakSelf diso:ble];
             
             [SVProgressHUD dismiss];
             

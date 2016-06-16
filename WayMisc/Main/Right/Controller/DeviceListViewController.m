@@ -18,16 +18,20 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.backgroundColor = [UIColor blackColor];
-    self.tableView.separatorStyle = UIAccessibilityTraitNone;
     [self.tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"cell"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
-    
-    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
+    panGesture.delegate = self;
+    [self.view addGestureRecognizer:panGesture];
 }
 
-
+-(void)panGestureRecognized:(UIPanGestureRecognizer *)pan
+{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -97,6 +101,8 @@
     
 }
 
+
+
 #pragma mark - UIGestureRecognizerDelegate
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -108,14 +114,23 @@
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    if ([gestureRecognizer.view isKindOfClass:[self.view class]]) {
+    
+    
+    if ([[otherGestureRecognizer.view class] isSubclassOfClass:[UITableView class]]) {
+        return NO;
+    }
+    
+    if( [[otherGestureRecognizer.view class] isSubclassOfClass:[UITableViewCell class]] ||
+       [NSStringFromClass([otherGestureRecognizer.view class]) isEqualToString:@"UITableViewCellScrollView"] ||
+       [NSStringFromClass([otherGestureRecognizer.view class]) isEqualToString:@"UITableViewWrapperView"]) {
+        
         return YES;
     }
-    return NO;
+    return YES;
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if ([touch.view isKindOfClass:[self.view class]]) {
+    if ([touch.view isKindOfClass:[DeviceCell class]]) {
         return YES;
     }
     return NO;
