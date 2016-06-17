@@ -94,6 +94,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self performSelector:@selector(setBabyDelegate) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(isConnect) userInfo:nil repeats:YES];
     
 }
 
@@ -435,6 +436,7 @@
     
     BabyRhythm *rhythm = [[BabyRhythm alloc]init];
     
+    [rhythm beats];
     
     //设置设备连接成功的委托,同一个baby对象，使用不同的channel切换委托回调
     [ble setBlockOnConnectedAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral) {
@@ -445,6 +447,8 @@
     [ble setBlockOnFailToConnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
         NSLog(@"设备：%@--连接失败",peripheral.name);
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--连接失败",peripheral.name]];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"连接失败" message:[NSString stringWithFormat:@"%ld",central.state] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
         
     }];
     
@@ -452,8 +456,7 @@
     //设置读取characteristics的委托
     
     [ble setBlockOnReadValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-        //        NSLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
-        //        [weakSelf insertReadValues:characteristics];
+            NSLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
     }];
     //设置发现characteristics的descriptors的委托
     [ble setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
@@ -519,9 +522,28 @@
                
            }];
     
+    [ble setBlockOnCentralManagerDidUpdateStateAtChannel:channelOnCharacteristicView block:^(CBCentralManager *central) {
+        NSLog(@"%ld",central.state);
+        
+        
+      
+    }];
+    
+       
     ble.channel(channelOnCharacteristicView).characteristicDetails([SlideNavigationController sharedInstance].currPeripheral,[SlideNavigationController sharedInstance].characteristic);
     
     [weakSelf writeValue];
+    
+}
+
+-(void)isConnect
+{
+    if ([SlideNavigationController sharedInstance].baby!=nil&&[SlideNavigationController sharedInstance].currPeripheral.state!= CBPeripheralStateConnected) {
+        
+        [SlideNavigationController sharedInstance].baby.having([SlideNavigationController sharedInstance].currPeripheral).and.channel(channelOnPeropheralView).then.connectToPeripherals().discoverServices().discoverCharacteristics().readValueForCharacteristic().discoverDescriptorsForCharacteristic().readValueForDescriptors().begin();
+     
+        [self performSelector:@selector(setBabyDelegate) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
+    }
     
 }
 

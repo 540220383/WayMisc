@@ -21,6 +21,8 @@
 #define kPlayImageW 29
 
 #define channelOnPeropheralView @"peripheralView"
+#define channelOnPeropheralView2 @"peripheralView2"
+
 #define channelOnCharacteristicView @"CharacteristicView"
 
 //讯飞语音APPID

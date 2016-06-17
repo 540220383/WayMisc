@@ -275,8 +275,8 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
 }
 - (void)appBecomeActive:(NSNotification *)note
 {
-    [self.player pause];
-    self.playOrPauseBtn.selected = YES;
+//    [self.player pause];
+//    self.playOrPauseBtn.selected = YES;
 }
 //视频进度条的点击事件
 - (void)actionTapGesture:(UITapGestureRecognizer *)sender {

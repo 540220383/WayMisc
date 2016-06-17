@@ -250,12 +250,12 @@
                   moduleName = "WayMisc"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/DeviceListViewController.m"
-                  timestampString = "487761164.238477"
+                  timestampString = "487840272.38582"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "48">
+                  offsetFromSymbolStart = "136">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -265,12 +265,12 @@
                   moduleName = "WayMisc"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/DeviceListViewController.m"
-                  timestampString = "487761164.238573"
+                  timestampString = "487840272.385929"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "60"
                   endingLineNumber = "60"
-                  offsetFromSymbolStart = "104">
+                  offsetFromSymbolStart = "112">
                </Location>
             </Locations>
          </BreakpointContent>
