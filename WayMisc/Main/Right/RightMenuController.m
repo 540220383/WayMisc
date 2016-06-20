@@ -11,7 +11,6 @@
 #import "AboutView.h"
 #import "DeviceListViewController.h"
 #import "VoiceDialViewController.h"
-
 @interface RightMenuController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *linkState;
 @property (weak, nonatomic) IBOutlet UILabel *deviceSerial;

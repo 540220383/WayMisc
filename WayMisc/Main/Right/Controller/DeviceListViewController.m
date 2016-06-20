@@ -8,6 +8,8 @@
 
 #import "DeviceListViewController.h"
 #import "DeviceCell.h"
+#import "ConnetcViewController.h"
+
 @interface DeviceListViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @end
@@ -97,6 +99,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.row == 0){
+        ConnetcViewController *con = [[ConnetcViewController alloc]init];
+        [self presentViewController:con animated:YES completion:nil];
+    }
      [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中
     
 }

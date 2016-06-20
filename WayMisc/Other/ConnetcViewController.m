@@ -47,9 +47,15 @@
 }
 - (IBAction)Skip:(id)sender {
     
-    // 切换控制器
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = [SlideNavigationController sharedInstance];
+    if([SlideNavigationController sharedInstance].viewControllers.count>1){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        // 切换控制器
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        window.rootViewController = [SlideNavigationController sharedInstance];
+  
+    }
+        
 }
 
 
@@ -124,9 +130,14 @@
     [ble setBlockOnConnectedAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral) {
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--连接成功",peripheral.name]];
         
-        // 切换控制器
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        window.rootViewController = [SlideNavigationController sharedInstance];
+        if([SlideNavigationController sharedInstance].viewControllers.count>1){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            // 切换控制器
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            window.rootViewController = [SlideNavigationController sharedInstance];
+        }
+        
         
     }];
     
@@ -159,7 +170,8 @@
             NSLog(@"===service name:%@",service.UUID);
             
         }
-        
+        [rhythm beats];
+
         //插入row到tableview
         //        [weakSelf insertRowToTableView:service];
         

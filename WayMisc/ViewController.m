@@ -23,6 +23,7 @@
 #import "VoiceDialViewController.h"
 #import "PlayerAnimation.h"
 #import "SVProgressHUD.h"
+#import "BleDataWriteTool.h"
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate,ConnetcDelegate>
 {
     NSInteger _page;
@@ -95,6 +96,7 @@
     
     [self performSelector:@selector(setBabyDelegate) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(isConnect) userInfo:nil repeats:YES];
+    
     
 }
 
@@ -367,8 +369,16 @@
         moveImg.layer.cornerRadius = kPlayImageW;
         moveImg.clipsToBounds = YES;
         CGPoint startPoint = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y);
+        
+        CAKeyframeAnimation *showAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+        showAnimation.additive = YES; // Make the values relative to the current value
+        showAnimation.values = @[[NSNumber numberWithFloat:0], [NSNumber numberWithFloat:2*M_PI]];
+        showAnimation.duration = 1.5;
+        showAnimation.delegate = self;
+        
         //开演
         [moveImg.layer addAnimation:[PlayerAnimation initMoveLayer:startPoint] forKey:@"moveAnimation"];
+        [moveImg.layer addAnimation:showAnimation forKey:@"rotateAnimation"];
       
 
         [self.view addSubview:moveImg];
@@ -499,6 +509,8 @@
                NSString *value =[[NSString alloc]initWithData:characteristics.value encoding:NSASCIIStringEncoding];
                
                NSLog(@"new value %@",value);
+               
+        
                if ([value isEqualToString:@"next"]) {
                    [self next];
                }else if ([value isEqualToString:@"previ"]){
@@ -529,7 +541,6 @@
       
     }];
     
-       
     ble.channel(channelOnCharacteristicView).characteristicDetails([SlideNavigationController sharedInstance].currPeripheral,[SlideNavigationController sharedInstance].characteristic);
     
     [weakSelf writeValue];
