@@ -134,30 +134,36 @@ typedef enum{
 {
     self.State = SpeakFinish;
     
-    [self Speaking:@"请问您想去哪里？"];
-    
+//    [self Speaking:@""];
+    [_iFlySpeechSynthesizer startSpeaking:@"请问您想去哪里？"];
     self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;  
     [super viewDidAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [_iFlySpeechSynthesizer stopSpeaking];
+    _iFlySpeechRecognizer = nil;
+    _iFlySpeechSynthesizer = nil;
+    
+    [self stopBtnHandler:nil];
+    [self.naviManager stopNavi];
+    
+    
+
+
     self.navigationController.toolbarHidden             = YES;
     [_iFlySpeechRecognizer cancel]; //取消识别
     [_iFlySpeechRecognizer setDelegate:nil];
     [_iFlySpeechRecognizer setParameter:@"" forKey:[IFlySpeechConstant PARAMS]];
-    [self stopBtnHandler:nil];
 
-    _iFlySpeechSynthesizer = nil;
-
-    [_iFlySpeechSynthesizer setDelegate:nil];
-    [_iFlySpeechSynthesizer stopSpeaking];
-    [_iFlySpeechRecognizer destroy];
-    _iFlySpeechRecognizer = nil;
     
-    [self.naviManager stopNavi];
+    
+    [_iFlySpeechSynthesizer setDelegate:nil];
+    [_iFlySpeechRecognizer destroy];
+    
 
-    [super viewWillDisappear:animated];
+//    [super viewWillDisappear:animated];
 
 }
 
@@ -660,7 +666,9 @@ typedef enum{
     SystemSoundID soundStartID=0;
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundStartID);
     AudioServicesPlaySystemSound(soundStartID);
-    [self startBtnHandler:nil];
+    if (_iFlySpeechRecognizer) {
+        [self startBtnHandler:nil];
+    }
     
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
 
@@ -850,11 +858,11 @@ typedef enum{
     
     if ([IATConfig sharedInstance].haveView == NO ) {
         NSString *text ;
-        
+    
         SystemSoundID soundOverID=0;
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundOverID);
-        
         AudioServicesPlaySystemSound(soundOverID);
+        
         if (self.isCanceled) {
             text = @"识别取消";
             

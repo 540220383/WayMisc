@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SpeechViewController : UIViewController
+#import <AMapNaviKit/MAMapKit.h>
+#import <AMapNaviKit/AMapNaviKit.h>
+#import <AMapSearchKit/AMapSearchAPI.h>
+@interface SpeechViewController : UIViewController<MAMapViewDelegate,AMapSearchDelegate,AMapNaviManagerDelegate>
+
+@property (nonatomic, strong) MAMapView *mapView;
+
+@property (nonatomic, strong) AMapSearchAPI *search;
+
+@property (nonatomic, strong) AMapNaviManager *naviManager;
+
+
+
+
 
 @end

@@ -16,7 +16,7 @@
  */
 +(NSString *)getMinuteSecondWithSecond:(NSTimeInterval)time;
 + (NSString *)fuzzyQueryMothedsWith:(NSString *)string;
-+(NSString *)handelWithNum:(NSMutableString *)num;
-+(NSString *)handelWithOnlyOneNum:(NSMutableString *)num;
++(NSString *)handelWithNum:(NSString *)num;
++(NSString *)handelWithOnlyOneNum:(NSString *)num;
 
 @end

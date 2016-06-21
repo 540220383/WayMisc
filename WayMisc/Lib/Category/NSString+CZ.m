@@ -22,25 +22,29 @@
     //2:09
     return [NSString stringWithFormat:@"%d:0%d",minute,second];
 }
-+(NSString *)handelWithOnlyOneNum:(NSMutableString *)num
++(NSString *)handelWithOnlyOneNum:(NSString *)num
 {
-    for (int j =1; j<num.length; j++) {
-        [num insertString:@"," atIndex:j++];
+    NSMutableString*str = [[NSMutableString alloc]initWithString:num];
+
+    for (int j =1; j<str.length; j++) {
+        [str insertString:@"," atIndex:j++];
     }
     
-    return num;
+    return str;
 }
-+(NSString *)handelWithNum:(NSMutableString *)num
++(NSString *)handelWithNum:(NSString *)num
 {
+    
+    NSMutableString*str = [[NSMutableString alloc]initWithString:num];
     
     for (int j =1; j<5; j++) {
-        [num insertString:@"," atIndex:j++];
+        [str insertString:@"," atIndex:j++];
         
     }
-    if(num.length>=5){
-        return  [num substringToIndex:5];
+    if(str.length>=5){
+        return  [str substringToIndex:5];
     }
-    return num;
+    return str;
 }
 
 + (NSString *)fuzzyQueryMothedsWith:(NSString *)string

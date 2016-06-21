@@ -543,6 +543,8 @@
     
     ble.channel(channelOnCharacteristicView).characteristicDetails([SlideNavigationController sharedInstance].currPeripheral,[SlideNavigationController sharedInstance].characteristic);
     
+    ble.channel(channelOnPeropheralView).characteristicDetails([SlideNavigationController sharedInstance].currPeripheral,[SlideNavigationController sharedInstance].characteristic);
+    
     [weakSelf writeValue];
     
 }
@@ -560,13 +562,13 @@
 
 -(void)writeValue{
     //    int i = 10;
-    //    Byte b = 0X03;
+//    Byte b[] = {0x03,3,5};
     //    NSData *data = [NSData dataWithBytes:&b length:sizeof(b)];
     NSData *data = [@"nihao123321" dataUsingEncoding:NSASCIIStringEncoding];
     //    NSData*d = [[NSString stringWithFo   rmat:@"nihao"] dataUsingEncoding:NSASCIIStringEncoding];
     [[SlideNavigationController sharedInstance].currPeripheral writeValue:data forCharacteristic:[SlideNavigationController sharedInstance].characteristic type:CBCharacteristicWriteWithResponse];
     
-//    NSLog(@"%@",[baby readValueForCharacteristic]);
+    NSLog(@"%@",[[SlideNavigationController sharedInstance].baby readValueForCharacteristic]);
 }
 
 

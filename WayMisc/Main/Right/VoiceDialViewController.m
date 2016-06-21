@@ -162,7 +162,7 @@ typedef enum{
     
     _iFlySpeechSynthesizer.delegate = nil;
     _iFlySpeechSynthesizer = nil;
-    [super viewWillDisappear:animated];
+//    [super viewWillDisappear:animated];
     
 }
 
@@ -349,7 +349,10 @@ typedef enum{
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundStartID);
     AudioServicesPlaySystemSound(soundStartID);
     
-    [self startBtnHandler:nil];
+    if (_iFlySpeechRecognizer) {
+        [self startBtnHandler:nil];
+    }
+
     NSLog(@"Speak Error:{%d:%@}", error.errorCode, error.errorDesc);
     
 }

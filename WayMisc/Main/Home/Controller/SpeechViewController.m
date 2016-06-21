@@ -21,6 +21,12 @@
 #import "IFlySpeechUnderHelper.h"
 #import "IFlySpeechSynHelper.h"
 #import "FMDBHelper.h"
+#import "NSString+CZ.h"
+
+#import "APIKey.h"
+#import "MANaviAnnotationView.h"
+#import "NaviBottomView.h"
+
 
 #import "ContactHelper.h"
 #import "FilterContact.h"
@@ -32,7 +38,16 @@ typedef NS_ENUM(NSInteger, ChooseType){
     CHOOSE_CONTACT,//通讯录
     CHOOSE_PHONENUMBER//电话
 };
-@interface SpeechViewController ()<IFlySpeechRecognizerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface SpeechViewController ()<IFlySpeechRecognizerDelegate,UITableViewDataSource,UITableViewDelegate,AMapNaviViewControllerDelegate>
+{
+    AMapNaviPoint *_endPoint;
+    
+    MAUserLocation *_userLocation;
+    
+    NSMutableArray *_poiAnnotations;
+    
+    NSString *addressStr;
+}
 @property (nonatomic, strong) IFlySpeechRecognizer *iFlySpeechRecognizer;//语法识别对象
 /**
  *  语义理解对象
@@ -66,8 +81,23 @@ typedef NS_ENUM(NSInteger, ChooseType){
  */
 @property (nonatomic, assign) ChooseType choosetype;
 
+@property (nonatomic, copy) FilterContact *readyContact;
+
 //是否正在上传
 @property (nonatomic, assign) BOOL isUploading;
+
+@property (nonatomic, strong) AMapNaviViewController *naviViewController;
+
+@property (nonatomic, strong) NaviBottomView *bottomBar;//底部状态栏
+
+@property (nonatomic ,strong) NSMutableArray *objArry; //结果数组
+
+@property (nonatomic ,strong) UITableView *tableView; //结果列表
+
+@property (nonatomic ,strong) NSURL *startUrl;//开始录音
+
+@property (nonatomic ,strong) NSURL *overUrl;//结束录音
+
 
 @end
 
@@ -100,7 +130,28 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 {
     self.choosetype = CHOOSE_NAV;
     NSLog(@"接收到的数据是:%@",notify.object);
+    
+    NSString * result = (NSString *)notify.object;
+
+
+    [self initProperties];
+    
+    [self initSearch];
+    
+    [self initNaviManager];
+    
+    [self initbottomBar];
+    
+//    [self initMapView];
+    [self.view addSubview:self.mapView];
+
+    [self initTableView];
+
+    
     //开始poi搜索
+    
+
+    [self searchDestination:result];
     
 }
 - (void)callSomeOne:(NSNotification *)notify
@@ -111,13 +162,14 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     
     NSString *pinyin = [ContactHelper changeHanZiToPinYinWith:name];
     NSString *fuzzyPY = [ContactHelper fuzzyQueryMothedsWith:pinyin];
+    NSMutableString *strResult = [[NSMutableString alloc]init];
     //开始搜索数据库模糊匹配
     _matchingArray =[_dataHelper queryContactWithFuzzyName:fuzzyPY];
     if(_matchingArray.count == 0)
     {
         if(![_synHelper isSpeaking])
-        {   _synHelper.completedStatu = CloseUnderListen;
-            [_synHelper startSpeaking:@"没有为你找到匹配的联系人"];
+        {   _synHelper.completedStatu = OpenUnderListen;
+            [_synHelper startSpeaking:@"没听清楚，再说一遍!"];
         }
     }
     else if (_matchingArray.count == 1)
@@ -125,20 +177,54 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
         _matchContact = _matchingArray[0];
         if(_matchContact.PhoneNumbers.count > 1)
         {
+            [strResult appendString:@"呼叫以下哪个联系人："];
+            
             if(![_synHelper isSpeaking])
             {   _synHelper.completedStatu = OpenUnderListen;
                 self.choosetype = CHOOSE_PHONENUMBER;
-                [_synHelper startSpeaking:[NSString stringWithFormat:@"为你找到联系人%@,请选择第几个号码?",_matchContact.fullName]];
+                
+                for (NSInteger j = 0; j<_matchContact.PhoneNumbers.count; j++) {
+                    [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",j+1,_matchContact.fullName,[NSString handelWithNum:_matchContact.PhoneNumbers[j]]]];
+                }
+
+                [_synHelper startSpeaking:strResult];
             }
         }
         else
         {
-            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_matchContact.PhoneNumbers firstObject]]]];
+            
+          
+            
+            _readyContact = _matchContact;
+
+            [strResult appendString:[NSString stringWithFormat:@"为您找到%@%@",_matchContact.fullName,[_matchContact.PhoneNumbers firstObject]]];
+            
+            [strResult appendString:@";呼叫还是取消"];
+            
+            if(![_synHelper isSpeaking])
+            {   _synHelper.completedStatu = OpenUnderListen;
+                [_synHelper startSpeaking:strResult];
+                
             }
+            
+           
         }
         
+    }else if ([name rangeOfString:@"呼叫"].location !=NSNotFound){
+        
+         [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
+        
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_readyContact.PhoneNumbers firstObject]]]];
+        }
+    }else if ([name rangeOfString:@"取消"].location !=NSNotFound){
+        _readyContact = nil;
+        if(![_synHelper isSpeaking])
+        {   _synHelper.completedStatu = CloseUnderListen;
+            [_synHelper startSpeaking:@"已经为您取消"];
+            
+        }
     }
     else
     {
@@ -161,6 +247,133 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 - (void)customSemantic:(NSNotification *)notify
 {
     NSLog(@"接收到的数据是:%@",notify.object);
+    NSString * name = (NSString *)notify.object;
+    
+    if(self.choosetype == CHOOSE_NAV){
+        NSString * result = (NSString *)notify.object;
+
+        if ([result rangeOfString:@"导航"].location !=NSNotFound){
+            [self startEmulatorNavi];
+            
+        }else if ([result rangeOfString:@"取消"].location !=NSNotFound){
+            
+            if(![_synHelper isSpeaking])
+            {   _synHelper.completedStatu = CloseUnderListen;
+                [_synHelper startSpeaking:@"已经为您取消"];
+                return;
+            }
+        }
+
+    }
+    
+    if ([name isEqualToString:@"呼叫"]){
+        
+        [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
+        
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_readyContact.PhoneNumbers firstObject]]]];
+        }
+    }else if ([name isEqualToString:@"取消"]){
+        _readyContact = nil;
+        if(![_synHelper isSpeaking])
+        {   _synHelper.completedStatu = CloseUnderListen;
+            [_synHelper startSpeaking:@"已经为您取消"];
+            
+        }
+    }
+
+    
+}
+
+- (void)chooseList:(NSNotification *)notify
+{
+    NSLog(@"接收到的数据是:%@",notify.object);
+    
+    NSInteger index = [notify.object integerValue];
+    if(self.choosetype == CHOOSE_NAV)
+    {
+        NSString * result = (NSString *)notify.object;
+        if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]])
+        {
+        
+        }
+        
+        if ([result rangeOfString:@"导航"].location !=NSNotFound){
+            [self startEmulatorNavi];
+            
+        }else if ([result rangeOfString:@"取消"].location !=NSNotFound){
+            
+            if(![_synHelper isSpeaking])
+            {   _synHelper.completedStatu = CloseUnderListen;
+                [_synHelper startSpeaking:@"已经为您取消"];
+                return;
+            }
+        }
+
+        NSLog(@"########################################");
+        //链接百度HUD
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            
+        });
+        
+        
+    }
+    else if(self.choosetype == CHOOSE_CONTACT)
+    {
+        NSString * name = (NSString *)notify.object;
+
+        if(0 <= index < self.matchingArray.count)
+        {
+            _matchContact = self.matchingArray[index];
+            if(_matchContact.PhoneNumbers.count > 1)
+            {
+                if(![_synHelper isSpeaking])
+                {   _synHelper.completedStatu = OpenUnderListen;
+                    self.choosetype = CHOOSE_PHONENUMBER;
+                    [_synHelper startSpeaking:[NSString stringWithFormat:@"为你找到联系人%@,请选择第几个号码?",_matchContact.fullName]];
+                }
+            }
+            else
+            {
+                if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+                {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_matchContact.PhoneNumbers firstObject]]]];
+                }
+            }
+            
+        }else if ([name rangeOfString:@"呼叫"].location !=NSNotFound){
+            
+            [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
+            
+            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_readyContact.PhoneNumbers firstObject]]]];
+            }
+        }else if ([name rangeOfString:@"取消"].location !=NSNotFound){
+            _readyContact = nil;
+            if(![_synHelper isSpeaking])
+            {   _synHelper.completedStatu = CloseUnderListen;
+                [_synHelper startSpeaking:@"已经为您取消"];
+                
+            }
+        }
+        
+    }
+    else if (self.choosetype == CHOOSE_PHONENUMBER)
+    {
+        NSArray *phones = _matchContact.PhoneNumbers;
+        if(0 <= index< phones.count)
+        {
+            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phones[index]]]];
+            }
+            
+        }
+        
+    }
 }
 
 - (void)underStanderStartListen
@@ -175,7 +388,7 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     self.grammarType = GRAMMAR_TYPE_ABNF;
     _isUploading = YES;
     self.uploader = [[IFlyDataUploader alloc] init];
-
+    
     
     //设置语义单例
     _underHelper = [IFlySpeechUnderHelper shareInstance];
@@ -190,6 +403,10 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(underStanderStartListen) name:@"SpeakingFinished" object:nil];
     
     
+    self.startUrl=[[NSBundle mainBundle]URLForResource:@"start_record.wav" withExtension:nil];
+    
+    self.overUrl=[[NSBundle mainBundle]URLForResource:@"record_over.wav" withExtension:nil];
+
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     
@@ -199,8 +416,8 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     [btn addTarget:self action:@selector(startRecBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-//    [self performSelector:@selector(startRecBtn) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
-
+    //    [self performSelector:@selector(startRecBtn) withObject:nil/*可传任意类型参数*/ afterDelay:2.0];
+    
     
 }
 - (void)startRecBtn
@@ -220,9 +437,18 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//        [self initRecognizer];
-//        [self initSynthesizer];
+    //        [self initRecognizer];
+    //        [self initSynthesizer];
+    [self initMapView];
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
+
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -243,65 +469,6 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-- (void)chooseList:(NSNotification *)notify
-{
-    NSLog(@"接收到的数据是:%@",notify.object);
-    NSInteger index = [notify.object integerValue];
-    if(self.choosetype == CHOOSE_NAV)
-    {
-        if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]])
-        {
-        
-        }
-        NSLog(@"########################################");
-        //链接百度HUD
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            
-        });
-        
-        
-    }
-    else if(self.choosetype == CHOOSE_CONTACT)
-    {
-        if(0 <= index < self.matchingArray.count)
-        {
-            _matchContact = self.matchingArray[index];
-            if(_matchContact.PhoneNumbers.count > 1)
-            {
-                if(![_synHelper isSpeaking])
-                {   _synHelper.completedStatu = OpenUnderListen;
-                    self.choosetype = CHOOSE_PHONENUMBER;
-                    [_synHelper startSpeaking:[NSString stringWithFormat:@"为你找到联系人%@,请选择第几个号码?",_matchContact.fullName]];
-                }
-            }
-            else
-            {
-                if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
-                {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_matchContact.PhoneNumbers firstObject]]]];
-                }
-            }
-            
-        }
-    }
-    else if (self.choosetype == CHOOSE_PHONENUMBER)
-    {
-        NSArray *phones = _matchContact.PhoneNumbers;
-        if(0 <= index< phones.count)
-        {
-            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phones[index]]]];
-            }
-            
-        }
-        
-    }
-}
-
-
 #pragma mark----------讯飞相关方法
 
 /**
@@ -422,6 +589,472 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(NSMutableArray *)objArry
+{
+    if (_objArry == nil) {
+        _objArry = [NSMutableArray array];
+    }
+    
+    return _objArry;
+}
+
+-(void)initTableView
+{
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight*0.5) style:UITableViewStylePlain];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
+
+}
+
+-(void)initbottomBar
+{
+    if (self.bottomBar == nil) {
+        _bottomBar = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
+        _bottomBar.frame = CGRectMake(0, kScreenHeight-84, kScreenWidth, 84);
+        
+        [_bottomBar.destinationBtn addTarget:self action:@selector(startEmulatorNavi) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_bottomBar.showList addTarget:self action:@selector(showResult) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_bottomBar];
+        
+    }
+}
+
+- (void)initProperties
+{
+    _poiAnnotations = [[NSMutableArray alloc] init];
+}
+
+- (void)initSearch
+{
+    if (self.search == nil)
+    {
+        self.search = [[AMapSearchAPI alloc] init];
+        self.search.delegate = self;
+    }
+}
+
+- (void)initNaviManager
+{
+    if (self.naviManager == nil)
+    {
+        self.naviManager = [[AMapNaviManager alloc] init];
+    }
+    
+    [self.naviManager setDelegate:self];
+}
+
+- (void)initNaviViewController
+{
+    if (self.naviViewController == nil)
+    {
+        self.naviViewController = [[AMapNaviViewController alloc] initWithDelegate:self];
+    }
+    
+    [self.naviViewController setDelegate:self];
+}
+
+- (void)initMapView
+{
+    if (_mapView == nil)
+    {
+        _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-84)];
+    }
+    
+    [self.mapView setDelegate:self];
+    [self.mapView setShowsUserLocation:YES];
+    [self.mapView setZoomLevel:14];
+}
+-(void)showResult
+{
+    //    [self showPOIAnnotations];
+    [self.tableView reloadData];
+    self.bottomBar.hidden = YES;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableView.center = CGPointMake(kScreenWidth*0.5, kScreenHeight*0.75);
+    }];
+}
+
+
+
+#pragma mark - Search
+
+-(void)searchDestination:(NSString*)Destinationstr{
+    AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
+    
+    if (_userLocation)
+    {
+        request.location = [AMapGeoPoint locationWithLatitude:_userLocation.location.coordinate.latitude
+                                                    longitude:_userLocation.location.coordinate.longitude];
+    }
+    else
+    {
+        request.location = [AMapGeoPoint locationWithLatitude:39.990459 longitude:116.471476];
+    }
+    request.keywords            = Destinationstr;
+    request.sortrule            = 1;
+    request.radius = 50000;
+    request.requireExtension    = YES;
+    request.offset = 10;
+    [self.search AMapPOIAroundSearch:request];
+    
+}
+
+- (void)searchAction:(UISegmentedControl *)segmentedControl
+{
+    AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
+    
+    if (_userLocation)
+    {
+        request.location = [AMapGeoPoint locationWithLatitude:_userLocation.location.coordinate.latitude
+                                                    longitude:_userLocation.location.coordinate.longitude];
+    }
+    else
+    {
+        request.location = [AMapGeoPoint locationWithLatitude:39.990459 longitude:116.471476];
+    }
+    request.keywords            = [segmentedControl titleForSegmentAtIndex:segmentedControl.selectedSegmentIndex];
+    request.sortrule            = 1;
+    request.radius = 50000;
+    request.requireExtension    = NO;
+    [self.search AMapPOIAroundSearch:request];
+}
+
+#pragma mark - Actions
+
+- (void)startEmulatorNavi
+{
+    [self calculateRoute];
+}
+
+- (void)calculateRoute
+{
+    NSArray *endPoints = @[_endPoint];
+    
+    [self.naviManager calculateDriveRouteWithEndPoints:endPoints wayPoints:nil drivingStrategy:0];
+}
+
+
+#pragma mark - MapView Delegate
+
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
+}
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
+{
+    if (updatingLocation)
+    {
+        _userLocation = userLocation;
+        
+    }
+}
+
+- (void)mapView:(MAMapView *)mapView annotationView:(MAAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    if ([view.annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        MAPointAnnotation *annotation = (MAPointAnnotation *)view.annotation;
+        
+        _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
+                                              longitude:annotation.coordinate.longitude];
+        
+        [self startEmulatorNavi];
+    }
+}
+
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        static NSString *pointReuseIndetifier = @"poiIdentifier";
+        MANaviAnnotationView *annotationView = (MANaviAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndetifier];
+        
+        if (annotationView == nil)
+        {
+            annotationView = [[MANaviAnnotationView alloc] initWithAnnotation:annotation
+                                                              reuseIdentifier:pointReuseIndetifier];
+        }
+        annotationView.canShowCallout = YES;
+        annotationView.draggable = NO;
+        
+        return annotationView;
+    }
+    
+    return nil;
+}
+
+
+#pragma mark - Search Delegate
+
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
+{
+    NSLog(@"SearchError:{%@}", error.localizedDescription);
+}
+
+- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
+{
+    if (response.pois.count == 0)
+    {
+        return;
+    }
+    
+    [self.mapView removeAnnotations:_poiAnnotations];
+    [_poiAnnotations removeAllObjects];
+    
+    
+    [response.pois enumerateObjectsUsingBlock:^(AMapPOI *obj, NSUInteger idx, BOOL *stop) {
+        
+        MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
+        [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
+        [annotation setTitle:obj.name];
+        [annotation setSubtitle:obj.address];
+        
+        [_poiAnnotations addObject:annotation];
+    }];
+    
+    _objArry = response.pois;
+    
+    //    [self showPOIAnnotations];
+    
+    AMapPOI*obj = response.pois[0];
+    
+    MAPointAnnotation *annotation = [[MAPointAnnotation alloc] init];
+    [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
+    [annotation setTitle:obj.name];
+    [annotation setSubtitle:obj.address];
+    
+    _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
+                                          longitude:annotation.coordinate.longitude];
+    
+    self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    
+    self.bottomBar.destination.text = obj.name;
+    [self.mapView addAnnotation:annotation];
+    self.mapView.centerCoordinate = annotation.coordinate;
+    
+    addressStr = [NSString stringWithFormat:@"您即将到达的目的地位于：%@%@%@。请问导航还是取消",obj.city,obj.district,obj.name];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [_synHelper startSpeaking:addressStr];
+        
+    });
+    
+}
+
+- (void)showPOIAnnotations
+{
+    [self.mapView addAnnotations:_poiAnnotations];
+    
+    if (_poiAnnotations.count == 1)
+    {
+        self.mapView.centerCoordinate = [(MAPointAnnotation *)_poiAnnotations[0] coordinate];
+        
+    }
+    else
+    {
+        [self.mapView showAnnotations:_poiAnnotations animated:NO];
+    }
+}
+
+#pragma mark - AMapNaviManager Delegate
+
+- (void)naviManager:(AMapNaviManager *)naviManager error:(NSError *)error
+{
+    NSLog(@"error:{%@}",error.localizedDescription);
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager didPresentNaviViewController:(UIViewController *)naviViewController
+{
+    NSLog(@"didPresentNaviViewController");
+    [self.naviManager startEmulatorNavi];
+    //    [self.naviManager startGPSNavi];
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager didDismissNaviViewController:(UIViewController *)naviViewController
+{
+   
+    NSLog(@"didDismissNaviViewController");
+}
+
+- (void)naviManagerOnCalculateRouteSuccess:(AMapNaviManager *)naviManager
+{
+    NSLog(@"OnCalculateRouteSuccess");
+    
+    if (self.naviViewController == nil)
+    {
+        [self initNaviViewController];
+        [_naviManager  setAllowsBackgroundLocationUpdates:YES];
+    }
+    
+    [self.naviManager presentNaviViewController:self.naviViewController animated:YES];
+    
+    
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager onCalculateRouteFailure:(NSError *)error
+{
+    NSLog(@"onCalculateRouteFailure");
+}
+
+- (void)naviManagerNeedRecalculateRouteForYaw:(AMapNaviManager *)naviManager
+{
+    NSLog(@"NeedReCalculateRouteForYaw");
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager didStartNavi:(AMapNaviMode)naviMode
+{
+    NSLog(@"didStartNavi");
+}
+
+- (void)naviManagerDidEndEmulatorNavi:(AMapNaviManager *)naviManager
+{
+    NSLog(@"DidEndEmulatorNavi");
+    
+}
+
+- (void)naviManagerOnArrivedDestination:(AMapNaviManager *)naviManager
+{
+    NSLog(@"OnArrivedDestination");
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager onArrivedWayPoint:(int)wayPointIndex
+{
+    NSLog(@"onArrivedWayPoint");
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager didUpdateNaviLocation:(AMapNaviLocation *)naviLocation
+{
+    //    NSLog(@"didUpdateNaviLocation");
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager didUpdateNaviInfo:(AMapNaviInfo *)naviInfo
+{
+    //    NSLog(@"didUpdateNaviInfo");
+}
+
+- (BOOL)naviManagerGetSoundPlayState:(AMapNaviManager *)naviManager
+{
+    return 0;
+}
+
+- (void)naviManager:(AMapNaviManager *)naviManager playNaviSoundString:(NSString *)soundString soundStringType:(AMapNaviSoundType)soundStringType
+{
+    NSLog(@"playNaviSoundString:{%ld:%@}", (long)soundStringType, soundString);
+    
+    if (soundStringType == AMapNaviSoundTypePassedReminder)
+    {
+        //用系统自带的声音做简单例子，播放其他提示音需要另外配置
+        AudioServicesPlaySystemSound(1009);
+    }
+    else
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [_synHelper startSpeaking:soundString];
+        });
+    }
+}
+
+- (void)naviManagerDidUpdateTrafficStatuses:(AMapNaviManager *)naviManager
+{
+    NSLog(@"DidUpdateTrafficStatuses");
+}
+
+#pragma mark - AManNaviViewController Delegate
+
+- (void)naviViewControllerCloseButtonClicked:(AMapNaviViewController *)naviViewController
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [_synHelper stopSpeaking];
+    });
+    
+    [self.naviManager stopNavi];
+    
+    [self.naviManager dismissNaviViewControllerAnimated:YES];
+}
+
+- (void)naviViewControllerMoreButtonClicked:(AMapNaviViewController *)naviViewController
+{
+    if (self.naviViewController.viewShowMode == AMapNaviViewShowModeCarNorthDirection)
+    {
+        self.naviViewController.viewShowMode = AMapNaviViewShowModeMapNorthDirection;
+    }
+    else
+    {
+        self.naviViewController.viewShowMode = AMapNaviViewShowModeCarNorthDirection;
+    }
+}
+
+- (void)naviViewControllerTurnIndicatorViewTapped:(AMapNaviViewController *)naviViewController
+{
+    [self.naviManager readNaviInfoManual];
+
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+    NaviBottomView *cellView = [[NSBundle mainBundle]loadNibNamed:@"NaviBottomView" owner:nil options:nil][0];
+    cellView.frame = CGRectMake(0, 0, kScreenWidth, 84);
+    AMapPOI *obj = _objArry[indexPath.row];
+    
+    cellView.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    cellView.destinationBtn.tag = 100+indexPath.row;
+    cellView.destination.text = obj.name;
+    [cellView.destinationBtn addTarget:self action:@selector(didSelectListButton:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.contentView addSubview:cellView];
+    
+    return cell;
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _objArry.count;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];// 取消选中
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 84;
+}
+
+-(void)didSelectListButton:(UIButton *)btn
+{
+    [self.naviManager stopNavi];
+    
+    AMapPOI*obj = _objArry[btn.tag-100];
+    self.bottomBar.area.text = [NSString stringWithFormat:@"%@%@",obj.city,obj.district];
+    
+    self.bottomBar.destination.text = obj.name;
+    
+    MAPointAnnotation *annotation = _poiAnnotations[btn.tag-100];
+    [annotation setCoordinate:CLLocationCoordinate2DMake(obj.location.latitude, obj.location.longitude)];
+    [annotation setTitle:obj.name];
+    [annotation setSubtitle:obj.address];
+    
+    [self.mapView addAnnotation:annotation];
+    self.mapView.centerCoordinate = annotation.coordinate;
+    
+    _endPoint = [AMapNaviPoint locationWithLatitude:annotation.coordinate.latitude
+                                          longitude:annotation.coordinate.longitude];
+    
+    [self startEmulatorNavi];
+    
 }
 
 
