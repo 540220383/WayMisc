@@ -40,6 +40,7 @@
 #import "UIViewController+PageHandle.h"
 #import "SlideNavigationController.h"
 #import "DeviceInfo.h"
+#import "SVProgressHUD.h"
 #endif
 
 #endif /* WayMisc_pch */

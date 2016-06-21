@@ -232,6 +232,22 @@
  */
 +(NSString*)RESULT_ENCODING;
 
+/**
+ *  是否初始化播放器
+ *  SDK内部播放器采用音频队列实现，有部分外部需求需要自定义音频队列，可以通过此开关控制
+ *  0:不初始化，非0或者参数为空:初始化，默认初始化
+ *  @return 是否初始化播放器 参数key
+ */
++(NSString*)PLAYER_INIT;
+
+/**
+ *  是否初始化录音器
+ *  SDK内部录音器采用音频队列实现，有部分外部需求需要自定义音频队列，可以通过此开关控制
+ *  0:不初始化，非0或者参数为空:初始化，默认初始化
+ *  @return 是否初始化录音器 参数key
+ */
++(NSString*)RECORDER_INIT;
+
 #pragma mark -  合成相关设置key
 /*!
  *  语速
@@ -253,6 +269,7 @@
  *  合成录音保存路径
  *
  *  @return 合成录音保存路径key
+ *  @注意 只需要设置文件名则可，会自动拼接到IFlySetting setLogFilePath接口设置的目录后
  */
 +(NSString*)TTS_AUDIO_PATH;
 
@@ -359,6 +376,19 @@
 +(NSString*)VOICE_NAME;
 
 /*!
+ * 发音人ID key。
+ * @return 发音人ID key
+ */
++(NSString*)VOICE_ID;
+
+/*!
+ * 发音人语种 key。
+ * 参数值：0:Auto 1:中文 2英文 ，默认 0.
+ * @return 发音人ID key
+ */
++(NSString*)VOICE_LANG;
+
+/*!
  *  音量
  *  范围（0~100） 默认值:50
  *
@@ -390,12 +420,13 @@
 /**
  *  预合成文本
  *
- *  @return 约合成文本参数key
+ *  @return 预合成文本参数key
  */
 +(NSString*)NEXT_TEXT;
 
 /**
  *  是否需要打开MPPlayingInfocenter
+ *  是否需要初始化MPPlayerCenter的属性;0:需要初始化，1:不初始化
  *
  *  @return 是否需要打开MPPlayingInfocenter 参数key
  */
@@ -569,7 +600,23 @@
 +(NSString*) ISE_AUDIO_PATH;
 
 
-#pragma mark -  语音+业务key
+/*!
+ *  朗读跟踪，只对句子和篇章有效<br>
+ *    可选值：enable:开启;disable:关闭。
+ *
+ *  @return 朗读跟踪 key
+ */
++(NSString*)ISE_AUTO_TRACKING;
+
+/*!
+ *  跟踪模式<br>
+ *  可选值：easy:简单;hard:复杂。
+ *
+ *  @return 跟踪模式 key
+ */
++(NSString*)ISE_TRACK_TYPE;
+
+#pragma mark -  语记SDK业务key
 /**
  *  本地所有资源
  *
@@ -787,6 +834,14 @@
  * 图像模型id，如：4a6c124ed6b78436ee5aac4563f13eb5
  */
 + (NSString*) FACE_GID;
+
+/**
+ *  auth_id
+ *  用于用户注册和登录、查询、删除等业务时标识用户身份
+ *
+ *  @return 用户标识
+ */
++ (NSString*)FACE_AUTH_ID;
 
 /** DVC
  * 用户设备编号,用于验证用户

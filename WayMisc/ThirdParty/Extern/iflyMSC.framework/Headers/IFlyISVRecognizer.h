@@ -27,7 +27,7 @@
    IFLyISVRecognizer *recognizer=[IFlyISVRecognizer creteRecognizer: self];
  */
 
-+(IFlyISVRecognizer *) sharedInstance;
++(instancetype) sharedInstance;
 
 
 /*

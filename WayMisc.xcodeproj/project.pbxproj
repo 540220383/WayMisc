@@ -17,10 +17,8 @@
 		5269CDF91CE6336E009383AC /* eva in Resources */ = {isa = PBXBuildFile; fileRef = 5269CDF61CE6336E009383AC /* eva */; };
 		5269CDFA1CE6336E009383AC /* tts in Resources */ = {isa = PBXBuildFile; fileRef = 5269CDF71CE6336E009383AC /* tts */; };
 		5269CE141CE6B774009383AC /* IATConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5269CE0D1CE6B774009383AC /* IATConfig.m */; };
-		5269CE161CE6B774009383AC /* IATViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5269CE111CE6B774009383AC /* IATViewController.m */; };
 		5269CE171CE6B774009383AC /* ISRDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5269CE131CE6B774009383AC /* ISRDataHelper.m */; };
 		52C11AD41CE0C135006F5F33 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C11AD31CE0C135006F5F33 /* FirstViewController.m */; };
-		52E7A7B71CEDE5980066E736 /* UnderstandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */; };
 		52E7A7BA1CEDFB330066E736 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E7A7B91CEDFB330066E736 /* Person.m */; };
 		9EBC88101CE04CD500A71B49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC880F1CE04CD500A71B49 /* main.m */; };
 		9EBC88131CE04CD500A71B49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC88121CE04CD500A71B49 /* AppDelegate.m */; };
@@ -90,7 +88,6 @@
 		9EBC890C1CE08B1700A71B49 /* NSString+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC890B1CE08B1700A71B49 /* NSString+Frame.m */; };
 		9EBC89111CE096D900A71B49 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC890E1CE096D900A71B49 /* AMapNaviKit.framework */; };
 		9EBC89121CE096D900A71B49 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC890F1CE096D900A71B49 /* AMapSearchKit.framework */; };
-		9EBC89131CE096D900A71B49 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC89101CE096D900A71B49 /* iflyMSC.framework */; };
 		9EBC89151CE0988300A71B49 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC89141CE0988300A71B49 /* AddressBook.framework */; };
 		9EBC89171CE0988A00A71B49 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC89161CE0988A00A71B49 /* AVFoundation.framework */; };
 		9EBC89191CE0989100A71B49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC89181CE0989100A71B49 /* AudioToolbox.framework */; };
@@ -162,6 +159,15 @@
 		F0EA02191D0E935F0056BF02 /* PlayerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F0EA02181D0E935F0056BF02 /* PlayerAnimation.m */; };
 		F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */; };
 		F0F4C27A1CEDC8AB00CC1FAB /* VoiceDialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */; };
+		F0F614321D19235E00BA70D8 /* TTSConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614311D19235E00BA70D8 /* TTSConfig.m */; };
+		F0F614391D19236B00BA70D8 /* IFlySpeechUnderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614341D19236B00BA70D8 /* IFlySpeechUnderHelper.m */; };
+		F0F6143B1D19236B00BA70D8 /* IFlySpeechSynHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614381D19236B00BA70D8 /* IFlySpeechSynHelper.m */; };
+		F0F6143E1D19241200BA70D8 /* SemanticHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F6143D1D19241200BA70D8 /* SemanticHelper.m */; };
+		F0F614411D19243300BA70D8 /* FMDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614401D19243300BA70D8 /* FMDBHelper.m */; };
+		F0F614441D19246B00BA70D8 /* ContactHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614431D19246B00BA70D8 /* ContactHelper.m */; };
+		F0F6149A1D19270400BA70D8 /* FilterContact.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F614991D19270400BA70D8 /* FilterContact.m */; };
+		F0F6149D1D1927CC00BA70D8 /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F6149C1D1927CC00BA70D8 /* SpeechViewController.m */; };
+		F0F614A11D194AA500BA70D8 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F614A01D194AA500BA70D8 /* iflyMSC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,14 +204,10 @@
 		5269CDF71CE6336E009383AC /* tts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tts; sourceTree = "<group>"; };
 		5269CE0C1CE6B774009383AC /* IATConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IATConfig.h; sourceTree = "<group>"; };
 		5269CE0D1CE6B774009383AC /* IATConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IATConfig.m; sourceTree = "<group>"; };
-		5269CE101CE6B774009383AC /* IATViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IATViewController.h; sourceTree = "<group>"; };
-		5269CE111CE6B774009383AC /* IATViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IATViewController.m; sourceTree = "<group>"; };
 		5269CE121CE6B774009383AC /* ISRDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISRDataHelper.h; sourceTree = "<group>"; };
 		5269CE131CE6B774009383AC /* ISRDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRDataHelper.m; sourceTree = "<group>"; };
 		52C11AD21CE0C135006F5F33 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		52C11AD31CE0C135006F5F33 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		52E7A7B51CEDE5980066E736 /* UnderstandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderstandViewController.h; sourceTree = "<group>"; };
-		52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderstandViewController.m; sourceTree = "<group>"; };
 		52E7A7B81CEDFB330066E736 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		52E7A7B91CEDFB330066E736 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		9EBC880B1CE04CD400A71B49 /* WayMisc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WayMisc.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,7 +347,6 @@
 		9EBC890B1CE08B1700A71B49 /* NSString+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Frame.m"; sourceTree = "<group>"; };
 		9EBC890E1CE096D900A71B49 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
 		9EBC890F1CE096D900A71B49 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
-		9EBC89101CE096D900A71B49 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		9EBC89141CE0988300A71B49 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		9EBC89161CE0988A00A71B49 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9EBC89181CE0989100A71B49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -475,6 +476,23 @@
 		F0F4C2761CEDC53200CC1FAB /* SlideNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationBar.m; sourceTree = "<group>"; };
 		F0F4C2781CEDC8AB00CC1FAB /* VoiceDialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceDialViewController.h; sourceTree = "<group>"; };
 		F0F4C2791CEDC8AB00CC1FAB /* VoiceDialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceDialViewController.m; sourceTree = "<group>"; };
+		F0F614301D19235E00BA70D8 /* TTSConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSConfig.h; sourceTree = "<group>"; };
+		F0F614311D19235E00BA70D8 /* TTSConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSConfig.m; sourceTree = "<group>"; };
+		F0F614331D19236B00BA70D8 /* IFlySpeechUnderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFlySpeechUnderHelper.h; sourceTree = "<group>"; };
+		F0F614341D19236B00BA70D8 /* IFlySpeechUnderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFlySpeechUnderHelper.m; sourceTree = "<group>"; };
+		F0F614371D19236B00BA70D8 /* IFlySpeechSynHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFlySpeechSynHelper.h; sourceTree = "<group>"; };
+		F0F614381D19236B00BA70D8 /* IFlySpeechSynHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFlySpeechSynHelper.m; sourceTree = "<group>"; };
+		F0F6143C1D19241200BA70D8 /* SemanticHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SemanticHelper.h; sourceTree = "<group>"; };
+		F0F6143D1D19241200BA70D8 /* SemanticHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SemanticHelper.m; sourceTree = "<group>"; };
+		F0F6143F1D19243300BA70D8 /* FMDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDBHelper.h; path = Category/FMDBHelper.h; sourceTree = "<group>"; };
+		F0F614401D19243300BA70D8 /* FMDBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDBHelper.m; path = Category/FMDBHelper.m; sourceTree = "<group>"; };
+		F0F614421D19246B00BA70D8 /* ContactHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactHelper.h; sourceTree = "<group>"; };
+		F0F614431D19246B00BA70D8 /* ContactHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactHelper.m; sourceTree = "<group>"; };
+		F0F614981D19270400BA70D8 /* FilterContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterContact.h; sourceTree = "<group>"; };
+		F0F614991D19270400BA70D8 /* FilterContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterContact.m; sourceTree = "<group>"; };
+		F0F6149B1D1927CC00BA70D8 /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
+		F0F6149C1D1927CC00BA70D8 /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
+		F0F614A01D194AA500BA70D8 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,10 +509,10 @@
 				9EBC89191CE0989100A71B49 /* AudioToolbox.framework in Frameworks */,
 				9EBC89171CE0988A00A71B49 /* AVFoundation.framework in Frameworks */,
 				9EBC89151CE0988300A71B49 /* AddressBook.framework in Frameworks */,
-				9EBC89131CE096D900A71B49 /* iflyMSC.framework in Frameworks */,
 				9EBC89111CE096D900A71B49 /* AMapNaviKit.framework in Frameworks */,
 				9EBC88451CE0545C00A71B49 /* CoreGraphics.framework in Frameworks */,
 				9EBC89121CE096D900A71B49 /* AMapSearchKit.framework in Frameworks */,
+				F0F614A11D194AA500BA70D8 /* iflyMSC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,24 +566,18 @@
 		5269CE0B1CE6B774009383AC /* isr */ = {
 			isa = PBXGroup;
 			children = (
+				F0F614331D19236B00BA70D8 /* IFlySpeechUnderHelper.h */,
+				F0F614341D19236B00BA70D8 /* IFlySpeechUnderHelper.m */,
+				F0F614371D19236B00BA70D8 /* IFlySpeechSynHelper.h */,
+				F0F614381D19236B00BA70D8 /* IFlySpeechSynHelper.m */,
+				F0F614301D19235E00BA70D8 /* TTSConfig.h */,
+				F0F614311D19235E00BA70D8 /* TTSConfig.m */,
 				5269CE0C1CE6B774009383AC /* IATConfig.h */,
 				5269CE0D1CE6B774009383AC /* IATConfig.m */,
-				5269CE101CE6B774009383AC /* IATViewController.h */,
-				5269CE111CE6B774009383AC /* IATViewController.m */,
 				5269CE121CE6B774009383AC /* ISRDataHelper.h */,
 				5269CE131CE6B774009383AC /* ISRDataHelper.m */,
 			);
 			path = isr;
-			sourceTree = "<group>";
-		};
-		52E7A7B41CEDE5980066E736 /* nlp */ = {
-			isa = PBXGroup;
-			children = (
-				52E7A7B51CEDE5980066E736 /* UnderstandViewController.h */,
-				52E7A7B61CEDE5980066E736 /* UnderstandViewController.m */,
-			);
-			name = nlp;
-			path = ../Lib/nlp;
 			sourceTree = "<group>";
 		};
 		9EBC88021CE04CD400A71B49 = {
@@ -686,7 +698,6 @@
 				F0CD92C21D07BB5200BCADFF /* Masonry */,
 				F0CD929D1D07BA8B00BCADFF /* objc */,
 				F0CD92B01D07BA8C00BCADFF /* SVProgressHUD */,
-				52E7A7B41CEDE5980066E736 /* nlp */,
 				5269CE0B1CE6B774009383AC /* isr */,
 				F08D621B1CE5A6F800DD0B21 /* APIKey.h */,
 				5269CDCD1CE6305A009383AC /* Definition.h */,
@@ -945,6 +956,8 @@
 				F079B9BE1CE474DC00D33980 /* FMViewController.h */,
 				F079B9BF1CE474DC00D33980 /* FMViewController.m */,
 				F079B9C01CE474DC00D33980 /* FMViewController.xib */,
+				F0F6149B1D1927CC00BA70D8 /* SpeechViewController.h */,
+				F0F6149C1D1927CC00BA70D8 /* SpeechViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -952,11 +965,11 @@
 		9EBC890D1CE096D900A71B49 /* Extern */ = {
 			isa = PBXGroup;
 			children = (
+				F0F614A01D194AA500BA70D8 /* iflyMSC.framework */,
 				9EBC891E1CE09A3B00A71B49 /* AMap.bundle */,
 				9EBC891F1CE09A3B00A71B49 /* AMapNavi.bundle */,
 				9EBC890E1CE096D900A71B49 /* AMapNaviKit.framework */,
 				9EBC890F1CE096D900A71B49 /* AMapSearchKit.framework */,
-				9EBC89101CE096D900A71B49 /* iflyMSC.framework */,
 			);
 			path = Extern;
 			sourceTree = "<group>";
@@ -1073,6 +1086,14 @@
 				F097A0851CE1BC010044AB0F /* Category */,
 				F0594BA71D17E24D00F50365 /* BleDataWriteTool.h */,
 				F0594BA81D17E24D00F50365 /* BleDataWriteTool.m */,
+				F0F6143C1D19241200BA70D8 /* SemanticHelper.h */,
+				F0F6143D1D19241200BA70D8 /* SemanticHelper.m */,
+				F0F614421D19246B00BA70D8 /* ContactHelper.h */,
+				F0F614431D19246B00BA70D8 /* ContactHelper.m */,
+				F0F614981D19270400BA70D8 /* FilterContact.h */,
+				F0F614991D19270400BA70D8 /* FilterContact.m */,
+				F0F6143F1D19243300BA70D8 /* FMDBHelper.h */,
+				F0F614401D19243300BA70D8 /* FMDBHelper.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -1310,7 +1331,9 @@
 			files = (
 				9EBC88911CE0727700A71B49 /* MJRefreshNormalHeader.m in Sources */,
 				9EBC88B31CE072F500A71B49 /* NSObject+MJClass.m in Sources */,
+				F0F6149D1D1927CC00BA70D8 /* SpeechViewController.m in Sources */,
 				9EBC88921CE0727700A71B49 /* MJRefreshStateHeader.m in Sources */,
+				F0F6143E1D19241200BA70D8 /* SemanticHelper.m in Sources */,
 				F02A0E131CF54B1800A7DF2F /* FMDatabaseQueue.m in Sources */,
 				F097A08D1CE1BC010044AB0F /* UIButton+CZ.m in Sources */,
 				F017BE181CE3282400452875 /* PlayerView.m in Sources */,
@@ -1326,8 +1349,8 @@
 				5201D8CD1CE75B4600CBCD0F /* PopupView.m in Sources */,
 				9EBC89061CE088FB00A71B49 /* FlowLayout.m in Sources */,
 				F0CD92BD1D07BA8C00BCADFF /* BabySpeaker.m in Sources */,
-				5269CE161CE6B774009383AC /* IATViewController.m in Sources */,
 				9EBC88E51CE0732E00A71B49 /* UIImage+MultiFormat.m in Sources */,
+				F0F6149A1D19270400BA70D8 /* FilterContact.m in Sources */,
 				52E7A7BA1CEDFB330066E736 /* Person.m in Sources */,
 				F0CD92DB1D07BB5200BCADFF /* MASConstraint.m in Sources */,
 				9EBC88B21CE072F500A71B49 /* MJPropertyType.m in Sources */,
@@ -1337,7 +1360,6 @@
 				9EBC888E1CE0727700A71B49 /* MJRefreshBackNormalFooter.m in Sources */,
 				9EBC88E61CE0732E00A71B49 /* UIImage+WebP.m in Sources */,
 				9EBC88941CE0727700A71B49 /* MJRefreshConst.m in Sources */,
-				52E7A7B71CEDE5980066E736 /* UnderstandViewController.m in Sources */,
 				9EBC88871CE0727700A71B49 /* MJRefreshComponent.m in Sources */,
 				F0F4C2771CEDC53200CC1FAB /* SlideNavigationBar.m in Sources */,
 				F08D620E1CE56C3E00DD0B21 /* UIViewController+PageHandle.m in Sources */,
@@ -1346,10 +1368,12 @@
 				9EBC88B51CE072F500A71B49 /* NSObject+MJKeyValue.m in Sources */,
 				9EBC88E71CE0732E00A71B49 /* UIImageView+HighlightedWebCache.m in Sources */,
 				5269CE171CE6B774009383AC /* ISRDataHelper.m in Sources */,
+				F0F614441D19246B00BA70D8 /* ContactHelper.m in Sources */,
 				9EBC88DE1CE0732E00A71B49 /* SDWebImageDecoder.m in Sources */,
 				F0CD92E81D07BD2E00BCADFF /* ConnetcViewController.m in Sources */,
 				9EBC88E21CE0732E00A71B49 /* SDWebImagePrefetcher.m in Sources */,
 				9EBC88861CE0727700A71B49 /* MJRefreshBackFooter.m in Sources */,
+				F0F6143B1D19236B00BA70D8 /* IFlySpeechSynHelper.m in Sources */,
 				9EBC88161CE04CD500A71B49 /* ViewController.m in Sources */,
 				5201D8D01CE75B7E00CBCD0F /* AboutView.m in Sources */,
 				9EBC88951CE0727700A71B49 /* UIScrollView+MJExtension.m in Sources */,
@@ -1395,6 +1419,7 @@
 				9EBC88DD1CE0732E00A71B49 /* SDWebImageCompat.m in Sources */,
 				9EBC88F81CE0736E00A71B49 /* AFHTTPSessionManager.m in Sources */,
 				F08D621A1CE5A6E100DD0B21 /* MANaviAnnotationView.m in Sources */,
+				F0F614411D19243300BA70D8 /* FMDBHelper.m in Sources */,
 				F015F4EF1CEAB03E0065FFF9 /* DeviceCell.m in Sources */,
 				F0CD92E01D07BB5200BCADFF /* NSArray+MASAdditions.m in Sources */,
 				F0CD92B61D07BA8C00BCADFF /* BabyBluetooth.m in Sources */,
@@ -1404,10 +1429,12 @@
 				9EBC88891CE0727700A71B49 /* MJRefreshHeader.m in Sources */,
 				9EBC888C1CE0727700A71B49 /* MJRefreshAutoStateFooter.m in Sources */,
 				F0CD92DC1D07BB5200BCADFF /* MASConstraintMaker.m in Sources */,
+				F0F614321D19235E00BA70D8 /* TTSConfig.m in Sources */,
 				9EBC88881CE0727700A71B49 /* MJRefreshFooter.m in Sources */,
 				9EBC88E31CE0732E00A71B49 /* UIButton+WebCache.m in Sources */,
 				F0CD92BE1D07BA8C00BCADFF /* BabyToy.m in Sources */,
 				9EBC888F1CE0727700A71B49 /* MJRefreshBackStateFooter.m in Sources */,
+				F0F614391D19236B00BA70D8 /* IFlySpeechUnderHelper.m in Sources */,
 				F02A0E261CF578DB00A7DF2F /* ChineseToPinyinResource.m in Sources */,
 				F0CD92DF1D07BB5200BCADFF /* MASViewConstraint.m in Sources */,
 				9EBC88FC1CE0736E00A71B49 /* AFURLResponseSerialization.m in Sources */,
@@ -1579,12 +1606,17 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WayMisc/ThirdParty/Extern",
+					"$(PROJECT_DIR)/WayMisc/BaiduMapAPI",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WayMisc/WayMisc.pch;
 				INFOPLIST_FILE = WayMisc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WayMisc/HUDSDKLib",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1606,12 +1638,17 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WayMisc/ThirdParty/Extern",
+					"$(PROJECT_DIR)/WayMisc/BaiduMapAPI",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WayMisc/WayMisc.pch;
 				INFOPLIST_FILE = WayMisc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WayMisc/HUDSDKLib",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmi168.Dooot;
 				PRODUCT_NAME = "$(TARGET_NAME)";

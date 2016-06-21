@@ -67,7 +67,7 @@
  *
  *  @return 返回录音对象单例
  */
-+ (id) sharedInstance;
++ (instancetype) sharedInstance;
 
 /**
  *  开始录音

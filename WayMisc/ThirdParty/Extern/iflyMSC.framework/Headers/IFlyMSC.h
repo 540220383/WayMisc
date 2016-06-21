@@ -32,6 +32,8 @@
 #import "IFlyTextUnderstander.h"
 #import "IFlyUserWords.h"
 #import "IFlyPcmRecorder.h"
+#import "IFlySpeechEvaluator.h"
+#import "IFlySpeechEvaluatorDelegate.h"
 
 
 #endif

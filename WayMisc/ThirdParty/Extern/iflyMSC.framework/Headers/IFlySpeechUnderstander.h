@@ -31,7 +31,7 @@
  *
  *  @return 语义理解对象
  */
-+(IFlySpeechUnderstander*) sharedInstance;
++(instancetype) sharedInstance;
 
 /*!
  *  开始义理解

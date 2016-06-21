@@ -234,7 +234,7 @@
                   moduleName = "WayMisc"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/DeviceListViewController.m"
-                  timestampString = "488103224.313716"
+                  timestampString = "488196783.78609"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
@@ -249,7 +249,7 @@
                   moduleName = "WayMisc"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xinmeiti/Desktop/WayMisc/WayMisc/Main/Right/Controller/DeviceListViewController.m"
-                  timestampString = "488103224.313839"
+                  timestampString = "488196783.786333"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
@@ -304,22 +304,6 @@
             startingLineNumber = "125"
             endingLineNumber = "125"
             landmarkName = "-gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WayMisc/Other/ConnetcViewController.m"
-            timestampString = "488103106.751622"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-Skip:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

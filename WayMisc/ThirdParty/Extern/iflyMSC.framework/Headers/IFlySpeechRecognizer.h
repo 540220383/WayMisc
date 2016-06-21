@@ -27,7 +27,7 @@
  *
  *  @return 识别对象的单例
  */
-+ (id) sharedInstance;
++ (instancetype) sharedInstance;
 
 /*!
  *  销毁识别对象。

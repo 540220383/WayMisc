@@ -11,6 +11,7 @@
 #import "AboutView.h"
 #import "DeviceListViewController.h"
 #import "VoiceDialViewController.h"
+#import "SpeechViewController.h"
 @interface RightMenuController ()<UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *linkState;
 @property (weak, nonatomic) IBOutlet UILabel *deviceSerial;
@@ -43,8 +44,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
-        [[SlideNavigationController sharedInstance] pushViewController:deviceList animated:YES];
+//        DeviceListViewController *deviceList = [[DeviceListViewController alloc]init];
+        SpeechViewController *speech = [[SpeechViewController alloc]init];
+        
+        
+        [[SlideNavigationController sharedInstance] pushViewController:speech animated:YES];
     }else if(indexPath.row == 1) {
         
         
