@@ -258,7 +258,7 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     
 }
 
-
+//自定义答复
 - (void)customSemantic:(NSNotification *)notify
 {
     SystemSoundID soundOverID=0;
@@ -702,6 +702,9 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 -(void)showResult
 {
     //    [self showPOIAnnotations];
+    
+    if(_objArry.count <1) return;
+    
     [self.tableView reloadData];
     self.bottomBar.hidden = YES;
     [UIView animateWithDuration:0.3 animations:^{
@@ -759,8 +762,11 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 - (void)startEmulatorNavi
 {
     _synHelper.completedStatu = CloseUnderListen;
-
+    if (_endPoint == nil ) {
+        return;
+    }
     [self calculateRoute];
+    
 }
 
 - (void)calculateRoute

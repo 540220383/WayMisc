@@ -207,6 +207,7 @@
 {
     [moveImg.layer removeAllAnimations];
     [moveImg removeFromSuperview];
+    moveImg = nil;
 }
 
 - (void)playOrPause{
@@ -362,7 +363,9 @@
         
         [self updateCurrentMusicDetailModel];
         
-        moveImg = [[UIImageView alloc]initWithImage:cell.coverImageView.image];
+        if (moveImg == nil) {
+             moveImg = [[UIImageView alloc]initWithImage:cell.coverImageView.image];
+        }
         moveImg.frame = CGRectMake(0, 0, kPlayImageW*2, kPlayImageW*2);
         moveImg.layer.cornerRadius = kPlayImageW;
         moveImg.clipsToBounds = YES;
