@@ -614,6 +614,8 @@ typedef enum{
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [_iFlySpeechSynthesizer startSpeaking:soundString];
+            
+            [self.naviManager getNaviGuideList];
         });
     }
 }

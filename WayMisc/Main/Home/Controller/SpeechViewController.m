@@ -128,6 +128,13 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 #pragma mark------通知回调处理
 - (void)navInfo:(NSNotification *)notify
 {
+    
+    SystemSoundID soundOverID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.overUrl, &soundOverID);
+    
+    AudioServicesPlaySystemSound(soundOverID);
+
+    
     self.choosetype = CHOOSE_NAV;
     NSLog(@"接收到的数据是:%@",notify.object);
     
@@ -154,12 +161,9 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     [self searchDestination:result];
     
 }
-- (void)callSomeOne:(NSNotification *)notify
+
+- (void)callWithName:(NSString *)name
 {
-    self.choosetype = CHOOSE_CONTACT;
-    NSLog(@"接收到的数据是:%@",notify.object);
-    NSString * name = (NSString *)notify.object;
-    
     NSString *pinyin = [ContactHelper changeHanZiToPinYinWith:name];
     NSString *fuzzyPY = [ContactHelper fuzzyQueryMothedsWith:pinyin];
     NSMutableString *strResult = [[NSMutableString alloc]init];
@@ -170,6 +174,7 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
         if(![_synHelper isSpeaking])
         {   _synHelper.completedStatu = OpenUnderListen;
             [_synHelper startSpeaking:@"没听清楚，再说一遍!"];
+            
         }
     }
     else if (_matchingArray.count == 1)
@@ -186,17 +191,16 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
                 for (NSInteger j = 0; j<_matchContact.PhoneNumbers.count; j++) {
                     [strResult appendString:[NSString stringWithFormat:@"第%ld位%@%@;",j+1,_matchContact.fullName,[NSString handelWithNum:_matchContact.PhoneNumbers[j]]]];
                 }
-
+                
                 [_synHelper startSpeaking:strResult];
+                
+                
             }
         }
         else
         {
-            
-          
-            
             _readyContact = _matchContact;
-
+            
             [strResult appendString:[NSString stringWithFormat:@"为您找到%@%@",_matchContact.fullName,[_matchContact.PhoneNumbers firstObject]]];
             
             [strResult appendString:@";呼叫还是取消"];
@@ -204,15 +208,13 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
             if(![_synHelper isSpeaking])
             {   _synHelper.completedStatu = OpenUnderListen;
                 [_synHelper startSpeaking:strResult];
-                
             }
-            
-           
+
         }
         
     }else if ([name rangeOfString:@"呼叫"].location !=NSNotFound){
         
-         [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
+        [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
         
         if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
         {
@@ -232,20 +234,37 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
         for (FilterContact *contact in _matchingArray) {
             [names appendFormat:@"%@ ",contact.fullName];
         }
-        [names appendString:@"请选择第几个?"];
+        [names appendString:@"请选择第几位?"];
         if(![_synHelper isSpeaking])
         {   _synHelper.completedStatu = OpenUnderListen;
             self.choosetype = CHOOSE_CONTACT;
             [_synHelper startSpeaking:names];
         }
     }
+
+}
+
+- (void)callSomeOne:(NSNotification *)notify
+{
+    SystemSoundID soundOverID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.overUrl, &soundOverID);
     
+    AudioServicesPlaySystemSound(soundOverID);
+    self.choosetype = CHOOSE_CONTACT;
+    NSLog(@"接收到的数据是:%@",notify.object);
+    NSString * name = (NSString *)notify.object;
+    
+    [self callWithName:name];
     
 }
 
 
 - (void)customSemantic:(NSNotification *)notify
 {
+    SystemSoundID soundOverID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.overUrl, &soundOverID);
+    
+    AudioServicesPlaySystemSound(soundOverID);
     NSLog(@"接收到的数据是:%@",notify.object);
     NSString * name = (NSString *)notify.object;
     
@@ -264,23 +283,27 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
             }
         }
 
-    }
+    }else if (self.choosetype == CHOOSE_PHONENUMBER){
     
-    if ([name isEqualToString:@"呼叫"]){
-        
-        [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
-        
-        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_readyContact.PhoneNumbers firstObject]]]];
-        }
-    }else if ([name isEqualToString:@"取消"]){
-        _readyContact = nil;
-        if(![_synHelper isSpeaking])
-        {   _synHelper.completedStatu = CloseUnderListen;
-            [_synHelper startSpeaking:@"已经为您取消"];
+        if ([name isEqualToString:@"呼叫"]){
             
+            [_synHelper startSpeaking:[NSString stringWithFormat:@"正在为您呼叫%@",_readyContact.fullName]];
+            
+            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://10086"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[_readyContact.PhoneNumbers firstObject]]]];
+            }
+        }else if ([name isEqualToString:@"取消"]){
+            _readyContact = nil;
+            if(![_synHelper isSpeaking])
+            {   _synHelper.completedStatu = CloseUnderListen;
+                [_synHelper startSpeaking:@"已经为您取消"];
+                
+            }
         }
+        
+    }else if (self.choosetype == CHOOSE_CONTACT){
+        [self callWithName:name];
     }
 
     
@@ -288,6 +311,11 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 
 - (void)chooseList:(NSNotification *)notify
 {
+    
+    SystemSoundID soundOverID=0;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.overUrl, &soundOverID);
+    
+    AudioServicesPlaySystemSound(soundOverID);
     NSLog(@"接收到的数据是:%@",notify.object);
     
     NSInteger index = [notify.object integerValue];
@@ -333,6 +361,7 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
                 {   _synHelper.completedStatu = OpenUnderListen;
                     self.choosetype = CHOOSE_PHONENUMBER;
                     [_synHelper startSpeaking:[NSString stringWithFormat:@"为你找到联系人%@,请选择第几个号码?",_matchContact.fullName]];
+                    
                 }
             }
             else
@@ -447,8 +476,6 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 {
     
     self.mapView.centerCoordinate = self.mapView.userLocation.location.coordinate;
-
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -731,6 +758,8 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 
 - (void)startEmulatorNavi
 {
+    _synHelper.completedStatu = CloseUnderListen;
+
     [self calculateRoute];
 }
 
@@ -937,8 +966,11 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 
 - (void)naviManager:(AMapNaviManager *)naviManager didUpdateNaviInfo:(AMapNaviInfo *)naviInfo
 {
+    
+//        NSLog(@"iconType：%li",naviInfo.iconType);
     //    NSLog(@"didUpdateNaviInfo");
 }
+
 
 - (BOOL)naviManagerGetSoundPlayState:(AMapNaviManager *)naviManager
 {
@@ -947,7 +979,7 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
 
 - (void)naviManager:(AMapNaviManager *)naviManager playNaviSoundString:(NSString *)soundString soundStringType:(AMapNaviSoundType)soundStringType
 {
-    NSLog(@"playNaviSoundString:{%ld:%@}", (long)soundStringType, soundString);
+//    NSLog(@"playNaviSoundString:{%ld:%@}", (long)soundStringType, soundString);
     
     if (soundStringType == AMapNaviSoundTypePassedReminder)
     {
@@ -957,7 +989,12 @@ static NSString * _cloudGrammerid =nil;//在线语法grammerID
     else
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//            AMapNaviSegment*segment = naviManager.naviRoute.routeSegments[0];
+            
+            
             [_synHelper startSpeaking:soundString];
+
+            
         });
     }
 }

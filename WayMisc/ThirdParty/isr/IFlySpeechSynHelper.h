@@ -42,6 +42,11 @@ typedef NS_OPTIONS(NSInteger, BroadcastStatu){
  */
 @property (nonatomic, readonly) BOOL isSpeaking;
 
+
+@property (nonatomic ,strong) NSURL *startUrl;//开始录音
+
+
+
 + (instancetype)shareInstance;
 /**
  *  销毁对象

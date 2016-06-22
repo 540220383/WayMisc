@@ -24,6 +24,7 @@
 #import "PlayerAnimation.h"
 #import "SVProgressHUD.h"
 #import "BleDataWriteTool.h"
+#import "AFNetworking.h"
 @interface ViewController ()<SlideNavigationControllerDelegate,HMWaterflowLayoutDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate,ConnetcDelegate>
 {
     NSInteger _page;
@@ -110,49 +111,46 @@
     
     [self.listDictionary setObject:@"20" forKey:@"pageSize"];
     
-    
-    NSData *listData = [LinkServiceWay getResultDataByPost:self.listDictionary stringLinkService:@"/music/getMusicList.do"];
-    NSLog(@"数据列表：%@",[[NSString alloc]initWithData:listData encoding:NSUTF8StringEncoding]);
-    if (listData != nil) {
-        NSError *error = nil;
-        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:listData options:NSJSONReadingMutableLeaves error:&error];
-        if (error == nil) {
-            if ([jsonDictionary[@"bodys"] isKindOfClass:[NSArray class]]) {
-                NSArray *dataArray = jsonDictionary[@"bodys"];
+    [[AFHTTPSessionManager manager]POST:[LinkServiceURL  stringByAppendingString:@"/music/getMusicList.do"] parameters:self.listDictionary progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@",responseObject);
+        if ([responseObject[@"bodys"] isKindOfClass:[NSArray class]]) {
+            NSArray *dataArray = responseObject[@"bodys"];
+            
+            NSArray *tmp = [BroadcastingModel mj_objectArrayWithKeyValuesArray:dataArray];
+            
+            if ([type isEqualToString:@"New"]) {
+                [self.musics removeAllObjects];
                 
-                NSArray *tmp = [BroadcastingModel mj_objectArrayWithKeyValuesArray:dataArray];
-                
-                if ([type isEqualToString:@"New"]) {
-                    [self.musics removeAllObjects];
-                    
-                    [self.MainCollection.mj_header endRefreshing];
-                }else{
-                    
-                    [self.MainCollection.mj_footer endRefreshing];
-                }
-                [self.musics addObjectsFromArray:tmp];
-                [self.MainCollection reloadData];
-
-                
-                static dispatch_once_t predicate;
-                dispatch_once(&predicate, ^{
-                    self.musicIndex = 0;
-                    _wmPlayer.state = WMPlayerStatePause;
-                    [self updateCurrentMusicDetailModel];
-                    [self.playerView setCoverNormalImage:@"footplayer_pause"];
-
-                    [[_wmPlayer player]pause];
-                    
-                });
-                
-                
+                [self.MainCollection.mj_header endRefreshing];
             }else{
                 
+                [self.MainCollection.mj_footer endRefreshing];
             }
+            [self.musics addObjectsFromArray:tmp];
+            [self.MainCollection reloadData];
+            
+            
+            static dispatch_once_t predicate;
+            dispatch_once(&predicate, ^{
+                self.musicIndex = 0;
+                _wmPlayer.state = WMPlayerStatePause;
+                [self updateCurrentMusicDetailModel];
+                [self.playerView setCoverNormalImage:@"footplayer_pause"];
+                
+                [[_wmPlayer player]pause];
+                
+            });
+            
+            
         }else{
             
         }
-    }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+        
+    }];
 }
 
 -(void)loadNewData

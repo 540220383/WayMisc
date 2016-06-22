@@ -63,6 +63,8 @@
         }else{
             textSample=NSLocalizedStringFromTable(@"text_chinese", @"tts/tts", nil);
         }
+        
+        self.startUrl=[[NSBundle mainBundle]URLForResource:@"start_record.wav" withExtension:nil];
     }
     return self;
 }
@@ -173,6 +175,11 @@
         switch (self.completedStatu) {
             case OpenUnderListen:
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"SpeakingFinished" object:nil];
+                
+                SystemSoundID soundStartID=0;
+                AudioServicesCreateSystemSoundID((__bridge CFURLRef)self.startUrl, &soundStartID);
+                AudioServicesPlaySystemSound(soundStartID);
+
                 break;
             case CloseUnderListen:
                 NSLog(@"不开启Listen理解");
@@ -186,6 +193,8 @@
         }
     
     }
+    
+    
   
     
 }

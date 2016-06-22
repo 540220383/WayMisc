@@ -82,8 +82,6 @@
 {
     NSString * vol = [NSString stringWithFormat:@"音量：%d",volume];
     NSLog(@"%@",vol);
-    
-    
 }
 
 /**
@@ -112,7 +110,7 @@
  ****/
 - (void) onError:(IFlySpeechError *) error
 {
-    NSLog(@"error=%d",[error errorCode]);
+//    NSLog(@"error=%d",[error errorCode]);
     if (error.errorCode ==0 ) {
 
     }
